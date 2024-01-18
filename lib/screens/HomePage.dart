@@ -1,9 +1,9 @@
 // ignore_for_file: no_leading_underscores_for_local_identifiers
 
+import 'package:edige/controllers/CourseController.dart';
 import 'package:edige/controllers/LoginController.dart';
 import 'package:edige/controllers/StudentController.dart';
 import 'package:edige/controllers/TrialExamController.dart';
-import 'package:edige/screens/TrailExam/TrialExamPage.dart';
 import 'package:edige/widgets/MyDrawer.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -15,6 +15,7 @@ class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     Get.put(StudentController());
+    Get.put(CourseController());
 
     final isLoading = RxBool(true);
 
@@ -85,6 +86,34 @@ class HomePage extends StatelessWidget {
                           height: MediaQuery.of(context).size.height * 0.005),
                       UserInfo(formattedDate: formattedDate),
                       const WeeklyProgramAndTrialExamButtons(),
+                      InkWell(
+                        onTap: () async {
+                          
+                          Get.toNamed("/Homework");
+                        },
+                        child: SizedBox(
+                          width: MediaQuery.of(context).size.width / 2 - 40,
+                          height: MediaQuery.of(context).size.height / 5,
+                          child: Card(
+                            elevation: 8,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(25.0),
+                            ),
+                            color: const Color.fromARGB(255, 172, 223, 191),
+                            child: const Center(
+                              child: Text(
+                                'Ödevler',
+                                style: TextStyle(
+                                  fontSize: 20.0,
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.black,
+                                ),
+                                textAlign: TextAlign.center,
+                              ),
+                            ),
+                          ),
+                        ),
+                      )
                     ],
                   );
                 }
@@ -108,7 +137,6 @@ class WeeklyProgramAndTrialExamButtons extends StatelessWidget {
       children: [
         InkWell(
           onTap: () {
-            debugPrint("s");
             Get.toNamed("/WeeklyProgram");
           },
           child: SizedBox(
@@ -137,7 +165,8 @@ class WeeklyProgramAndTrialExamButtons extends StatelessWidget {
         InkWell(
           onTap: () async {
             await Get.find<TrialExamController>().getStudentTrialExams();
-            print(Get.find<TrialExamController>().studentTrialExams[0]["turkce_true"]);
+            print(Get.find<TrialExamController>().studentTrialExams[0]
+                ["turkce_true"]);
             Get.toNamed("/TrialExamPage");
           },
           child: SizedBox(
@@ -203,23 +232,38 @@ class UserInfo extends StatelessWidget {
                 const SizedBox(height: 10),
                 Text(
                   'Okul : ${Get.find<StudentController>().school.value}',
-                  style: const TextStyle(fontSize: 18.0, color: Colors.black54),
+                  style: const TextStyle(
+                      fontSize: 18.0,
+                      color: Colors.black54,
+                      fontWeight: FontWeight.bold),
                 ),
                 Text(
                   'Bölüm : ${Get.find<StudentController>().section.value}',
-                  style: const TextStyle(fontSize: 18.0, color: Colors.black54),
+                  style: const TextStyle(
+                      fontSize: 18.0,
+                      color: Colors.black54,
+                      fontWeight: FontWeight.bold),
                 ),
                 Text(
                   'Doğum Yeri : ${Get.find<StudentController>().city.value}',
-                  style: const TextStyle(fontSize: 18.0, color: Colors.black54),
+                  style: const TextStyle(
+                      fontSize: 18.0,
+                      color: Colors.black54,
+                      fontWeight: FontWeight.bold),
                 ),
                 Text(
                   'Doğum Tarihi: $formattedDate',
-                  style: const TextStyle(fontSize: 18.0, color: Colors.black54),
+                  style: const TextStyle(
+                      fontSize: 18.0,
+                      color: Colors.black54,
+                      fontWeight: FontWeight.bold),
                 ),
                 Text(
                   'Email : ${Get.find<StudentController>().email.value}',
-                  style: const TextStyle(fontSize: 18.0, color: Colors.black54),
+                  style: const TextStyle(
+                      fontSize: 18.0,
+                      color: Colors.black54,
+                      fontWeight: FontWeight.bold),
                 ),
               ],
             ),

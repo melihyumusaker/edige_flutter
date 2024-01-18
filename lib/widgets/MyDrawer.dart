@@ -43,6 +43,31 @@ class MyDrawer extends StatelessWidget {
                 color: Color.fromARGB(255, 76, 140, 224), // Header rengi
               ),
             ),
+            Obx(() => Container(
+              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  const Text(
+                    'Danışman Koç',
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 16.0,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  const SizedBox(height: 4),
+                  Text(
+                    Get.find<StudentController>().studentsTeacher.toString(),
+                    style: const TextStyle(
+                      color: Colors.white70,
+                      fontSize: 14.0,
+                    ),
+                  ),
+                ],
+              ),
+            ))  ,
+            const Divider(),
             ListTile(
               title: const Text(
                 'Profil',

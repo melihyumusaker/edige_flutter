@@ -1,6 +1,7 @@
 import 'package:edige/screens/ChoosingTeacher.dart';
 import 'package:edige/screens/FirstScreen.dart';
 import 'package:edige/screens/HomePage.dart';
+import 'package:edige/screens/Homework/Homeworks.dart';
 import 'package:edige/screens/SplashScreen.dart';
 import 'package:edige/screens/TrailExam/TrialExamDetailPage.dart';
 import 'package:edige/screens/TrailExam/TrialExamPage.dart';
@@ -13,6 +14,7 @@ import 'package:get/get.dart';
 void main() {
   SystemChrome.setSystemUIOverlayStyle(
       const SystemUiOverlayStyle(statusBarColor: Colors.transparent));
+  WidgetsFlutterBinding.ensureInitialized();
   runApp(const MyApp());
 }
 
@@ -41,7 +43,9 @@ class MyApp extends StatelessWidget {
         GetPage(name: '/ChoosingTeachers', page: () => const ChoosingTeacher()),
         GetPage(name: '/HomePage', page: () => const HomePage()),
         GetPage(name: '/TrialExamPage', page: () => const TrialExamPage()),
-                GetPage(name: '/TrialExamDetailPage', page: () =>  TrailExamDetailPage()),
+                GetPage(name: '/Homework', page: () => const Homeworks()),
+        GetPage(
+            name: '/TrialExamDetailPage', page: () => TrailExamDetailPage()),
       ],
     );
   }

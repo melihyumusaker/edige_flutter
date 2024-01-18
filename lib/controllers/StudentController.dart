@@ -16,8 +16,10 @@ class StudentController extends GetxController {
   var surname = ''.obs;
   var email = ''.obs;
   var city = ''.obs;
+  final studentsTeacher = ''.obs;
   var birthDate = DateTime.now().obs;
   var isEnneagramTestSolved = 0.obs;
+
 
   // Recommended Teacher Profiles
   final teachersExpertises = <String>[].obs;
@@ -70,7 +72,11 @@ class StudentController extends GetxController {
       enneagramResult.value = responseData['enneagram_result'] ?? '';
       isEnneagramTestSolved.value =
           responseData['is_enneagram_test_solved'] ?? 0;
-      
+      studentsTeacher.value = responseData['teacher']['user']['name'] +
+              " " +
+              responseData['teacher']['user']['surname'] ??
+          '';
+
       final user = responseData['user'];
       if (user != null) {
         username.value = user['username'];
@@ -81,8 +87,6 @@ class StudentController extends GetxController {
         String birthDateString = user['birth_date'];
         birthDate.value = DateTime.parse(birthDateString);
       }
-
-
     } else {
       print("problem");
     }

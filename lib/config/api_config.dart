@@ -1,5 +1,5 @@
 class ApiConfig {
-  static const String baseUrl = 'http://192.168.1.43:8080';
+  static const String baseUrl = 'http://192.168.1.36:8080';
   static const String signInEndpoint = '/api/v1/auth/signin';
   static const String getStudentIdByUserId = '/students/getStudentIdByUserId';
   static const String getStudentById = '/students/getStudentById';
@@ -11,4 +11,10 @@ class ApiConfig {
       '/students/setStudentsEnneagramResult';
   static const String getStudentTrialExams =
       '/trial-exams/getStudentTrialExams';
+        static const String getStudentsDoneCourses =
+      '/students-courses/get-students-done-courses';
+        static const String getStudentsNotDoneCourses =
+      '/students-courses/get-students-not-done-courses';
+        static const String getAllStudentsCourses=
+      '/students-courses/get-all-students-courses';
 }

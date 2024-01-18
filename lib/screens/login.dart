@@ -35,30 +35,62 @@ class Login extends StatelessWidget {
                     WelcomeEdigeText(),
                     const SizedBox(height: 20),
                     EmailAndPasswordForm(),
-                    const SizedBox(height: 20),
+                    //     const SizedBox(height: 20),
+                    rememberMeCheckbox(context),
                     LoginButton(context),
                   ],
                 ),
               ),
-              Positioned(
-                top: 20,
-                left: 15,
-                child: CircleAvatar(
-                  backgroundColor: Colors.white.withOpacity(0.1),
-                  radius: 25,
-                  child: IconButton(
-                    icon:const Icon(
-                      Icons.arrow_back,
-                      color: Colors.white70,
-                    ),
-                    onPressed: () {
-                      Navigator.pop(context);
-                    },
-                  ),
-                ),
-              ),
+              backToPageIconButton(context),
             ],
           ),
+        ),
+      ),
+    );
+  }
+
+  Widget rememberMeCheckbox(BuildContext context) {
+    return Obx(
+      () => Padding(
+        padding:
+            EdgeInsets.only(left: MediaQuery.of(context).size.width * 0.70),
+        child: Row(
+          children: [
+            const Text(
+              'Beni Hatırla',
+              style: TextStyle(color: Colors.white),
+            ),
+            Checkbox(
+              value: Get.find<LoginController>().rememberMe.value,
+              onChanged: (bool? value) {
+                if (value != null) {
+                  Get.find<LoginController>().toggleRememberMe(value);
+                }
+              },
+              activeColor: Colors.blue,
+            ),
+            // Checkbox'ın yanında yer alacak metin
+          ],
+        ),
+      ),
+    );
+  }
+
+  Positioned backToPageIconButton(BuildContext context) {
+    return Positioned(
+      top: 20,
+      left: 15,
+      child: CircleAvatar(
+        backgroundColor: Colors.white.withOpacity(0.1),
+        radius: 25,
+        child: IconButton(
+          icon: const Icon(
+            Icons.arrow_back,
+            color: Colors.white70,
+          ),
+          onPressed: () {
+            Navigator.pop(context);
+          },
         ),
       ),
     );
