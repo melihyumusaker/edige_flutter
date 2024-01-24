@@ -1,8 +1,9 @@
 class ApiConfig {
-  static const String baseUrl = 'http://192.168.1.36:8080';
+  static const String baseUrl = 'http://192.168.1.65:8080';
   static const String signInEndpoint = '/api/v1/auth/signin';
   static const String getStudentIdByUserId = '/students/getStudentIdByUserId';
   static const String getStudentById = '/students/getStudentById';
+    static const String studentFinishHomework = '/courses/studentFinishHomework';
   static const String getWeeklyProgramByStudentId =
       '/weekly-programs/getWeeklyProgramByStudentId';
   static const String getTeachersByStudentType =

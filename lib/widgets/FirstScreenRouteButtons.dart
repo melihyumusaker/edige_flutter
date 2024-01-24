@@ -41,6 +41,7 @@ class FirstScreenRouteButtons extends StatelessWidget {
             Text(
               buttonName,
               style: const TextStyle(
+                fontFamily: "PlayfairDisplay",
                 color: Colors.black, // Metin rengi siyah
                 fontSize: 16, // Metin boyutu
               ),

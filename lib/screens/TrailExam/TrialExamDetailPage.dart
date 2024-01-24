@@ -41,17 +41,22 @@ class _TrailExamDetailPageState extends State<TrailExamDetailPage> {
             height: 200,
             child: MyBarGraph(weeklySummary: dersDogruYanlis),
           ),
-          SizedBox(height: 55),
+          const SizedBox(height: 55),
           ShowStudentNet(),
         ],
       ),
-      appBar: AppBar(
-        backgroundColor: const Color.fromARGB(255, 172, 154, 154),
-        centerTitle: true, // Center aligns the title
-        title: Text(
-          selectedExam['exam_name'] ?? '',
-          style: TextStyle(color: Colors.white70, fontSize: 30),
-        ),
+      appBar: TrialExamDetailPageAppBar(),
+    );
+  }
+
+  AppBar TrialExamDetailPageAppBar() {
+    return AppBar(
+      backgroundColor: const Color.fromARGB(255, 172, 154, 154),
+      centerTitle: true, // Center aligns the title
+      title: Text(
+        selectedExam['exam_name'] ?? '',
+        style: TextStyle(
+            color: Colors.white70, fontSize: 30, fontWeight: FontWeight.bold),
       ),
     );
   }

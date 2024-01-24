@@ -12,6 +12,14 @@ class CourseController extends GetxController {
   RxList<Map<String, dynamic>> getStudentsNotDoneCoursesList =
       <Map<String, dynamic>>[].obs;
 
+  var selectedCourseDetail = {}.obs;
+
+  var selectedCourseStatus = 'Tamamlanamadı'.obs;
+
+  void updateCourseStatus(String newStatus) {
+    selectedCourseStatus.value = newStatus;
+  }
+
   var selectedButton = 'Ödevler'.obs;
   Future<void> getAllStudentsCourses() async {
     Get.put(StudentController());
@@ -100,6 +108,38 @@ class CourseController extends GetxController {
         getStudentsNotDoneCoursesList.assignAll(coursesList);
       } else {
         // Sunucudan hata döndüyse
+        print("Error: ${response.statusCode}");
+        print(response.body);
+      }
+    } catch (e) {
+      // Hata oluştuysa
+      print(" getStudentsNotDoneCourses Exception: $e");
+    }
+  }
+
+  Future<void> studentFinishHomework(
+      int course_id, int is_homework_done, String student_comment) async {
+    try {
+      final response = await http.put(
+        Uri.parse('${ApiConfig.baseUrl}${ApiConfig.studentFinishHomework}'),
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: jsonEncode({
+          'course_id': course_id,
+          'is_homework_done': is_homework_done,
+          'student_comment': student_comment
+        }),
+      );
+
+      if (response.statusCode == 200) {
+        print("studentFinishHomework çalıştı");
+        List<dynamic> responseData = jsonDecode(response.body);
+ await getAllStudentsCourses();
+        await getStudentsDoneCourse();
+        await getStudentsNotDoneCourses();
+        print(response.body);
+      } else {
         print("Error: ${response.statusCode}");
         print(response.body);
       }

@@ -1,92 +1,137 @@
-// ignore_for_file: no_leading_underscores_for_local_identifiers
-
-import 'package:edige/controllers/StudentController.dart';
 import 'package:edige/controllers/WeeklyProgramController.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:intl/intl.dart';
 
-class WeeklyProgramPage extends StatelessWidget {
-  const WeeklyProgramPage({super.key});
+class WeeklyProgramPage extends StatefulWidget {
+  const WeeklyProgramPage({Key? key});
+
+  @override
+  _WeeklyProgramPageState createState() => _WeeklyProgramPageState();
+}
+
+class _WeeklyProgramPageState extends State<WeeklyProgramPage> {
+  late WeeklyProgramController controller;
+
+  @override
+  void initState() {
+    super.initState();
+    controller = Get.put(WeeklyProgramController());
+  }
 
   @override
   Widget build(BuildContext context) {
-    Get.put(WeeklyProgramController());
-    Get.put(StudentController());
-
-    @override
-    Future<void> _initState() async {
-      await Get.find<WeeklyProgramController>().fetchWeeklyProgramByStudentId(
-          Get.find<StudentController>().studentId.value);
-    }
-
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      _initState();
-    });
+    // Haftanın günlerini sıralı bir şekilde tanımla
+    final List<String> weekDays = [
+      'Pazartesi',
+      'Sali',
+      'Carsamba',
+      'Persembe',
+      'Cuma',
+      'Cumartesi',
+      'Pazar',
+    ];
 
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Colors.blue[100],
-        centerTitle: true, // Center aligns the title
-        title: const Text("Ders Programı"),
-      ),
+      appBar: weeklyProgramAppBar(),
       body: Container(
         decoration: BoxDecoration(
-          color: Colors.blue[100], // Set your desired background color here
-        ),
-        child: Center(
-          child: Obx(
-            () => ListView.builder(
-              itemCount:
-                  Get.find<WeeklyProgramController>().lessonStartHours.length,
-              itemBuilder: (BuildContext context, int index) {
-                return Padding(
-                  padding: EdgeInsets.symmetric(
-                      horizontal: MediaQuery.of(context).size.width * 0.058,
-                      vertical: MediaQuery.of(context).size.height * 0.01),
-                  child: Container(
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(10.0),
-                      boxShadow: [
-                        BoxShadow(
-                          color: Colors.grey.withOpacity(0.5),
-                          spreadRadius: 2,
-                          blurRadius: 5,
-                          offset: const Offset(0, 3),
-                        ),
-                      ],
-                      gradient: const LinearGradient(
-                        begin: Alignment.topLeft,
-                        end: Alignment.bottomRight,
-                        colors: [Colors.blueAccent, Colors.lightBlueAccent],
-                      ),
-                    ),
-                    child: ListTile(
-                      title: Text(
-                        Get.find<WeeklyProgramController>().lessons[index],
-                        style: const TextStyle(
-                            fontSize: 18,
-                            fontWeight: FontWeight.bold,
-                            color: Colors.white),
-                      ),
-                      subtitle: Text(
-                        '${Get.find<WeeklyProgramController>().lessonStartHours[index]} - ${Get.find<WeeklyProgramController>().lessonEndHours[index]}',
-                        style:
-                            const TextStyle(fontSize: 16, color: Colors.white),
-                      ),
-                      trailing: Text(
-                        DateFormat('yyyy-MM-dd').format(
-                            Get.find<WeeklyProgramController>().day[index]),
-                        style:
-                            const TextStyle(fontSize: 16, color: Colors.white),
-                      ),
-                    ),
-                  ),
-                );
-              },
-            ),
+          gradient: LinearGradient(
+            colors: [Colors.blue[100]!, Colors.blue[300]!],
+            begin: Alignment.topLeft,
+            end: Alignment.bottomRight,
           ),
         ),
+        padding: const EdgeInsets.all(25.0),
+        child: Center(
+          child: FutureBuilder(
+            future: controller.fetchWeeklyProgramByStudentId(7),
+            builder: (context, snapshot) {
+              if (snapshot.connectionState == ConnectionState.waiting) {
+                return const CircularProgressIndicator();
+              } else if (snapshot.hasError) {
+                return Text('Error: ${snapshot.error}');
+              } else {
+                return GetBuilder<WeeklyProgramController>(
+                  builder: (controller) {
+                    return ListView.builder(
+                      itemCount: weekDays.length,
+                      itemBuilder: (BuildContext context, int index) {
+                        String day = weekDays[index];
+
+                        List<Widget> dayLessons = [];
+
+                        for (var lesson
+                            in controller.weeklyProgram[day] ?? []) {
+                          dayLessons.add(
+                            Padding(
+                              padding: const EdgeInsets.only(
+                                  left: 10.0, right: 10.0),
+                              child: Card(
+                                color: const Color.fromARGB(255, 78, 150, 201),
+                                elevation: 10.0,
+                                margin:
+                                    const EdgeInsets.symmetric(vertical: 8.0),
+                                child: Padding(
+                                  padding: const EdgeInsets.all(5.0),
+                                  child: ListTile(
+                                    title: Text(
+                                      lesson['lesson_name'].toString(),
+                                      style: const TextStyle(
+                                        fontSize: 18,
+                                        fontWeight: FontWeight.bold,
+                                        color: Colors.black,
+                                      ),
+                                    ),
+                                    subtitle: Text(
+                                      '${lesson['lesson_start_hour']} - ${lesson['lesson_end_hour']}',
+                                      style: const TextStyle(
+                                        fontSize: 16,
+                                        color: Colors.black54,
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ),
+                          );
+                        }
+
+                        return Card(
+                          color: Colors.blue[200],
+                          elevation: 5.0,
+                          margin: const EdgeInsets.only(bottom: 16.0),
+                          child: ExpansionTile(
+                            title: Text(
+                              day,
+                              style: const TextStyle(
+                                fontSize: 20,
+                                fontWeight: FontWeight.bold,
+                                color: Colors.black,
+                              ),
+                            ),
+                            backgroundColor: Colors.transparent,
+                            children: dayLessons,
+                          ),
+                        );
+                      },
+                    );
+                  },
+                );
+              }
+            },
+          ),
+        ),
+      ),
+    );
+  }
+
+  AppBar weeklyProgramAppBar() {
+    return AppBar(
+      backgroundColor: Colors.blue[100],
+      centerTitle: true,
+      title: const Text(
+        "Ders Programı",
+        style: TextStyle(fontWeight: FontWeight.bold),
       ),
     );
   }

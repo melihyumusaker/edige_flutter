@@ -13,12 +13,9 @@ class TrialExamPage extends StatelessWidget {
     Get.put(StudentController());
 
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Deneme Sınavları'),
-        centerTitle: true,
-        backgroundColor: Color.fromARGB(255, 248, 200, 167), // AppBar rengi
-      ),
-      backgroundColor: Color.fromARGB(255, 248, 200, 167), // Arka plan rengi
+      appBar: TrialExamPageAppBar(),
+      backgroundColor:
+          const Color.fromARGB(255, 161, 217, 240), // Arka plan rengi
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(
@@ -35,39 +32,54 @@ class TrialExamPage extends StatelessWidget {
                   // Diğer sayfaya yönlendirme işlemi
                   Get.toNamed('/TrialExamDetailPage', arguments: examDetails);
                 },
-                child: Card(
-                  elevation: 8,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(15.0),
-                  ),
-                  margin: const EdgeInsets.only(bottom: 16.0),
-                  color: Colors.white, // Card rengi
-                  child: Padding(
-                    padding: const EdgeInsets.all(16.0),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          'Sınav Adı: ${exam["exam_name"]}',
-                          style: const TextStyle(
-                            fontSize: 18.0,
-                            fontWeight: FontWeight.bold,
-                            color: Colors.black, // Başlık rengi
-                          ),
-                        ),
-                        const SizedBox(height: 8.0),
-                        Text(
-                          'Tarih: ${exam["date"]}',
-                          style: const TextStyle(
-                            fontSize: 16.0,
-                            color: Colors.grey,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
+                child: trialExamInfoCard(exam),
               ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  AppBar TrialExamPageAppBar() {
+    return AppBar(
+      title: const Text(
+        'Deneme Sınavları',
+        style: TextStyle(fontWeight: FontWeight.bold),
+      ),
+      centerTitle: true,
+      backgroundColor: const Color.fromARGB(255, 161, 217, 240), // AppBar rengi
+    );
+  }
+
+  Card trialExamInfoCard(Map<String, dynamic> exam) {
+    return Card(
+      elevation: 8,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(15.0),
+      ),
+      margin: const EdgeInsets.only(bottom: 16.0),
+      color: Color.fromARGB(255, 44, 87, 107), // Card rengi
+      child: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              'Sınav Adı: ${exam["exam_name"]}',
+              style: const TextStyle(
+                  fontSize: 18.0,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.white60 // Başlık rengi
+                  ),
+            ),
+            const SizedBox(height: 8.0),
+            Text(
+              'Tarih: ${exam["date"]}',
+              style: const TextStyle(
+                fontSize: 16.0,
+                color: Colors.white54,
+              ),
+            ),
           ],
         ),
       ),

@@ -114,6 +114,7 @@ class Homeworks extends StatelessWidget {
 
   AppBar HomeworkAppBar() {
     return AppBar(
+      iconTheme: const IconThemeData(color: Colors.white),
       title: const Text(
         "Ödevler",
         style: TextStyle(

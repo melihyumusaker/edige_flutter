@@ -46,19 +46,7 @@ class HomePage extends StatelessWidget {
     final formattedDate = DateFormat('yyyy-MM-dd').format(birthDate);
 
     return Scaffold(
-      appBar: AppBar(
-        title: const Text(
-          "Edige Öğrenci Sayfası",
-          style: TextStyle(
-            fontSize: 22, // Yazı boyutu
-            fontWeight: FontWeight.bold, // Kalın font
-            letterSpacing: 2, // Harfler arası mesafe
-            color: Color.fromARGB(255, 214, 195, 174), // Yazı rengi
-          ),
-        ),
-        centerTitle: true, // Yazıyı ortala
-        backgroundColor: const Color.fromARGB(255, 112, 139, 180),
-      ),
+      appBar: homePageAppBar(),
       drawer: const MyDrawer(),
       body: SingleChildScrollView(
         child: Container(
@@ -67,8 +55,8 @@ class HomePage extends StatelessWidget {
           decoration: const BoxDecoration(
             gradient: LinearGradient(
               colors: [
-                Color.fromARGB(255, 112, 139, 180),
-                Color.fromARGB(255, 88, 71, 185)
+                Color.fromARGB(255, 135, 230, 253),
+                Color.fromARGB(255, 131, 124, 192)
               ],
               begin: Alignment.topCenter,
               end: Alignment.bottomCenter,
@@ -82,38 +70,10 @@ class HomePage extends StatelessWidget {
                 } else {
                   return Column(
                     children: [
-                      SizedBox(
-                          height: MediaQuery.of(context).size.height * 0.005),
+                      topEmptySizedBox(context),
                       UserInfo(formattedDate: formattedDate),
                       const WeeklyProgramAndTrialExamButtons(),
-                      InkWell(
-                        onTap: () async {
-                          
-                          Get.toNamed("/Homework");
-                        },
-                        child: SizedBox(
-                          width: MediaQuery.of(context).size.width / 2 - 40,
-                          height: MediaQuery.of(context).size.height / 5,
-                          child: Card(
-                            elevation: 8,
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(25.0),
-                            ),
-                            color: const Color.fromARGB(255, 172, 223, 191),
-                            child: const Center(
-                              child: Text(
-                                'Ödevler',
-                                style: TextStyle(
-                                  fontSize: 20.0,
-                                  fontWeight: FontWeight.bold,
-                                  color: Colors.black,
-                                ),
-                                textAlign: TextAlign.center,
-                              ),
-                            ),
-                          ),
-                        ),
-                      )
+                      homeworks(context)
                     ],
                   );
                 }
@@ -121,6 +81,56 @@ class HomePage extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  AppBar homePageAppBar() {
+    return AppBar(
+      title: const Text(
+        "Edige Öğrenci Sayfası",
+        style: TextStyle(
+          fontSize: 22, // Yazı boyutu
+          fontWeight: FontWeight.bold, // Kalın font
+          letterSpacing: 2, // Harfler arası mesafe
+          color: Color.fromARGB(255, 0, 0, 0), // Yazı rengi
+        ),
+      ),
+      centerTitle: true, // Yazıyı ortala
+      backgroundColor: const Color.fromARGB(255, 135, 230, 253),
+    );
+  }
+
+  InkWell homeworks(BuildContext context) {
+    return InkWell(
+      onTap: () async {
+        Get.toNamed("/Homework");
+      },
+      child: SizedBox(
+        width: MediaQuery.of(context).size.width / 2 - 40,
+        height: MediaQuery.of(context).size.height / 5,
+        child: Card(
+          elevation: 8,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(25.0),
+          ),
+          color: const Color.fromARGB(255, 172, 223, 191),
+          child: const Center(
+            child: Text(
+              'Ödevler',
+              style: TextStyle(
+                fontSize: 20.0,
+                fontWeight: FontWeight.bold,
+                color: Colors.black,
+              ),
+              textAlign: TextAlign.center,
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+
+  SizedBox topEmptySizedBox(BuildContext context) {
+    return SizedBox(height: MediaQuery.of(context).size.height * 0.005);
   }
 }
 
