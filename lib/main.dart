@@ -21,7 +21,6 @@ class MyApp extends StatelessWidget {
     return GetMaterialApp(
       routes: {
         '/Login': (context) => Login(),
-        // other routes...
       },
       debugShowCheckedModeBanner: false,
       title: 'Flutter Demo',

@@ -1,15 +1,18 @@
+// ignore_for_file: non_constant_identifier_names, duplicate_ignore, file_names
+
 import 'package:flutter/material.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'dart:convert';
 import 'package:get/get.dart';
 
 class TrailExamDetailPage extends StatefulWidget {
-  TrailExamDetailPage({Key? key}) : super(key: key);
+  const TrailExamDetailPage({Key? key}) : super(key: key);
 
   @override
   State<TrailExamDetailPage> createState() => _TrailExamDetailPageState();
 }
 
+// ignore: duplicate_ignore
 class _TrailExamDetailPageState extends State<TrailExamDetailPage> {
   late Map<String, dynamic> selectedExam;
 
@@ -49,18 +52,20 @@ class _TrailExamDetailPageState extends State<TrailExamDetailPage> {
     );
   }
 
+  // ignore: non_constant_identifier_names
   AppBar TrialExamDetailPageAppBar() {
     return AppBar(
       backgroundColor: const Color.fromARGB(255, 172, 154, 154),
       centerTitle: true, // Center aligns the title
       title: Text(
         selectedExam['exam_name'] ?? '',
-        style: TextStyle(
+        style: const TextStyle(
             color: Colors.white70, fontSize: 30, fontWeight: FontWeight.bold),
       ),
     );
   }
 
+  // ignore: non_constant_identifier_names
   Card ShowStudentNet() {
     return Card(
       margin: const EdgeInsets.all(16),
@@ -99,8 +104,8 @@ class _TrailExamDetailPageState extends State<TrailExamDetailPage> {
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         Text(
-          '$subject',
-          style: TextStyle(
+          subject,
+          style: const TextStyle(
             fontSize: 16.0, // Yazı boyutunu ayarla
             fontWeight: FontWeight.normal, // Kalınlık
             color: Colors.black, // Yazı rengi
@@ -108,7 +113,7 @@ class _TrailExamDetailPageState extends State<TrailExamDetailPage> {
         ),
         Text(
           netValue?.toString() ?? '-',
-          style: TextStyle(
+          style: const TextStyle(
             fontSize: 16.0, // Yazı boyutunu ayarla
             color: Colors.blueAccent, // Yazı rengi
           ),
@@ -177,14 +182,15 @@ class MyBarGraph extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     BarData myBarData = BarData(
-        turkce_true: weeklySummary[0],
-        turkce_false: weeklySummary[1],
-        mat_true: weeklySummary[2],
-        mat_false: weeklySummary[3],
-        sosyal_true: weeklySummary[4],
-        sosyal_false: weeklySummary[5],
-        fen_true: weeklySummary[6],
-        fen_false: weeklySummary[7]);
+      turkce_true: weeklySummary[0],
+      turkce_false: weeklySummary[1],
+      mat_true: weeklySummary[2],
+      mat_false: weeklySummary[3],
+      sosyal_true: weeklySummary[4],
+      sosyal_false: weeklySummary[5],
+      fen_true: weeklySummary[6],
+      fen_false: weeklySummary[7],
+    );
 
     myBarData.initalizeBarData();
 
@@ -203,9 +209,10 @@ class MyBarGraph extends StatelessWidget {
           ),
           bottomTitles: AxisTitles(
             sideTitles: SideTitles(
-                reservedSize: 30,
-                showTitles: true,
-                getTitlesWidget: getBottomTitles),
+              reservedSize: 30,
+              showTitles: true,
+              getTitlesWidget: getBottomTitles,
+            ),
           ),
         ),
         barGroups: myBarData.barData
@@ -269,5 +276,5 @@ Widget getBottomTitles(double value, TitleMeta meta) {
       break;
   }
 
-  return SideTitleWidget(child: text, axisSide: meta.axisSide);
+  return SideTitleWidget(axisSide: meta.axisSide, child: text);
 }

@@ -20,11 +20,11 @@ class StudentController extends GetxController {
   var birthDate = DateTime.now().obs;
   var isEnneagramTestSolved = 0.obs;
 
-
   // Recommended Teacher Profiles
   final teachersExpertises = <String>[].obs;
   final teachersNames = <String>[].obs;
   final teacherSurnames = <String>[].obs;
+  final teacherAbouts = <String>[].obs;
   final teacherIds = <int>[].obs;
 
   Future<void> getStudentIdByUserId(int userId) async {
@@ -72,20 +72,24 @@ class StudentController extends GetxController {
       enneagramResult.value = responseData['enneagram_result'] ?? '';
       isEnneagramTestSolved.value =
           responseData['is_enneagram_test_solved'] ?? 0;
-      studentsTeacher.value = responseData['teacher']['user']['name'] +
-              " " +
-              responseData['teacher']['user']['surname'] ??
-          '';
+      studentsTeacher.value = responseData['teacher'] == null
+          ? studentsTeacher.value = ''
+          : responseData['teacher']['user']['name'] +
+                  " " +
+                  responseData['teacher']['user']['surname'] ??
+              '';
 
       final user = responseData['user'];
       if (user != null) {
-        username.value = user['username'];
-        name.value = user['name'];
-        surname.value = user['surname'];
-        email.value = user['email'];
-        city.value = user['city'];
-        String birthDateString = user['birth_date'];
+        username.value = user['username'] ?? '';
+        name.value = user['name'] ?? '';
+        surname.value = user['surname'] ?? '';
+        email.value = user['email'] ?? '';
+        city.value = user['city'] ?? '';
+        String birthDateString = user['birth_date'] ?? '';
         birthDate.value = DateTime.parse(birthDateString);
+      } else {
+        print("responseData is null");
       }
     } else {
       print("problem");
@@ -134,6 +138,16 @@ class StudentController extends GetxController {
 
         if (teacherSurnamesNames.isNotEmpty) {
           teacherSurnames.value = teacherSurnamesNames;
+        }
+
+        final List<String> teacherAboutsList = data
+            .map((teacherAbout) => teacherAbout['about'] != null
+                ? teacherAbout['about'].toString()
+                : '')
+            .toList();
+
+        if (teacherAboutsList.isNotEmpty) {
+          teacherAbouts.value = teacherAboutsList;
         }
 
         final List<int> teacherIdsList = data

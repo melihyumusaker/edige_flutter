@@ -63,36 +63,7 @@ class _WeeklyProgramPageState extends State<WeeklyProgramPage> {
                         for (var lesson
                             in controller.weeklyProgram[day] ?? []) {
                           dayLessons.add(
-                            Padding(
-                              padding: const EdgeInsets.only(
-                                  left: 10.0, right: 10.0),
-                              child: Card(
-                                color: const Color.fromARGB(255, 78, 150, 201),
-                                elevation: 10.0,
-                                margin:
-                                    const EdgeInsets.symmetric(vertical: 8.0),
-                                child: Padding(
-                                  padding: const EdgeInsets.all(5.0),
-                                  child: ListTile(
-                                    title: Text(
-                                      lesson['lesson_name'].toString(),
-                                      style: const TextStyle(
-                                        fontSize: 18,
-                                        fontWeight: FontWeight.bold,
-                                        color: Colors.black,
-                                      ),
-                                    ),
-                                    subtitle: Text(
-                                      '${lesson['lesson_start_hour']} - ${lesson['lesson_end_hour']}',
-                                      style: const TextStyle(
-                                        fontSize: 16,
-                                        color: Colors.black54,
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            ),
+                            weeklyProgramItems(lesson),
                           );
                         }
 
@@ -119,6 +90,37 @@ class _WeeklyProgramPageState extends State<WeeklyProgramPage> {
                 );
               }
             },
+          ),
+        ),
+      ),
+    );
+  }
+
+  Padding weeklyProgramItems(lesson) {
+    return Padding(
+      padding: const EdgeInsets.only(left: 10.0, right: 10.0),
+      child: Card(
+        color: const Color.fromARGB(255, 78, 150, 201),
+        elevation: 10.0,
+        margin: const EdgeInsets.symmetric(vertical: 8.0),
+        child: Padding(
+          padding: const EdgeInsets.all(5.0),
+          child: ListTile(
+            title: Text(
+              lesson['lesson_name'].toString(),
+              style: const TextStyle(
+                fontSize: 18,
+                fontWeight: FontWeight.bold,
+                color: Colors.black,
+              ),
+            ),
+            subtitle: Text(
+              '${lesson['lesson_start_hour']} - ${lesson['lesson_end_hour']}',
+              style: const TextStyle(
+                fontSize: 16,
+                color: Colors.black54,
+              ),
+            ),
           ),
         ),
       ),

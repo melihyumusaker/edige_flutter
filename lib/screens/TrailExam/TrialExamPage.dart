@@ -58,7 +58,7 @@ class TrialExamPage extends StatelessWidget {
         borderRadius: BorderRadius.circular(15.0),
       ),
       margin: const EdgeInsets.only(bottom: 16.0),
-      color: Color.fromARGB(255, 44, 87, 107), // Card rengi
+      color:const Color.fromARGB(255, 44, 87, 107), // Card rengi
       child: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(

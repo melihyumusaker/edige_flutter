@@ -54,6 +54,7 @@ class LoginController extends GetxController {
     );
 
     if (response.statusCode == 200) {
+      print('Login method çalıştı');
       final parsedResponse = jsonDecode(response.body);
 
       token.value = parsedResponse['token'];
@@ -75,6 +76,7 @@ class LoginController extends GetxController {
 
       Get.off(() => const CircularPage());
     } else {
+      print('Login method çalışamadı');
       Get.dialog(
         AlertDialog(
             title: const Text("Giriş Başarısız"),

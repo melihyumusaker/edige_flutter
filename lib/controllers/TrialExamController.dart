@@ -6,9 +6,8 @@ import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 
 class TrialExamController extends GetxController {
-
   RxList<Map<String, dynamic>> studentTrialExams = <Map<String, dynamic>>[].obs;
-   RxMap selectedExamDetail = {}.obs;
+  RxMap selectedExamDetail = {}.obs;
 
   Future<void> getStudentTrialExams() async {
     try {
@@ -25,7 +24,15 @@ class TrialExamController extends GetxController {
         List<dynamic> responseData = jsonDecode(response.body);
         studentTrialExams.assignAll(responseData.cast<Map<String, dynamic>>());
         print("getStudentTrialExams çalıştı");
-      } else {
+      } 
+
+      else if (response.statusCode == 204) {
+        // Response kodu 204 ise, studentTrialExams'ı null yap
+         studentTrialExams.assignAll(<Map<String, dynamic>>[]);
+        print("getStudentTrialExams çalişti, ancak veri bulunamadi.");
+      } 
+      
+      else {
         // Sunucudan hata döndüyse
         print("Error: ${response.statusCode}");
         print(response.body);

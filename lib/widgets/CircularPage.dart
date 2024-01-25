@@ -8,6 +8,8 @@ class CircularPage extends StatelessWidget {
   const CircularPage({super.key});
 
   Future<void> _initState() async {
+    Get.put(StudentController());
+    Get.put(LoginController());
     final userIdValue = int.tryParse(Get.find<LoginController>().user_id.value);
 
     if (userIdValue != null && userIdValue != 0) {
@@ -37,23 +39,23 @@ class CircularPage extends StatelessWidget {
     WidgetsBinding.instance.addPostFrameCallback((_) {
       _initState();
     });
-    return  Scaffold(
+    return Scaffold(
       appBar: AppBar(
-        backgroundColor: const Color.fromARGB(255, 112, 139, 180),
+        backgroundColor: const Color.fromARGB(255, 135, 230, 253),
       ),
       body: Container(
         width: double.infinity,
-          height: MediaQuery.of(context).size.height,
-          decoration: const BoxDecoration(
-            gradient: LinearGradient(
-              colors: [
-                Color.fromARGB(255, 112, 139, 180),
-                Color.fromARGB(255, 88, 71, 185)
-              ],
-              begin: Alignment.topCenter,
-              end: Alignment.bottomCenter,
-            ),
+        height: MediaQuery.of(context).size.height,
+        decoration: const BoxDecoration(
+          gradient: LinearGradient(
+            colors: [
+              Color.fromARGB(255, 135, 230, 253),
+              Color.fromARGB(255, 131, 124, 192)
+            ],
+            begin: Alignment.topCenter,
+            end: Alignment.bottomCenter,
           ),
+        ),
         child: const Center(
           child: CircularProgressIndicator(),
         ),
