@@ -53,7 +53,7 @@ class FirstScreen extends StatelessWidget {
               width: 200,
               height: 50,
               buttonName: 'Öğretmen Girişi',
-              destinationPage: '/teacher',
+              destinationPage: '/TeacherLogin',
             );
   }
 

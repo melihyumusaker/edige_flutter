@@ -36,8 +36,7 @@ class HomePage extends StatelessWidget {
         debugPrint('Hata: User ID dönüştürülemedi.');
       }
     }
-
-    // Widget'in initState kısmında _initState metodunu çağırın
+    
     WidgetsBinding.instance.addPostFrameCallback((_) {
       _initState();
     });

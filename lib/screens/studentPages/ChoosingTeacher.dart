@@ -39,7 +39,10 @@ class ChoosingTeacher extends StatelessWidget {
                 style: TextStyle(fontSize: 20),
               )),
               DataColumn(
-                  label: Text('Uzmanlık', style: TextStyle(fontSize: 20))),
+                  label: Text(
+                'Uzmanlık',
+                style: TextStyle(fontSize: 20),
+              )),
             ],
             source: TeacherDataSource(), // Veri kaynağı
           ),
@@ -64,8 +67,7 @@ class TeacherDataSource extends DataTableSource {
               content: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  Text(
-                      'Uzmanlık: ${studentController.teachersExpertises[index]}'),
+                  Text(studentController.teacherAbouts[index]),
                   const SizedBox(height: 16),
                   ElevatedButton(
                     onPressed: () async {

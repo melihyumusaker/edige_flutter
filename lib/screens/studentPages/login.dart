@@ -35,7 +35,6 @@ class Login extends StatelessWidget {
                     WelcomeEdigeText(),
                     const SizedBox(height: 20),
                     EmailAndPasswordForm(),
-                    //     const SizedBox(height: 20),
                     rememberMeCheckbox(context),
                     LoginButton(context),
                   ],

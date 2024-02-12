@@ -1,6 +1,6 @@
 // ignore_for_file: library_private_types_in_public_api
 
-import 'package:edige/screens/FirstScreen.dart';
+import 'package:edige/screens/programDefaultPages/FirstScreen.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 

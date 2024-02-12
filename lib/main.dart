@@ -1,11 +1,13 @@
-import 'package:edige/screens/SplashScreen.dart';
-import 'package:edige/screens/login.dart';
+import 'package:edige/controllers/TeacherController.dart';
+import 'package:edige/screens/programDefaultPages/SplashScreen.dart';
+import 'package:edige/screens/studentPages/login.dart';
 import 'package:edige/utils/Routes.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 
 void main() {
+  Get.put(TeacherController(), permanent: true);
   SystemChrome.setSystemUIOverlayStyle(
       const SystemUiOverlayStyle(statusBarColor: Colors.transparent));
   WidgetsFlutterBinding.ensureInitialized();

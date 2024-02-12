@@ -1,6 +1,6 @@
 import 'package:edige/controllers/LoginController.dart';
 import 'package:edige/controllers/StudentController.dart';
-import 'package:edige/screens/EnneagramType.dart';
+import 'package:edige/screens/studentPages/EnneagramType.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 

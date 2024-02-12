@@ -36,7 +36,7 @@ class _HomeworkDetailPageState extends State<HomeworkDetailPage> {
         Get.find<CourseController>().selectedCourseDetail;
 
     return Scaffold(
-      backgroundColor: Color(0xFF81D4FA),
+      backgroundColor: const Color(0xFF81D4FA),
       appBar: HomeworkDetailAppBar(),
       body: Container(
         width: double.infinity,
