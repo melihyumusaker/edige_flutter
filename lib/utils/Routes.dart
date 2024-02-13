@@ -7,6 +7,8 @@ import 'package:edige/screens/studentPages/TrailExam/TrialExamDetailPage.dart';
 import 'package:edige/screens/studentPages/TrailExam/TrialExamPage.dart';
 import 'package:edige/screens/studentPages/WeeklyProgram.dart';
 import 'package:edige/screens/studentPages/login.dart';
+import 'package:edige/screens/teacherPages/TeacherFirstEntry/TeacherAboutPage.dart';
+import 'package:edige/screens/teacherPages/TeacherFirstEntry/TeacherEnneagramType.dart';
 import 'package:edige/screens/teacherPages/TeacherHomePage.dart';
 import 'package:edige/screens/teacherPages/TeacherLogin.dart';
 import 'package:edige/screens/teacherPages/TeachersStudentsListPage.dart';
@@ -26,7 +28,12 @@ List<GetPage<dynamic>> get routes {
     GetPage(
         name: '/TrialExamDetailPage', page: () => const TrailExamDetailPage()),
     GetPage(name: '/TeacherLogin', page: () => TeacherLogin()),
-    GetPage(name: '/TeacherHomePage', page: () =>const TeacherHomePage()),
-        GetPage(name: '/TeachersStudentsListPage', page: () =>const TeachersStudentsListPage()),
+    GetPage(name: '/TeacherHomePage', page: () => const TeacherHomePage()),
+    GetPage(
+        name: '/TeachersStudentsListPage',
+        page: () => const TeachersStudentsListPage()),
+    GetPage(
+        name: '/TeacherEnneagramType',
+        page: () => const TeacherEnneagramType()),
   ];
 }

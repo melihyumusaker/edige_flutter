@@ -8,10 +8,17 @@ class TeacherCircularPage extends StatelessWidget {
   Future<void> _initState() async {
     final teacherController = Get.find<TeacherController>();
     await teacherController.showStudents();
+    await teacherController.getTeacherInfo();
     await teacherController
         .getTeacherIdByUserId(int.parse(teacherController.user_id.value));
 
-    Get.offNamed('/TeacherHomePage');
+    if (teacherController.teacherInfo['is_enneagram_test_solved'] == 0) {
+      print("enneagram çözülmemiş");
+      Get.offNamed('/TeacherEnneagramType');
+    } else if (teacherController.teacherInfo['is_enneagram_test_solved'] == 1) {
+      print("enneagram çözülmüş");
+      Get.offNamed('/TeacherHomePage');
+    }
   }
 
   @override

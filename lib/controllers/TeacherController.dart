@@ -12,10 +12,10 @@ class TeacherController extends GetxController {
   var token = "".obs;
   var refreshToken = "".obs;
   var user_id = "".obs;
+  var teacherInfo;
 
   var studentsList = <Map<String, dynamic>>[].obs;
   var filteredStudentsList = <Map<String, dynamic>>[].obs;
-
 
   // Arama işlevselliği için bir fonksiyon
   void filterStudents(String query) {
@@ -134,9 +134,48 @@ class TeacherController extends GetxController {
       final List<dynamic> fetchedStudentsList = json.decode(response.body);
       studentsList.assignAll(
           fetchedStudentsList.map((e) => e as Map<String, dynamic>).toList());
-          filteredStudentsList.assignAll(studentsList);
+      filteredStudentsList.assignAll(studentsList);
     } else {
       print('Error fetching students: ${response.statusCode}');
+    }
+  }
+
+  // Teacher info endpoint
+  Future<void> getTeacherInfo() async {
+    final response = await http.post(
+      Uri.parse('${ApiConfig.baseUrl}${ApiConfig.getTeacherInfo}'),
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer $token',
+      },
+    );
+
+    if (response.statusCode == 200) {
+      print("getTeacherInfo çalıştı");
+      teacherInfo = json.decode(response.body); // Değişiklik burada
+    } else {
+      print('Error fetching teacher info: ${response.statusCode}');
+    }
+  }
+
+  //Teacher's about and enneagram_result update endpointi
+  Future<void> updateTeacherEnneagramTypeAndAbout(String about , String enneagramResult) async {
+    final response = await http.post(
+        Uri.parse('${ApiConfig.baseUrl}${ApiConfig.updateTeacherEnneagramTypeAndAbout}'),
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer $token',
+        },
+        body: jsonEncode({
+          'about': about,
+          'enneagram_result': enneagramResult,
+          'is_enneagram_test_solved': 1,
+        }));
+
+    if (response.statusCode == 200) {
+      print("updateTeacherEnneagramTypeAndAbout çalıştı");
+    } else {
+      print('Error fetching teacher info: ${response.statusCode}');
     }
   }
 }
