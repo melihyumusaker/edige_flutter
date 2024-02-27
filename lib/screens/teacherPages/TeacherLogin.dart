@@ -60,7 +60,7 @@ class TeacherLogin extends StatelessWidget {
 
   Padding WelcomeEdigeText() {
     return const Padding(
-      padding: const EdgeInsets.only(right: 10.0, left: 10.0),
+      padding:  EdgeInsets.only(right: 10.0, left: 10.0),
       child: Align(
         alignment: Alignment.center,
         child: Text(

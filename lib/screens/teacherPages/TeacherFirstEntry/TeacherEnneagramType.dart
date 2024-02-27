@@ -28,7 +28,6 @@ class _EnneagramTypeState extends State<TeacherEnneagramType> {
   bool isDialogShown = false;
   Future<void> _initState() async {
     if (!isDialogShown) {
-      // ignore: use_build_context_synchronously
       showDialog(
         context: context,
         builder: (BuildContext context) {

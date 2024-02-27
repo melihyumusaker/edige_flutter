@@ -152,16 +152,18 @@ class TeacherController extends GetxController {
 
     if (response.statusCode == 200) {
       print("getTeacherInfo çalıştı");
-      teacherInfo = json.decode(response.body); // Değişiklik burada
+      teacherInfo = json.decode(response.body);
     } else {
       print('Error fetching teacher info: ${response.statusCode}');
     }
   }
 
   //Teacher's about and enneagram_result update endpointi
-  Future<void> updateTeacherEnneagramTypeAndAbout(String about , String enneagramResult) async {
+  Future<void> updateTeacherEnneagramTypeAndAbout(
+      String about, String enneagramResult) async {
     final response = await http.post(
-        Uri.parse('${ApiConfig.baseUrl}${ApiConfig.updateTeacherEnneagramTypeAndAbout}'),
+        Uri.parse(
+            '${ApiConfig.baseUrl}${ApiConfig.updateTeacherEnneagramTypeAndAbout}'),
         headers: {
           'Content-Type': 'application/json',
           'Authorization': 'Bearer $token',

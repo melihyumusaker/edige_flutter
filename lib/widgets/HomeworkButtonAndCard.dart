@@ -7,7 +7,7 @@ class HomeworkButton extends StatelessWidget {
   final String label;
   final VoidCallback onPressed;
 
-  const HomeworkButton({
+  const  HomeworkButton({
     required this.label,
     required this.onPressed,
   });
@@ -48,7 +48,7 @@ Widget HomeworkCard(Map<String, dynamic> course) {
       Get.toNamed('/HomeworkDetailPage');
     },
     child: Card(
-      color: Color.fromARGB(255, 151, 217, 248),
+      color:const Color.fromARGB(255, 151, 217, 248),
       elevation: 16,
       margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
       child: Container(
@@ -68,7 +68,7 @@ Widget HomeworkCard(Map<String, dynamic> course) {
                 const SizedBox(height: 4),
                 Text(
                   '${course['subcourse_name']}',
-                  style: TextStyle(
+                  style:const TextStyle(
                     fontSize: 20,
                     color: Color.fromARGB(255, 247, 240, 240),
                     fontStyle: FontStyle.italic,

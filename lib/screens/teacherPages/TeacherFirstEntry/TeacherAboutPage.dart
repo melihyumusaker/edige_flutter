@@ -33,7 +33,7 @@ class TeacherAboutPage extends StatelessWidget {
       onPressed: () async {
         String aboutText = aboutController.text;
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
+          const SnackBar(
             content: Text('Giriş Başarılı'),
             duration: Duration(seconds: 2),
           ),
@@ -80,7 +80,7 @@ class TeacherAboutPage extends StatelessWidget {
       style: TextStyle(
           fontSize: 24.0,
           fontWeight: FontWeight.bold,
-          color: Colors.lightBlue), // Metin stilini güncelle
+          color: Colors.lightBlue), 
     );
   }
 

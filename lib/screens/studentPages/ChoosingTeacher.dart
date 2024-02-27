@@ -98,13 +98,15 @@ class TeacherDataSource extends DataTableSource {
           '${studentController.teachersNames[index]} ${studentController.teacherSurnames[index]}',
           style: const TextStyle(fontWeight: FontWeight.bold),
         )),
-        DataCell(Text(
-          studentController.teachersExpertises[index],
-          style: const TextStyle(
-            color: Color.fromARGB(255, 82, 72, 72),
-            fontSize: 16,
+        DataCell(
+          Text(
+            studentController.teachersExpertises[index],
+            style: const TextStyle(
+              color: Color.fromARGB(255, 82, 72, 72),
+              fontSize: 16,
+            ),
           ),
-        )),
+        ),
       ],
     );
   }
