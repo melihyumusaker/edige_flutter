@@ -10,7 +10,7 @@ import 'package:edige/screens/studentPages/login.dart';
 import 'package:edige/screens/teacherPages/TeacherFirstEntry/TeacherEnneagramType.dart';
 import 'package:edige/screens/teacherPages/TeacherHomePage.dart';
 import 'package:edige/screens/teacherPages/TeacherLogin.dart';
-import 'package:edige/screens/teacherPages/TeachersStudentsListPage.dart';
+import 'package:edige/screens/teacherPages/TeachersStudents/TeachersStudentsListPage.dart';
 import 'package:get/get.dart';
 
 List<GetPage<dynamic>> get routes {
@@ -34,5 +34,8 @@ List<GetPage<dynamic>> get routes {
     GetPage(
         name: '/TeacherEnneagramType',
         page: () => const TeacherEnneagramType()),
+            GetPage(
+        name: '/StudentTrialExamPage',
+        page: () => const TeachersStudentsListPage()),
   ];
 }

@@ -1,4 +1,4 @@
-import 'package:edige/screens/teacherPages/TeacherCircularPage.dart';
+import 'package:edige/screens/teacherPages/TeacherFirstEntry/TeacherCircularPage.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
@@ -8,6 +8,7 @@ import '../config/api_config.dart';
 class TeacherController extends GetxController {
   final teacherEmailController = TextEditingController();
   final teacherPasswordController = TextEditingController();
+
   var teacherId = 0.obs;
   var token = "".obs;
   var refreshToken = "".obs;
@@ -16,6 +17,8 @@ class TeacherController extends GetxController {
 
   var studentsList = <Map<String, dynamic>>[].obs;
   var filteredStudentsList = <Map<String, dynamic>>[].obs;
+
+  var studentsTrialExamResults = <Map<String, dynamic>>[].obs;
 
   // Arama işlevselliği için bir fonksiyon
   void filterStudents(String query) {
@@ -33,6 +36,11 @@ class TeacherController extends GetxController {
       filteredStudentsList.assignAll(filtered);
     }
   }
+
+  Future<void> clearStudentTrialExamResults() async {
+      studentsTrialExamResults.clear();
+    }
+
 
   // Login module
   Future<void> teacherLogin() async {
@@ -178,6 +186,30 @@ class TeacherController extends GetxController {
       print("updateTeacherEnneagramTypeAndAbout çalıştı");
     } else {
       print('Error fetching teacher info: ${response.statusCode}');
+    }
+  }
+
+  Future<void> getStudentTrialExamsByTeacher(int student_id) async {
+    final response = await http.post(
+      Uri.parse(
+          '${ApiConfig.baseUrl}${ApiConfig.getStudentTrialExamsByTeacher}'),
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: jsonEncode({
+        'student_id': student_id,
+      }),
+    );
+
+    if (response.statusCode == 200) {
+      print("getStudentTrialExamsByTeacher çalıştı");
+
+      final List<dynamic> trialExamResults = json.decode(response.body);
+      // studentsTrialExamResults listesini güncelle
+      studentsTrialExamResults.assignAll(
+          trialExamResults.map((e) => e as Map<String, dynamic>).toList());
+    } else {
+      print('Error fetching trial exam results: ${response.statusCode}');
     }
   }
 }

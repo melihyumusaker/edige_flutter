@@ -1,3 +1,6 @@
+// ignore_for_file: file_names
+
+import 'package:edige/screens/teacherPages/TeachersStudents/StudentsDetailPage.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:edige/controllers/TeacherController.dart';
@@ -8,6 +11,7 @@ class TeachersStudentsListPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final teacherController = Get.find<TeacherController>();
+
     return Scaffold(
       appBar: TeacherHomePageAppBar(),
       body: Container(
@@ -98,9 +102,9 @@ class TeachersStudentsListPage extends StatelessWidget {
                       Icons.settings,
                       color: Colors.white,
                     ),
-                    onPressed: () {
-                      print(
-                          "Ayarlar ikonu tıklandı: ${student['user']['name']}");
+                    onPressed: () async {
+                      Get.to(() =>
+                          StudentDetailPage(student_id: student['student_id']));
                     },
                   ),
                 ),
@@ -112,35 +116,35 @@ class TeachersStudentsListPage extends StatelessWidget {
     );
   }
 
-Padding studentSearchTextField() {
-  final teacherController = Get.find<TeacherController>();
-  return Padding(
-    padding: const EdgeInsets.all(8.0),
-    child: TextField(
-      decoration: InputDecoration(
-        hintText: 'İsim, soyisim veya email girin',
-        hintStyle: TextStyle(color: Colors.deepPurple.shade200),
-        prefixIcon: Icon(Icons.search, color: Colors.deepPurple.shade400),
-        border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(25.0),
-          borderSide: const BorderSide(color: Colors.transparent),
+  Padding studentSearchTextField() {
+    final teacherController = Get.find<TeacherController>();
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: TextField(
+        decoration: InputDecoration(
+          hintText: 'İsim, soyisim veya email girin',
+          hintStyle: TextStyle(color: Colors.deepPurple.shade200),
+          prefixIcon: Icon(Icons.search, color: Colors.deepPurple.shade400),
+          border: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(25.0),
+            borderSide: const BorderSide(color: Colors.transparent),
+          ),
+          enabledBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(25.0),
+            borderSide: BorderSide(color: Colors.deepPurple.shade100),
+          ),
+          focusedBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(25.0),
+            borderSide: BorderSide(color: Colors.deepPurple.shade500, width: 2),
+          ),
+          filled: true,
+          fillColor: Colors.white70,
+          contentPadding: const EdgeInsets.symmetric(vertical: 15),
         ),
-        enabledBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(25.0),
-          borderSide: BorderSide(color: Colors.deepPurple.shade100),
-        ),
-        focusedBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(25.0),
-          borderSide: BorderSide(color: Colors.deepPurple.shade500, width: 2),
-        ),
-        filled: true,
-        fillColor: Colors.white70,
-        contentPadding: const EdgeInsets.symmetric(vertical: 15),
+        onChanged: (value) {
+          teacherController.filterStudents(value);
+        },
       ),
-      onChanged: (value) {
-        teacherController.filterStudents(value);
-      },
-    ),
-  );
-}
+    );
+  }
 }
