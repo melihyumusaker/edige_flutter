@@ -24,4 +24,5 @@ class ApiConfig {
   static const String updateTeacherEnneagramTypeAndAbout =
       '/teachers/updateTeacherEnneagramTypeAndAbout';
   static const String getStudentTrialExamsByTeacher ='/trial-exams/getStudentTrialExamsByTeacher';
+    static const String setStudentTrialExamResult ='/trial-exams/setStudentTrialExamResult';
 }

@@ -1,3 +1,5 @@
+import 'dart:ffi';
+
 import 'package:edige/screens/teacherPages/TeacherFirstEntry/TeacherCircularPage.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -38,9 +40,8 @@ class TeacherController extends GetxController {
   }
 
   Future<void> clearStudentTrialExamResults() async {
-      studentsTrialExamResults.clear();
-    }
-
+    studentsTrialExamResults.clear();
+  }
 
   // Login module
   Future<void> teacherLogin() async {
@@ -210,6 +211,63 @@ class TeacherController extends GetxController {
           trialExamResults.map((e) => e as Map<String, dynamic>).toList());
     } else {
       print('Error fetching trial exam results: ${response.statusCode}');
+    }
+  }
+
+  Future<void> setStudentTrialExamResult({
+    required int studentId,
+    required String date,
+    required double turkceTrue,
+    required double turkceFalse,
+    required double matTrue,
+    required double matFalse,
+    required double fenTrue,
+    required double fenFalse,
+    required double sosyalTrue,
+    required double sosyalFalse,
+    required String examName,
+  }) async {
+    final response = await http.post(
+      Uri.parse('${ApiConfig.baseUrl}${ApiConfig.setStudentTrialExamResult}'),
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer $token',
+      },
+      body: jsonEncode({
+        'student_id': studentId,
+        'date': date,
+        'turkce_true': turkceTrue,
+        'turkce_false': turkceFalse,
+        'mat_true': matTrue,
+        'mat_false': matFalse,
+        'fen_true': fenTrue,
+        'fen_false': fenFalse,
+        'sosyal_true': sosyalTrue,
+        'sosyal_false': sosyalFalse,
+        'exam_name': examName,
+      }),
+    );
+
+    if (response.statusCode == 200) {
+      print("setStudentTrialExamResult çalıştı kayıt başarılı");
+      Get.snackbar(
+        'Başarılı',
+        'Kayıt başarılı',
+        snackPosition: SnackPosition.BOTTOM,
+        backgroundColor: Colors.green,
+        colorText: Colors.white,
+        margin: const EdgeInsets.only(bottom: 20.0),
+      );
+    } else {
+      print('Error fetching trial exam results: ${response.statusCode}');
+      Get.snackbar(
+        'Hata',
+        'Bir problem oluştu',
+        snackPosition: SnackPosition.BOTTOM,
+        backgroundColor: Colors.red,
+        colorText: Colors.white,
+        margin: const EdgeInsets.only(bottom: 20.0),
+      );
     }
   }
 }

@@ -20,40 +20,51 @@ class StudentTrialExamDetailPage extends StatelessWidget {
       ),
       body: Stack(
         children: [
-          Container(
-            decoration: const BoxDecoration(
-              gradient: LinearGradient(
-                begin: Alignment.topCenter,
-                end: Alignment.bottomCenter,
-                colors: [
-                  Color(0xFF90CAF9),
-                  Color.fromARGB(255, 104, 97, 35),
-                ],
-              ),
-            ),
-          ),
+          linearGradientWidget(),
           teacherController.studentsTrialExamResults.isEmpty
-              ? const Center(
-                  child: Text(
-                    'Öğrencinin deneme sınavı sonucu bulunamadı.',
-                    textAlign: TextAlign.center, // Metni ortalama
-                    style: TextStyle(
-                      color: Colors.white70,
-                      fontSize: 20, // Yazı boyutu
-                      fontWeight: FontWeight.bold, // Kalın yazı tipi
-                      letterSpacing: 1.2, // Harfler arası boşluk
-                    ),
-                  ),
-                )
-              : ListView.builder(
-                  itemCount: teacherController.studentsTrialExamResults.length,
-                  itemBuilder: (context, index) {
-                    final examResult =
-                        teacherController.studentsTrialExamResults[index];
-                    return buildExamCard(examResult);
-                  },
-                ),
+              ? ListEmptyTextWidget()
+              : trialExamResults(teacherController),
         ],
+      ),
+    );
+  }
+
+  ListView trialExamResults(TeacherController teacherController) {
+    return ListView.builder(
+      itemCount: teacherController.studentsTrialExamResults.length,
+      itemBuilder: (context, index) {
+        final examResult = teacherController.studentsTrialExamResults[index];
+        return buildExamCard(examResult);
+      },
+    );
+  }
+
+  Center ListEmptyTextWidget() {
+    return const Center(
+      child: Text(
+        'Öğrencinin deneme sınavı sonucu bulunamadı.',
+        textAlign: TextAlign.center, // Metni ortalama
+        style: TextStyle(
+          color: Colors.white70,
+          fontSize: 20, // Yazı boyutu
+          fontWeight: FontWeight.bold, // Kalın yazı tipi
+          letterSpacing: 1.2, // Harfler arası boşluk
+        ),
+      ),
+    );
+  }
+
+  Container linearGradientWidget() {
+    return Container(
+      decoration: const BoxDecoration(
+        gradient: LinearGradient(
+          begin: Alignment.topCenter,
+          end: Alignment.bottomCenter,
+          colors: [
+            Color(0xFF90CAF9),
+            Color.fromARGB(255, 104, 97, 35),
+          ],
+        ),
       ),
     );
   }
@@ -105,7 +116,7 @@ class StudentTrialExamDetailPage extends StatelessWidget {
               buildText('Fen Bilgisi Net: ${examResult['fen_net']}'),
               buildText('Sosyal Bilgiler Net: ${examResult['sosyal_net']}'),
               buildText(
-                'Toplam Net: ${examResult['turkce_net'] + examResult['mat_net'] + examResult['fen_net'] + examResult['sosyal_net']}',
+                'Toplam Net: ${examResult['net']}',
                 fontWeight: FontWeight.bold,
               ),
             ],
