@@ -1,3 +1,4 @@
+import 'package:edige/controllers/CourseController.dart';
 import 'package:edige/controllers/TeacherController.dart';
 import 'package:edige/screens/programDefaultPages/SplashScreen.dart';
 import 'package:edige/screens/studentPages/login.dart';
@@ -8,6 +9,7 @@ import 'package:get/get.dart';
 
 void main() {
   Get.put(TeacherController(), permanent: true);
+  Get.put(CourseController() , permanent: true);
   SystemChrome.setSystemUIOverlayStyle(
       const SystemUiOverlayStyle(statusBarColor: Colors.transparent));
   WidgetsFlutterBinding.ensureInitialized();

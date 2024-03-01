@@ -31,8 +31,7 @@ class Homeworks extends StatelessWidget {
         return true;
       },
       child: Scaffold(
-        backgroundColor: const Color.fromARGB(
-            255, 159, 219, 245), // Adjust the background color
+        backgroundColor: const Color.fromARGB(255, 159, 219, 245),
         appBar: HomeworkAppBar(),
         body: Column(
           children: [

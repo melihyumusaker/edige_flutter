@@ -107,7 +107,7 @@ class SetStudentTrialExamPage extends StatelessWidget {
   ) {
     return DecoratedBox(
       decoration: BoxDecoration(
-        gradient: LinearGradient(
+        gradient:const LinearGradient(
           colors: [
             Color.fromARGB(255, 214, 191, 243),
             Color.fromARGB(255, 61, 120, 134)
@@ -121,7 +121,7 @@ class SetStudentTrialExamPage extends StatelessWidget {
             color: Colors.grey.withOpacity(0.5),
             spreadRadius: 1,
             blurRadius: 10,
-            offset: Offset(0, 5), // changes position of shadow
+            offset:const Offset(0, 5), // changes position of shadow
           ),
         ],
       ),
@@ -163,7 +163,7 @@ class SetStudentTrialExamPage extends StatelessWidget {
           }
         },
         style: ElevatedButton.styleFrom(
-          primary: Colors.transparent, // Make button background transparent
+          backgroundColor: Colors.transparent, // Make button background transparent
           shadowColor:
               Colors.transparent, // No shadow as it's handled by the container
           shape:

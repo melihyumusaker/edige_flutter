@@ -1,6 +1,9 @@
 import 'dart:ffi';
 
 import 'package:edige/screens/teacherPages/TeacherFirstEntry/TeacherCircularPage.dart';
+import 'package:edige/screens/teacherPages/TeachersStudents/Homework/AllHomeworksPage.dart';
+import 'package:edige/screens/teacherPages/TeachersStudents/Homework/DoneHomeworksPage.dart';
+import 'package:edige/screens/teacherPages/TeachersStudents/Homework/NotDoneHomeworksPage.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
@@ -10,6 +13,7 @@ import '../config/api_config.dart';
 class TeacherController extends GetxController {
   final teacherEmailController = TextEditingController();
   final teacherPasswordController = TextEditingController();
+  var isFetchingData = false.obs;
 
   var teacherId = 0.obs;
   var token = "".obs;
@@ -21,6 +25,13 @@ class TeacherController extends GetxController {
   var filteredStudentsList = <Map<String, dynamic>>[].obs;
 
   var studentsTrialExamResults = <Map<String, dynamic>>[].obs;
+
+  RxList<Map<String, dynamic>> getAllStudentsCoursesList =
+      <Map<String, dynamic>>[].obs;
+  RxList<Map<String, dynamic>> getStudentsDoneCoursesList =
+      <Map<String, dynamic>>[].obs;
+  RxList<Map<String, dynamic>> getStudentsNotDoneCoursesList =
+      <Map<String, dynamic>>[].obs;
 
   // Arama işlevselliği için bir fonksiyon
   void filterStudents(String query) {
@@ -268,6 +279,129 @@ class TeacherController extends GetxController {
         colorText: Colors.white,
         margin: const EdgeInsets.only(bottom: 20.0),
       );
+    }
+  }
+
+  Future<void> getAllStudentsCourses(int student_id) async {
+    try {
+      final response = await http.post(
+        Uri.parse('${ApiConfig.baseUrl}${ApiConfig.getAllStudentsCourses}'),
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: jsonEncode({
+          'student_id': student_id
+          //,
+        }),
+      );
+
+      if (response.statusCode == 200) {
+        print("getAllStudentsCourses çalıştı");
+
+        List<dynamic> responseData = jsonDecode(response.body);
+
+        List<Map<String, dynamic>> coursesList = responseData
+            .map((item) => Map<String, dynamic>.from(item))
+            .toList();
+
+        getAllStudentsCoursesList.assignAll(coursesList);
+
+        Get.to(() => AllHomeworksPage(), transition: Transition.rightToLeft);
+      } else {
+        print("Error: ${response.statusCode}");
+        Get.snackbar(
+          'Hata',
+          'Bir problem oluştu',
+          snackPosition: SnackPosition.BOTTOM,
+          backgroundColor: Colors.red,
+          colorText: Colors.white,
+          margin: const EdgeInsets.only(bottom: 20.0),
+        );
+        print(response.body);
+      }
+    } catch (e) {
+      // Hata oluştuysa
+      print(" getAllStudentsCourses Exception: $e");
+    }
+  }
+
+  Future<void> getStudentsDoneCourse(int student_id) async {
+    try {
+      final response = await http.post(
+        Uri.parse('${ApiConfig.baseUrl}${ApiConfig.getStudentsDoneCourses}'),
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: jsonEncode({'student_id': student_id}),
+      );
+
+      if (response.statusCode == 200) {
+        print("getStudentsDoneCourse çalıştı");
+
+        List<dynamic> responseData = jsonDecode(response.body);
+
+        List<Map<String, dynamic>> coursesList = responseData
+            .map((item) => Map<String, dynamic>.from(item))
+            .toList();
+
+        getStudentsDoneCoursesList.assignAll(coursesList);
+
+        Get.to(() => DoneHomeworksPage(), transition: Transition.rightToLeft);
+      } else {
+        print("Error: ${response.statusCode}");
+        Get.snackbar(
+          'Hata',
+          'Bir problem oluştu',
+          snackPosition: SnackPosition.BOTTOM,
+          backgroundColor: Colors.red,
+          colorText: Colors.white,
+          margin: const EdgeInsets.only(bottom: 20.0),
+        );
+        print(response.body);
+      }
+    } catch (e) {
+      // Hata oluştuysa
+      print(" getStudentsDoneCourse Exception: $e");
+    }
+  }
+
+  Future<void> getStudentsNotDoneCourses(int student_id) async {
+    try {
+      final response = await http.post(
+        Uri.parse('${ApiConfig.baseUrl}${ApiConfig.getStudentsNotDoneCourses}'),
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: jsonEncode({'student_id': student_id}),
+      );
+
+      if (response.statusCode == 200) {
+        print("getStudentsNotDoneCourses çalıştı");
+
+        List<dynamic> responseData = jsonDecode(response.body);
+
+        List<Map<String, dynamic>> coursesList = responseData
+            .map((item) => Map<String, dynamic>.from(item))
+            .toList();
+
+        getStudentsNotDoneCoursesList.assignAll(coursesList);
+
+        Get.to(() => NotDoneHomeworksPage(), transition: Transition.rightToLeft);
+      } else {
+        print("Error: ${response.statusCode}");
+        Get.snackbar(
+          'Hata',
+          'Bir problem oluştu',
+          snackPosition: SnackPosition.BOTTOM,
+          backgroundColor: Colors.red,
+          colorText: Colors.white,
+          margin: const EdgeInsets.only(bottom: 20.0),
+        );
+        print(response.body);
+      }
+    } catch (e) {
+      // Hata oluştuysa
+      print(" getStudentsNotDoneCourses Exception: $e");
     }
   }
 }

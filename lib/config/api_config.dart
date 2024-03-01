@@ -25,4 +25,6 @@ class ApiConfig {
       '/teachers/updateTeacherEnneagramTypeAndAbout';
   static const String getStudentTrialExamsByTeacher ='/trial-exams/getStudentTrialExamsByTeacher';
     static const String setStudentTrialExamResult ='/trial-exams/setStudentTrialExamResult';
+    static const String addNewCourse ='/courses/addNewCourse';
+    static const String addNewStudentCourse ='/students-courses/addNewStudentCourse';
 }

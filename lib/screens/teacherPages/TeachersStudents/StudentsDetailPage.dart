@@ -1,6 +1,7 @@
 import 'package:edige/controllers/TeacherController.dart';
-import 'package:edige/screens/teacherPages/TeachersStudents/SetStudentTrialExamPage.dart';
-import 'package:edige/screens/teacherPages/TeachersStudents/StudentTrialExamDetailPage.dart';
+import 'package:edige/screens/teacherPages/TeachersStudents/TrialExam/SetStudentTrialExamPage.dart';
+import 'package:edige/screens/teacherPages/TeachersStudents/Homework/StudentHomeworksPage.dart';
+import 'package:edige/screens/teacherPages/TeachersStudents/TrialExam/StudentTrialExamDetailPage.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -34,6 +35,14 @@ class StudentDetailPage extends StatelessWidget {
                 Get.to(() => SetStudentTrialExamPage(studentId: student_id));
               },
               child: const Text('Öğrencinin Deneme Sınavı Sonucunu Gir'),
+            ),
+          ),
+          Center(
+            child: ElevatedButton(
+              onPressed: () async {
+                Get.to(() => StudentHomeworksPage(studentId: student_id));
+              },
+              child: const Text('Öğrenci Ödev İşlemleri'),
             ),
           ),
         ],
