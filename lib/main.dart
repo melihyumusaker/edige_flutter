@@ -1,5 +1,7 @@
 import 'package:edige/controllers/CourseController.dart';
+import 'package:edige/controllers/StudentController.dart';
 import 'package:edige/controllers/TeacherController.dart';
+import 'package:edige/controllers/WeeklyProgramController.dart';
 import 'package:edige/screens/programDefaultPages/SplashScreen.dart';
 import 'package:edige/screens/studentPages/login.dart';
 import 'package:edige/utils/Routes.dart';
@@ -9,7 +11,9 @@ import 'package:get/get.dart';
 
 void main() {
   Get.put(TeacherController(), permanent: true);
+  Get.put(StudentController(), permanent: true);
   Get.put(CourseController() , permanent: true);
+  Get.put(WeeklyProgramController() , permanent: true);
   SystemChrome.setSystemUIOverlayStyle(
       const SystemUiOverlayStyle(statusBarColor: Colors.transparent));
   WidgetsFlutterBinding.ensureInitialized();
@@ -19,7 +23,6 @@ void main() {
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return GetMaterialApp(

@@ -404,4 +404,44 @@ class TeacherController extends GetxController {
       print(" getStudentsNotDoneCourses Exception: $e");
     }
   }
+
+  final lessons = <String>[].obs;
+  final lessonStartHours = <String>[].obs;
+  final lessonEndHours = <String>[].obs;
+  final day = <String>[].obs;
+
+  final weeklyProgram = <String, List<dynamic>>{}.obs;
+
+  Future<void> fetchWeeklyProgramByStudentId(int student_id) async {
+    final response = await http.post(
+      Uri.parse('${ApiConfig.baseUrl}${ApiConfig.getWeeklyProgramByStudentId}'),
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: jsonEncode({
+        'student_id': student_id,
+      }),
+    );
+
+    if (response.statusCode == 200) {
+      print('fetchWeeklyProgramByStudentId çalıştı 200 döndü');
+      final List<dynamic> data = json.decode(response.body);
+
+      // Günlere göre ayrı listeler oluştur
+      Map<String, List<dynamic>> updatedWeeklyProgram = {};
+
+      for (var lesson in data) {
+        String day = lesson['day'];
+        if (!updatedWeeklyProgram.containsKey(day)) {
+          updatedWeeklyProgram[day] = [];
+        }
+        updatedWeeklyProgram[day]!.add(lesson);
+      }
+
+      weeklyProgram.value = updatedWeeklyProgram;
+    } else {
+      weeklyProgram.clear();
+      print('fetchWeeklyProgramByStudentId çalışmadı   ${response.statusCode}');
+    }
+  }
 }

@@ -24,7 +24,10 @@ class ApiConfig {
   static const String updateTeacherEnneagramTypeAndAbout =
       '/teachers/updateTeacherEnneagramTypeAndAbout';
   static const String getStudentTrialExamsByTeacher ='/trial-exams/getStudentTrialExamsByTeacher';
-    static const String setStudentTrialExamResult ='/trial-exams/setStudentTrialExamResult';
-    static const String addNewCourse ='/courses/addNewCourse';
-    static const String addNewStudentCourse ='/students-courses/addNewStudentCourse';
+  static const String setStudentTrialExamResult ='/trial-exams/setStudentTrialExamResult';
+  static const String addNewCourse ='/courses/addNewCourse';
+  static const String addNewStudentCourse ='/students-courses/addNewStudentCourse';
+  static const String createWeeklyProgram ='/weekly-programs/createWeeklyProgram';
+  static const String updateWeeklyProgram ='/weekly-programs/updateWeeklyProgram';
+  static const String deleteWeeklyProgram ='/weekly-programs/deleteWeeklyProgram';
 }

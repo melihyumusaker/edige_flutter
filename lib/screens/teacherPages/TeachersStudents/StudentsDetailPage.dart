@@ -1,7 +1,9 @@
 import 'package:edige/controllers/TeacherController.dart';
+import 'package:edige/controllers/WeeklyProgramController.dart';
 import 'package:edige/screens/teacherPages/TeachersStudents/TrialExam/SetStudentTrialExamPage.dart';
 import 'package:edige/screens/teacherPages/TeachersStudents/Homework/StudentHomeworksPage.dart';
 import 'package:edige/screens/teacherPages/TeachersStudents/TrialExam/StudentTrialExamDetailPage.dart';
+import 'package:edige/screens/teacherPages/TeachersStudents/WeeklyProgram/GetStudentWeeklyProgramPage.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -14,6 +16,8 @@ class StudentDetailPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final teacherController = Get.find<TeacherController>();
+    final weeklyProgramController =
+        Get.put<WeeklyProgramController>(WeeklyProgramController());
     return Scaffold(
       appBar: studentDetailAppBar(teacherController),
       body: Column(
@@ -43,6 +47,17 @@ class StudentDetailPage extends StatelessWidget {
                 Get.to(() => StudentHomeworksPage(studentId: student_id));
               },
               child: const Text('Öğrenci Ödev İşlemleri'),
+            ),
+          ),
+          Center(
+            child: ElevatedButton(
+              onPressed: () async {
+                await teacherController
+                    .fetchWeeklyProgramByStudentId(student_id);
+                Get.to(
+                    () => GetStudentWeeklyProgramPage(studentId: student_id));
+              },
+              child: const Text('Öğrenci Ders Programı İşlemleri'),
             ),
           ),
         ],

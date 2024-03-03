@@ -38,6 +38,7 @@ dependencies:
   awesome_dialog: ^3.2.0
   fl_chart: ^0.60.0
   shared_preferences: ^2.2.2
+  getwidget: ^4.0.0
 
 dev_dependencies:
   flutter_test:
