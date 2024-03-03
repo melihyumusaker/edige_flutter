@@ -121,32 +121,58 @@ class WeeklyProgramController extends GetxController {
   }
 
   Future<void> updateWeeklyProgram(
-      BuildContext context,
-      int student_id,
-      String lesson_name,
-      String day,
-      String lesson_start_hour,
-      String lesson_end_hour) async {
-    final response = await http.put(
-      Uri.parse('${ApiConfig.baseUrl}${ApiConfig.updateWeeklyProgram}'),
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: jsonEncode({
-        "student_id": student_id,
-        "lesson_name": lesson_name,
-        "day": day,
-        "lesson_start_hour": lesson_start_hour,
-        "lesson_end_hour": lesson_end_hour
-      }),
-    );
+  BuildContext context,
+  int weeklyProgramId,
+  String lessonName,
+  String lessonStartHour,
+  String lessonEndHour,
+) async {
+  final response = await http.put(
+    Uri.parse('${ApiConfig.baseUrl}${ApiConfig.updateWeeklyProgram}'),
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: jsonEncode({
+      "weekly_program_id": weeklyProgramId,
+      "lesson_end_hour": lessonEndHour,
+      "lesson_start_hour": lessonStartHour,
+      "lesson_name": lessonName
+    }),
+  );
 
-    if (response.statusCode == 200) {
-      print('updateWeeklyProgram çalıştı 200 döndü');
-    } else {
-      print('updateWeeklyProgram çalışmadı   ${response.statusCode}');
-    }
+  if (response.statusCode == 200) {
+    print('updateWeeklyProgram çalıştı 200 döndü');
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: Text('Başarılı'),
+        content: Text('Ders programı başarıyla güncellendi.'),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.of(context).pop(),
+            child: Text('Tamam'),
+          ),
+        ],
+      ),
+    );
+  } else {
+    print('updateWeeklyProgram çalışmadı   ${response.statusCode}');
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: Text('Hata'),
+        content: Text('Bir hata oluştu. Lütfen tekrar deneyin.'),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.of(context).pop(),
+            child: Text('Tamam'),
+          ),
+        ],
+      ),
+    );
   }
+}
+
 
   Future<void> deleteWeeklyProgram(
       BuildContext context, weeklyProgramId) async {
@@ -187,8 +213,8 @@ class WeeklyProgramController extends GetxController {
         builder: (context) {
           return AlertDialog(
             title: Text('Hata'),
-            content: Text(
-                'Program silinemedi. Hata kodu: ${response.statusCode}'),
+            content:
+                Text('Program silinemedi. Hata kodu: ${response.statusCode}'),
             actions: <Widget>[
               ElevatedButton(
                 onPressed: () {

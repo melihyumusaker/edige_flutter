@@ -1,3 +1,5 @@
+// ignore_for_file: file_names
+
 import 'package:edige/screens/studentPages/ChoosingTeacher.dart';
 import 'package:edige/screens/programDefaultPages/FirstScreen.dart';
 import 'package:edige/screens/studentPages/HomePage.dart';
@@ -27,7 +29,7 @@ List<GetPage<dynamic>> get routes {
     GetPage(
         name: '/TrialExamDetailPage', page: () => const TrailExamDetailPage()),
     GetPage(name: '/TeacherLogin', page: () => TeacherLogin()),
-    GetPage(name: '/TeacherHomePage', page: () =>  TeacherHomePage()),
+    GetPage(name: '/TeacherHomePage', page: () =>  const TeacherHomePage()),
     GetPage(
         name: '/TeachersStudentsListPage',
         page: () => const TeachersStudentsListPage()),

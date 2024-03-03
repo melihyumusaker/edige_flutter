@@ -1,3 +1,5 @@
+// ignore_for_file: file_names, non_constant_identifier_names
+
 import 'package:edige/controllers/CourseController.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -7,7 +9,7 @@ class HomeworkButton extends StatelessWidget {
   final String label;
   final VoidCallback onPressed;
 
-  const  HomeworkButton({
+  const  HomeworkButton({super.key, 
     required this.label,
     required this.onPressed,
   });

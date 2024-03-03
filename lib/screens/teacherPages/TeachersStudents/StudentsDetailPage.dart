@@ -1,3 +1,5 @@
+// ignore_for_file: non_constant_identifier_names
+
 import 'package:edige/controllers/TeacherController.dart';
 import 'package:edige/controllers/WeeklyProgramController.dart';
 import 'package:edige/screens/teacherPages/TeachersStudents/TrialExam/SetStudentTrialExamPage.dart';

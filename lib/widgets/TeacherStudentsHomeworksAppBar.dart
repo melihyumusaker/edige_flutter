@@ -1,3 +1,6 @@
+// ignore: file_names
+// ignore_for_file: non_constant_identifier_names
+
 import 'package:flutter/material.dart';
 
 AppBar TeacherStudentsHomeworksAppBar({required String titleText}) {
@@ -5,10 +8,10 @@ AppBar TeacherStudentsHomeworksAppBar({required String titleText}) {
     centerTitle: true,
     title: Text(
       titleText,
-      style: TextStyle(color: Colors.white),
+      style: const TextStyle(color: Colors.white),
     ),
     flexibleSpace: Container(
-      decoration: BoxDecoration(
+      decoration: const BoxDecoration(
         gradient: LinearGradient(
           begin: Alignment.centerLeft,
           end: Alignment.centerRight,
