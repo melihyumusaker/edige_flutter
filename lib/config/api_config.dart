@@ -30,4 +30,6 @@ class ApiConfig {
   static const String createWeeklyProgram ='/weekly-programs/createWeeklyProgram';
   static const String updateWeeklyProgram ='/weekly-programs/updateWeeklyProgram';
   static const String deleteWeeklyProgram ='/weekly-programs/deleteWeeklyProgram';
+  static const String deleteCourse ='/courses/deleteCourse';
+  static const String updateCourse ='/courses/updateCourse';
 }

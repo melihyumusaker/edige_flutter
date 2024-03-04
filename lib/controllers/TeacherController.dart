@@ -306,7 +306,8 @@ class TeacherController extends GetxController {
 
         getAllStudentsCoursesList.assignAll(coursesList);
 
-        Get.to(() => AllHomeworksPage(), transition: Transition.rightToLeft);
+        Get.to(() => AllHomeworksPage(studentId: student_id),
+            transition: Transition.rightToLeft);
       } else {
         print("Error: ${response.statusCode}");
         Get.snackbar(
@@ -386,7 +387,8 @@ class TeacherController extends GetxController {
 
         getStudentsNotDoneCoursesList.assignAll(coursesList);
 
-        Get.to(() => NotDoneHomeworksPage(), transition: Transition.rightToLeft);
+        Get.to(() => NotDoneHomeworksPage(),
+            transition: Transition.rightToLeft);
       } else {
         print("Error: ${response.statusCode}");
         Get.snackbar(
@@ -442,6 +444,47 @@ class TeacherController extends GetxController {
     } else {
       weeklyProgram.clear();
       print('fetchWeeklyProgramByStudentId çalışmadı   ${response.statusCode}');
+    }
+  }
+
+  Future<void> getAllStudentsCoursesAfterUpdate(int student_id) async {
+    try {
+      final response = await http.post(
+        Uri.parse('${ApiConfig.baseUrl}${ApiConfig.getAllStudentsCourses}'),
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: jsonEncode({
+          'student_id': student_id
+          //,
+        }),
+      );
+
+      if (response.statusCode == 200) {
+        print("getAllStudentsCourses çalıştı");
+
+        List<dynamic> responseData = jsonDecode(response.body);
+
+        List<Map<String, dynamic>> coursesList = responseData
+            .map((item) => Map<String, dynamic>.from(item))
+            .toList();
+
+        getAllStudentsCoursesList.assignAll(coursesList);
+      } else {
+        print("Error: ${response.statusCode}");
+        Get.snackbar(
+          'Hata',
+          'Bir problem oluştu',
+          snackPosition: SnackPosition.BOTTOM,
+          backgroundColor: Colors.red,
+          colorText: Colors.white,
+          margin: const EdgeInsets.only(bottom: 20.0),
+        );
+        print(response.body);
+      }
+    } catch (e) {
+      // Hata oluştuysa
+      print(" getAllStudentsCourses Exception: $e");
     }
   }
 }

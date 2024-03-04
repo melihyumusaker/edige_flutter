@@ -1,3 +1,5 @@
+// ignore_for_file: use_build_context_synchronously, avoid_print
+
 import 'package:edige/config/api_config.dart';
 import 'package:edige/controllers/StudentController.dart';
 import 'package:edige/controllers/TeacherController.dart';
@@ -228,7 +230,7 @@ class CourseController extends GetxController {
       // Başarılı Snackbar, arka planı yeşil
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
-          content: Text("Başarıyla kaydedildi",
+          content: const Text("Başarıyla kaydedildi",
               style: TextStyle(color: Colors.white)),
           backgroundColor: Colors.green,
           behavior: SnackBarBehavior.floating,
@@ -240,14 +242,121 @@ class CourseController extends GetxController {
       // Hata Snackbar, arka planı kırmızı
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
-          content:
-              Text("Bir hata oluştu", style: TextStyle(color: Colors.white)),
+          content: const Text("Bir hata oluştu",
+              style: TextStyle(color: Colors.white)),
           backgroundColor: Colors.red,
           behavior: SnackBarBehavior.floating,
           shape:
               RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
         ),
       );
+    }
+  }
+
+  Future<void> updateCourse(
+    BuildContext context,
+    int courseId,
+    String courseName,
+    String subcourseName,
+    String homeworkDescription,
+    int isHomeworkDone,
+    String homeworkDeadline,
+  ) async {
+    try {
+      final response = await http.put(
+        Uri.parse('${ApiConfig.baseUrl}${ApiConfig.updateCourse}'),
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer ${Get.find<TeacherController>().token}',
+        },
+        body: jsonEncode({
+          'course_id': courseId,
+          'course_name': courseName,
+          'subcourse_name': subcourseName,
+          'homework_description': homeworkDescription,
+          'is_homework_done': isHomeworkDone,
+          'homework_deadline': homeworkDeadline,
+        }),
+      );
+
+      if (response.statusCode == 200) {
+        showDialog(
+          context: context,
+          builder: (_) => AlertDialog(
+            title: const Text('Başarılı'),
+            content: const Text('Kurs başarıyla güncellendi.'),
+            actions: [
+              TextButton(
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+                child: const Text('Tamam'),
+              ),
+            ],
+          ),
+        );
+      } else {
+        showDialog(
+          context: context,
+          builder: (_) => AlertDialog(
+            title: const Text('Hata'),
+            content: const Text('Kurs güncellenirken bir hata oluştu.'),
+            actions: [
+              TextButton(
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+                child: const Text('Tamam'),
+              ),
+            ],
+          ),
+        );
+      }
+    } catch (e) {
+      print("updateCourse Exception: $e");
+    }
+  }
+
+  Future<void> deleteCourse(int courseId, int studentId) async {
+    try {
+      final response = await http.delete(
+        Uri.parse('${ApiConfig.baseUrl}${ApiConfig.deleteCourse}'),
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer ${Get.find<TeacherController>().token}',
+        },
+        body: jsonEncode({'course_id': courseId, 'student_id': studentId}),
+      );
+
+      if (response.statusCode == 200) {
+        await Get.find<TeacherController>().getAllStudentsCourses(studentId);
+        Get.snackbar(
+          "Başarılı",
+          "Kurs başarıyla silindi",
+          backgroundColor: Colors.green,
+          colorText: Colors.white,
+          snackPosition: SnackPosition.BOTTOM,
+        );
+      } else {
+        Get.snackbar(
+          "Hata",
+          "Kurs silinirken bir hata oluştu",
+          backgroundColor: Colors.red,
+          colorText: Colors.white,
+          snackPosition: SnackPosition.BOTTOM,
+        );
+        print("Error: ${response.statusCode}");
+      }
+    } catch (e) {
+      // Hata oluştuysa
+      Get.snackbar(
+        "Hata",
+        "Kurs silinirken bir hata oluştu",
+        backgroundColor: Colors.red,
+        colorText: Colors.white,
+        snackPosition: SnackPosition.BOTTOM,
+      );
+      print("deleteCourse Exception: $e");
     }
   }
 }
