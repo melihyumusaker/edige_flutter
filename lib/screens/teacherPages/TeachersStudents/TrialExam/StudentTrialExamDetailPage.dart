@@ -1,40 +1,76 @@
+// ignore_for_file: non_constant_identifier_names, file_names
+
+import 'package:edige/controllers/TrialExamController.dart';
+import 'package:edige/screens/teacherPages/TeachersStudents/TrialExam/SetStudentTrialExamPage.dart';
+import 'package:edige/screens/teacherPages/TeachersStudents/TrialExam/UpdateTrialExam.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:edige/controllers/TeacherController.dart';
 
 class StudentTrialExamDetailPage extends StatelessWidget {
-  const StudentTrialExamDetailPage({Key? key}) : super(key: key);
+  final int student_id;
+  const StudentTrialExamDetailPage({Key? key, required this.student_id})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     final teacherController = Get.find<TeacherController>();
+    final trialExamController =
+        Get.put<TrialExamController>(TrialExamController());
 
     return Scaffold(
-      appBar: AppBar(
-        title: const Text(
-          'Öğrencinin Deneme Sınavları',
-          style: TextStyle(color: Colors.white70),
-        ),
-        backgroundColor: const Color(0xFF90CAF9),
-        centerTitle: true,
-      ),
+      appBar: trialExamPageAppBar(),
       body: Stack(
         children: [
           linearGradientWidget(),
-          teacherController.studentsTrialExamResults.isEmpty
-              ? ListEmptyTextWidget()
-              : trialExamResults(teacherController),
+          Obx(() {
+            if (teacherController.studentsTrialExamResults.isEmpty) {
+              return ListEmptyTextWidget();
+            } else {
+              return trialExamResults(teacherController, trialExamController);
+            }
+          }),
         ],
       ),
     );
   }
 
-  ListView trialExamResults(TeacherController teacherController) {
+  AppBar trialExamPageAppBar() {
+    return AppBar(
+      title: const Text(
+        'Öğrencinin Deneme Sınavları',
+        style: TextStyle(color: Colors.white70),
+      ),
+      backgroundColor: const Color(0xFF90CAF9),
+      centerTitle: true,
+      actions: [
+        Padding(
+          padding: const EdgeInsets.only(right: 6.0),
+          child: Container(
+            decoration: const BoxDecoration(
+              shape: BoxShape.circle,
+              color: Color.fromARGB(255, 112, 22, 214),
+            ),
+            child: IconButton(
+              icon: const Icon(Icons.add),
+              color: Colors.white,
+              onPressed: () {
+                Get.to(() => SetStudentTrialExamPage(studentId: student_id));
+              },
+            ),
+          ),
+        )
+      ],
+    );
+  }
+
+  ListView trialExamResults(TeacherController teacherController,
+      TrialExamController trialExamController) {
     return ListView.builder(
       itemCount: teacherController.studentsTrialExamResults.length,
       itemBuilder: (context, index) {
         final examResult = teacherController.studentsTrialExamResults[index];
-        return buildExamCard(examResult);
+        return buildExamCard(examResult, trialExamController, context);
       },
     );
   }
@@ -69,7 +105,11 @@ class StudentTrialExamDetailPage extends StatelessWidget {
     );
   }
 
-  Widget buildExamCard(Map<String, dynamic> examResult) {
+  Widget buildExamCard(
+    Map<String, dynamic> examResult,
+    TrialExamController trialExamController,
+    BuildContext context,
+  ) {
     return Card(
       elevation: 5,
       margin: const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
@@ -119,9 +159,63 @@ class StudentTrialExamDetailPage extends StatelessWidget {
                 'Toplam Net: ${examResult['net']}',
                 fontWeight: FontWeight.bold,
               ),
+              const SizedBox(height: 15),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  roundedIconButton(
+                    Icons.edit,
+                    () {
+                      Get.to(
+                        () => UpdateTrialExam(
+                          studentId: student_id,
+                          trialExamId: examResult['trial_exam_id'],
+                          examResult: examResult,
+                        ),
+                      );
+                    },
+                    'Güncelle',
+                    Colors.white,
+                    Colors.blueAccent,
+                  ),
+                  roundedIconButton(
+                    Icons.delete,
+                    () async {
+                      await trialExamController.deleteTrialExamByTeacher(
+                          examResult['trial_exam_id'], context);
+                      await Get.find<TeacherController>()
+                          .getStudentTrialExamsByTeacher(student_id);
+                    },
+                    'Sil',
+                    Colors.white,
+                    Colors.redAccent,
+                  ),
+                ],
+              ),
             ],
           ),
         ),
+      ),
+    );
+  }
+
+  Widget roundedIconButton(IconData iconData, VoidCallback onPressed,
+      String tooltip, Color color, Color backgroundColor) {
+    return Container(
+      decoration: BoxDecoration(
+        shape: BoxShape.circle,
+        color: backgroundColor.withOpacity(0.5),
+      ),
+      child: IconButton(
+        icon: Icon(iconData),
+        onPressed: onPressed,
+        color: color,
+        iconSize: 30,
+        splashRadius: 25,
+        padding: const EdgeInsets.all(10),
+        splashColor: Colors.transparent,
+        tooltip: tooltip,
+        constraints: const BoxConstraints(),
       ),
     );
   }

@@ -1,6 +1,7 @@
 import 'package:edige/controllers/CourseController.dart';
 import 'package:edige/controllers/StudentController.dart';
 import 'package:edige/controllers/TeacherController.dart';
+import 'package:edige/controllers/TrialExamController.dart';
 import 'package:edige/controllers/WeeklyProgramController.dart';
 import 'package:edige/screens/programDefaultPages/SplashScreen.dart';
 import 'package:edige/screens/studentPages/login.dart';
@@ -11,6 +12,7 @@ import 'package:get/get.dart';
 
 void main() {
   Get.put(TeacherController(), permanent: true);
+   Get.put(TrialExamController(), permanent: true);
   Get.put(StudentController(), permanent: true);
   Get.put(CourseController() , permanent: true);
   Get.put(WeeklyProgramController() , permanent: true);

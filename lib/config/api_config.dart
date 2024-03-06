@@ -32,4 +32,6 @@ class ApiConfig {
   static const String deleteWeeklyProgram ='/weekly-programs/deleteWeeklyProgram';
   static const String deleteCourse ='/courses/deleteCourse';
   static const String updateCourse ='/courses/updateCourse';
+  static const String deleteTrialExam ='/trial-exams/deleteTrialExam';
+  static const String updateTrialExam ='/trial-exams/updateTrialExam';
 }

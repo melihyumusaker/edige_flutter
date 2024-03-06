@@ -1,4 +1,4 @@
-// ignore_for_file: file_names
+// ignore_for_file: file_names, use_build_context_synchronously, duplicate_ignore, avoid_print
 
 import 'package:edige/config/api_config.dart';
 import 'package:edige/controllers/StudentController.dart';
@@ -51,22 +51,22 @@ class WeeklyProgramController extends GetxController {
 
   Future<void> createWeeklyProgram(
       BuildContext context,
-      int student_id,
-      String lesson_name,
+      int studentId,
+      String lessonName,
       String day,
-      String lesson_start_hour,
-      String lesson_end_hour) async {
+      String lessonStartHour,
+      String lessonEndHour) async {
     final response = await http.post(
       Uri.parse('${ApiConfig.baseUrl}${ApiConfig.createWeeklyProgram}'),
       headers: {
         'Content-Type': 'application/json',
       },
       body: jsonEncode({
-        "student_id": student_id,
-        "lesson_name": lesson_name,
+        "student_id": studentId,
+        "lesson_name": lessonName,
         "day": day,
-        "lesson_start_hour": lesson_start_hour,
-        "lesson_end_hour": lesson_end_hour
+        "lesson_start_hour": lessonStartHour,
+        "lesson_end_hour": lessonEndHour
       }),
     );
 
@@ -145,12 +145,12 @@ class WeeklyProgramController extends GetxController {
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
-        title: Text('Başarılı'),
-        content: Text('Ders programı başarıyla güncellendi.'),
+        title:const Text('Başarılı'),
+        content:const Text('Ders programı başarıyla güncellendi.'),
         actions: [
           TextButton(
             onPressed: () => Navigator.of(context).pop(),
-            child: Text('Tamam'),
+            child:const Text('Tamam'),
           ),
         ],
       ),
@@ -160,12 +160,12 @@ class WeeklyProgramController extends GetxController {
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
-        title: Text('Hata'),
-        content: Text('Bir hata oluştu. Lütfen tekrar deneyin.'),
+        title:const Text('Hata'),
+        content:const Text('Bir hata oluştu. Lütfen tekrar deneyin.'),
         actions: [
           TextButton(
             onPressed: () => Navigator.of(context).pop(),
-            child: Text('Tamam'),
+            child:const Text('Tamam'),
           ),
         ],
       ),
@@ -186,7 +186,6 @@ class WeeklyProgramController extends GetxController {
     );
 
     if (response.statusCode == 200) {
-      // ignore: use_build_context_synchronously
       showDialog(
         context: context,
         builder: (context) {
@@ -198,7 +197,7 @@ class WeeklyProgramController extends GetxController {
                 onPressed: () {
                   Navigator.of(context).pop();
                 },
-                child: Text('Tamam'),
+                child:const  Text('Tamam'),
               ),
             ],
           );

@@ -30,17 +30,10 @@ class StudentDetailPage extends StatelessWidget {
                 await teacherController
                     .getStudentTrialExamsByTeacher(student_id);
 
-                Get.to(() => const StudentTrialExamDetailPage());
+                Get.to(
+                    () => StudentTrialExamDetailPage(student_id: student_id));
               },
               child: const Text('Öğrencinin Deneme Sınavı Sonuçlarını Gör'),
-            ),
-          ),
-          Center(
-            child: ElevatedButton(
-              onPressed: () async {
-                Get.to(() => SetStudentTrialExamPage(studentId: student_id));
-              },
-              child: const Text('Öğrencinin Deneme Sınavı Sonucunu Gir'),
             ),
           ),
           Center(
