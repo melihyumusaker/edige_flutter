@@ -1,3 +1,5 @@
+// ignore_for_file: file_names, unused_local_variable, non_constant_identifier_names
+
 import 'package:edige/controllers/CourseController.dart';
 import 'package:edige/controllers/TeacherController.dart';
 import 'package:edige/screens/teacherPages/TeachersStudents/Homework/NewHomeworkPage.dart';

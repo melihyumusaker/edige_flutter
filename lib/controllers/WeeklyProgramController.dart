@@ -1,4 +1,4 @@
-// ignore_for_file: file_names, use_build_context_synchronously, duplicate_ignore, avoid_print
+// ignore_for_file: file_names, use_build_context_synchronously, duplicate_ignore, avoid_print, non_constant_identifier_names
 
 import 'package:edige/config/api_config.dart';
 import 'package:edige/controllers/StudentController.dart';
@@ -211,7 +211,7 @@ class WeeklyProgramController extends GetxController {
         context: context,
         builder: (context) {
           return AlertDialog(
-            title: Text('Hata'),
+            title: const Text('Hata'),
             content:
                 Text('Program silinemedi. Hata kodu: ${response.statusCode}'),
             actions: <Widget>[

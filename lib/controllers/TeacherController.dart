@@ -1,3 +1,5 @@
+// ignore_for_file: prefer_typing_uninitialized_variables, non_constant_identifier_names, avoid_print, file_names, unused_import
+
 import 'dart:ffi';
 
 import 'package:edige/screens/teacherPages/TeacherFirstEntry/TeacherCircularPage.dart';
@@ -201,7 +203,7 @@ class TeacherController extends GetxController {
     }
   }
 
-  Future<void> getStudentTrialExamsByTeacher(int student_id) async {
+  Future<void> getStudentTrialExamsByTeacher(int studentId) async {
     final response = await http.post(
       Uri.parse(
           '${ApiConfig.baseUrl}${ApiConfig.getStudentTrialExamsByTeacher}'),
@@ -209,7 +211,7 @@ class TeacherController extends GetxController {
         'Content-Type': 'application/json',
       },
       body: jsonEncode({
-        'student_id': student_id,
+        'student_id': studentId,
       }),
     );
 
@@ -282,7 +284,7 @@ class TeacherController extends GetxController {
     }
   }
 
-  Future<void> getAllStudentsCourses(int student_id) async {
+  Future<void> getAllStudentsCourses(int studentId) async {
     try {
       final response = await http.post(
         Uri.parse('${ApiConfig.baseUrl}${ApiConfig.getAllStudentsCourses}'),
@@ -290,7 +292,7 @@ class TeacherController extends GetxController {
           'Content-Type': 'application/json',
         },
         body: jsonEncode({
-          'student_id': student_id
+          'student_id': studentId
           //,
         }),
       );
@@ -306,7 +308,7 @@ class TeacherController extends GetxController {
 
         getAllStudentsCoursesList.assignAll(coursesList);
 
-        Get.to(() => AllHomeworksPage(studentId: student_id),
+        Get.to(() => AllHomeworksPage(studentId: studentId),
             transition: Transition.rightToLeft);
       } else {
         print("Error: ${response.statusCode}");
@@ -326,14 +328,14 @@ class TeacherController extends GetxController {
     }
   }
 
-  Future<void> getStudentsDoneCourse(int student_id) async {
+  Future<void> getStudentsDoneCourse(int studentId) async {
     try {
       final response = await http.post(
         Uri.parse('${ApiConfig.baseUrl}${ApiConfig.getStudentsDoneCourses}'),
         headers: {
           'Content-Type': 'application/json',
         },
-        body: jsonEncode({'student_id': student_id}),
+        body: jsonEncode({'student_id': studentId}),
       );
 
       if (response.statusCode == 200) {
@@ -347,7 +349,7 @@ class TeacherController extends GetxController {
 
         getStudentsDoneCoursesList.assignAll(coursesList);
 
-        Get.to(() => DoneHomeworksPage(), transition: Transition.rightToLeft);
+        Get.to(() =>const DoneHomeworksPage(), transition: Transition.rightToLeft);
       } else {
         print("Error: ${response.statusCode}");
         Get.snackbar(
@@ -366,14 +368,14 @@ class TeacherController extends GetxController {
     }
   }
 
-  Future<void> getStudentsNotDoneCourses(int student_id) async {
+  Future<void> getStudentsNotDoneCourses(int studentId) async {
     try {
       final response = await http.post(
         Uri.parse('${ApiConfig.baseUrl}${ApiConfig.getStudentsNotDoneCourses}'),
         headers: {
           'Content-Type': 'application/json',
         },
-        body: jsonEncode({'student_id': student_id}),
+        body: jsonEncode({'student_id': studentId}),
       );
 
       if (response.statusCode == 200) {
@@ -387,7 +389,7 @@ class TeacherController extends GetxController {
 
         getStudentsNotDoneCoursesList.assignAll(coursesList);
 
-        Get.to(() => NotDoneHomeworksPage(),
+        Get.to(() =>const NotDoneHomeworksPage(),
             transition: Transition.rightToLeft);
       } else {
         print("Error: ${response.statusCode}");
@@ -414,14 +416,14 @@ class TeacherController extends GetxController {
 
   final weeklyProgram = <String, List<dynamic>>{}.obs;
 
-  Future<void> fetchWeeklyProgramByStudentId(int student_id) async {
+  Future<void> fetchWeeklyProgramByStudentId(int studentId) async {
     final response = await http.post(
       Uri.parse('${ApiConfig.baseUrl}${ApiConfig.getWeeklyProgramByStudentId}'),
       headers: {
         'Content-Type': 'application/json',
       },
       body: jsonEncode({
-        'student_id': student_id,
+        'student_id': studentId,
       }),
     );
 
@@ -447,7 +449,7 @@ class TeacherController extends GetxController {
     }
   }
 
-  Future<void> getAllStudentsCoursesAfterUpdate(int student_id) async {
+  Future<void> getAllStudentsCoursesAfterUpdate(int studentId) async {
     try {
       final response = await http.post(
         Uri.parse('${ApiConfig.baseUrl}${ApiConfig.getAllStudentsCourses}'),
@@ -455,7 +457,7 @@ class TeacherController extends GetxController {
           'Content-Type': 'application/json',
         },
         body: jsonEncode({
-          'student_id': student_id
+          'student_id': studentId
           //,
         }),
       );

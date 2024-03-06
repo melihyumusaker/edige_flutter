@@ -1,4 +1,4 @@
-// ignore_for_file: file_names
+// ignore_for_file: file_names, non_constant_identifier_names
 
 import 'package:edige/controllers/CourseController.dart';
 import 'package:edige/screens/teacherPages/TeachersStudents/Homework/UpdateHomeworkPage.dart';

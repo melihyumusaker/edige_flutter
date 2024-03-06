@@ -1,4 +1,4 @@
-// ignore_for_file: file_names
+// ignore_for_file: file_names, non_constant_identifier_names, unused_element, no_leading_underscores_for_local_identifiers, use_build_context_synchronously, unused_local_variable
 
 import 'package:edige/controllers/CourseController.dart';
 import 'package:edige/controllers/TeacherController.dart';

@@ -1,3 +1,5 @@
+// ignore_for_file: file_names, deprecated_member_use, must_be_immutable
+
 import 'package:edige/controllers/TeacherController.dart';
 import 'package:edige/controllers/TrialExamController.dart';
 import 'package:flutter/material.dart';

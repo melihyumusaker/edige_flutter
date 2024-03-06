@@ -1,3 +1,5 @@
+// ignore_for_file: avoid_print, file_names, non_constant_identifier_names, no_leading_underscores_for_local_identifiers, unused_import
+
 import 'package:edige/controllers/CourseController.dart';
 import 'package:edige/widgets/HomeworkButtonAndCard.dart';
 import 'package:flutter/material.dart';

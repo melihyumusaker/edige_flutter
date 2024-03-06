@@ -1,4 +1,4 @@
-// ignore_for_file: no_leading_underscores_for_local_identifiers
+// ignore_for_file: no_leading_underscores_for_local_identifiers, file_names, avoid_print
 
 import 'package:edige/controllers/CourseController.dart';
 import 'package:edige/controllers/LoginController.dart';

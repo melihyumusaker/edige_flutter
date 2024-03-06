@@ -1,4 +1,4 @@
-// ignore_for_file: non_constant_identifier_names
+// ignore_for_file: non_constant_identifier_names, file_names, unused_import, unused_local_variable
 
 import 'package:edige/controllers/TeacherController.dart';
 import 'package:edige/controllers/WeeklyProgramController.dart';

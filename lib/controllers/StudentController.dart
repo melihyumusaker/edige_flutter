@@ -1,4 +1,4 @@
-// ignore_for_file: file_names
+// ignore_for_file: file_names, avoid_print, non_constant_identifier_names
 
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;

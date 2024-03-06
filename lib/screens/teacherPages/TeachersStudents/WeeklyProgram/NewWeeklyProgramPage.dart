@@ -1,3 +1,5 @@
+// ignore_for_file: non_constant_identifier_names, library_private_types_in_public_api, file_names
+
 import 'package:edige/controllers/TeacherController.dart';
 import 'package:edige/controllers/WeeklyProgramController.dart';
 import 'package:edige/utils/CustomDecorations.dart';
@@ -83,14 +85,14 @@ class _NewWeeklyProgramPageState extends State<NewWeeklyProgramPage> {
               context: context,
               builder: (context) {
                 return AlertDialog(
-                  title: Text('Hata'),
-                  content: Text('Tüm alanları doldurunuz.'),
+                  title: const Text('Hata'),
+                  content: const Text('Tüm alanları doldurunuz.'),
                   actions: <Widget>[
                     ElevatedButton(
                       onPressed: () {
                         Navigator.of(context).pop();
                       },
-                      child: Text('Tamam'),
+                      child:const Text('Tamam'),
                     ),
                   ],
                 );

@@ -1,4 +1,4 @@
-// ignore_for_file: use_build_context_synchronously, avoid_print
+// ignore_for_file: use_build_context_synchronously, avoid_print, non_constant_identifier_names, unnecessary_import, file_names, unused_local_variable
 
 import 'package:edige/config/api_config.dart';
 import 'package:edige/controllers/StudentController.dart';
@@ -155,10 +155,10 @@ class CourseController extends GetxController {
   }
 
   Future<void> addNewCourse(
-    String course_name,
-    String subcourse_name,
-    String homework_description,
-    String homework_deadline,
+    String courseName,
+    String subcourseName,
+    String homeworkDescription,
+    String homeworkDeadline,
   ) async {
     try {
       final response = await http.post(
@@ -168,10 +168,10 @@ class CourseController extends GetxController {
           'Authorization': 'Bearer ${Get.find<TeacherController>().token}',
         },
         body: jsonEncode({
-          'course_name': course_name,
-          'subcourse_name': course_name,
-          'homework_description': homework_description,
-          'homework_deadline': homework_deadline
+          'course_name': courseName,
+          'subcourse_name': courseName,
+          'homework_description': homeworkDescription,
+          'homework_deadline': homeworkDeadline
         }),
       );
 

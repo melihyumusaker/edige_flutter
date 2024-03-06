@@ -1,3 +1,5 @@
+// ignore_for_file: use_key_in_widget_constructors, file_names, avoid_print
+
 import 'package:edige/controllers/LoginController.dart';
 import 'package:edige/controllers/StudentController.dart';
 import 'package:flutter/material.dart';
