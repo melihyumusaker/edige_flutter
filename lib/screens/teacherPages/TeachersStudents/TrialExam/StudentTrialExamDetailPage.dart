@@ -1,4 +1,4 @@
-// ignore_for_file: non_constant_identifier_names, file_names
+// ignore_for_file: non_constant_identifier_names, file_names, use_build_context_synchronously
 
 import 'package:edige/controllers/TrialExamController.dart';
 import 'package:edige/screens/teacherPages/TeachersStudents/TrialExam/SetStudentTrialExamPage.dart';
@@ -160,42 +160,73 @@ class StudentTrialExamDetailPage extends StatelessWidget {
                 fontWeight: FontWeight.bold,
               ),
               const SizedBox(height: 15),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  roundedIconButton(
-                    Icons.edit,
-                    () {
-                      Get.to(
-                        () => UpdateTrialExam(
-                          studentId: student_id,
-                          trialExamId: examResult['trial_exam_id'],
-                          examResult: examResult,
-                        ),
-                      );
-                    },
-                    'Güncelle',
-                    Colors.white,
-                    Colors.blueAccent,
-                  ),
-                  roundedIconButton(
-                    Icons.delete,
-                    () async {
-                      await trialExamController.deleteTrialExamByTeacher(
-                          examResult['trial_exam_id'], context);
-                      await Get.find<TeacherController>()
-                          .getStudentTrialExamsByTeacher(student_id);
-                    },
-                    'Sil',
-                    Colors.white,
-                    Colors.redAccent,
-                  ),
-                ],
-              ),
+              updateAndDeleteTrialExamButtons(
+                  examResult, trialExamController, context),
             ],
           ),
         ),
       ),
+    );
+  }
+
+  Row updateAndDeleteTrialExamButtons(Map<String, dynamic> examResult,
+      TrialExamController trialExamController, BuildContext context) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+      children: [
+        roundedIconButton(
+          Icons.edit,
+          () {
+            Get.to(
+              () => UpdateTrialExam(
+                studentId: student_id,
+                trialExamId: examResult['trial_exam_id'],
+                examResult: examResult,
+              ),
+            );
+          },
+          'Güncelle',
+          Colors.white,
+          Colors.blueAccent,
+        ),
+        roundedIconButton(
+          Icons.delete,
+          () async {
+            bool deleteConfirmed = await showDialog(
+              context: context,
+              builder: (BuildContext context) {
+                return AlertDialog(
+                  title: const Text("Silmek istediğinize emin misiniz?"),
+                  actions: [
+                    TextButton(
+                      onPressed: () {
+                        Navigator.of(context).pop(false); // 'Hayır'ı seç
+                      },
+                      child:const Text("Hayır"),
+                    ),
+                    TextButton(
+                      onPressed: () {
+                        Navigator.of(context).pop(true); // 'Evet'i seç
+                      },
+                      child:const Text("Evet"),
+                    ),
+                  ],
+                );
+              },
+            );
+
+            if (deleteConfirmed == true) {
+              await trialExamController.deleteTrialExamByTeacher(
+                  examResult['trial_exam_id'], context);
+              await Get.find<TeacherController>()
+                  .getStudentTrialExamsByTeacher(student_id);
+            }
+          },
+          'Sil',
+          Colors.white,
+          Colors.redAccent,
+        ),
+      ],
     );
   }
 

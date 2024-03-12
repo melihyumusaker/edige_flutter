@@ -125,6 +125,7 @@ class _UpdateHomeworkPageState extends State<UpdateHomeworkPage> {
               buildTextFormField(
                   homeworkDescriptionController, 'Ödev Açıklaması',
                   isMultiline: true),
+              const SizedBox(height: 16.0),
               UpdateCourseButton(widget.courseId),
               SizedBox(height: MediaQuery.of(context).size.height * 0.3)
 
@@ -162,7 +163,31 @@ class _UpdateHomeworkPageState extends State<UpdateHomeworkPage> {
         await Get.find<TeacherController>()
             .getAllStudentsCoursesAfterUpdate(widget.studentId);
       },
-      child: const Text('Güncelle'),
+      style: ElevatedButton.styleFrom(
+        foregroundColor: Colors.transparent,
+        elevation: 0,
+        shadowColor: Colors.black,
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+      ),
+      child: Container(
+        decoration: BoxDecoration(
+          gradient: const LinearGradient(
+            begin: Alignment.topLeft,
+            end: Alignment.bottomRight,
+            colors: [Color(0xFF64B5F6), Color.fromARGB(255, 0, 0, 0)],
+          ),
+          borderRadius: BorderRadius.circular(20),
+        ),
+        padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
+        child: const Text(
+          'Güncelle',
+          style: TextStyle(
+            color: Colors.white,
+            fontSize: 16,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+      ),
     );
   }
 

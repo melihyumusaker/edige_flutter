@@ -222,8 +222,15 @@ class TeacherController extends GetxController {
       // studentsTrialExamResults listesini güncelle
       studentsTrialExamResults.assignAll(
           trialExamResults.map((e) => e as Map<String, dynamic>).toList());
-    } else {
-      print('Error fetching trial exam results: ${response.statusCode}');
+    } /*else if (response.statusCode == 204) {
+      final List<dynamic> trialExamResults = json.decode(response.body);
+
+      studentsTrialExamResults.assignAll(
+          trialExamResults.map((e) => e as Map<String, dynamic>).toList());
+    } */
+    else {
+      print(
+          'Error fetching trial exam results: ${response.statusCode} ${response.body}');
     }
   }
 
@@ -349,7 +356,8 @@ class TeacherController extends GetxController {
 
         getStudentsDoneCoursesList.assignAll(coursesList);
 
-        Get.to(() =>const DoneHomeworksPage(), transition: Transition.rightToLeft);
+        Get.to(() => const DoneHomeworksPage(),
+            transition: Transition.rightToLeft);
       } else {
         print("Error: ${response.statusCode}");
         Get.snackbar(
@@ -389,7 +397,7 @@ class TeacherController extends GetxController {
 
         getStudentsNotDoneCoursesList.assignAll(coursesList);
 
-        Get.to(() =>const NotDoneHomeworksPage(),
+        Get.to(() => const NotDoneHomeworksPage(),
             transition: Transition.rightToLeft);
       } else {
         print("Error: ${response.statusCode}");

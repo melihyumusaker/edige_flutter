@@ -84,13 +84,11 @@ class AllHomeworksPage extends StatelessWidget {
                           ],
                         ),
                       ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        children: [
-                          CourseUpdateMethod(context, course),
-                          CourseDeleteMethod(course['course_id'], studentId,
-                              courseController, teacherController),
-                        ],
+                      updateAndDeleteCourseButtons(
+                        context,
+                        course,
+                        courseController,
+                        teacherController,
                       ),
                       const SizedBox(height: 20)
                     ],
@@ -104,11 +102,59 @@ class AllHomeworksPage extends StatelessWidget {
     );
   }
 
-  ElevatedButton CourseDeleteMethod(int courseId, int studentId,
-      CourseController courseController, TeacherController teacherController) {
+  Row updateAndDeleteCourseButtons(
+    BuildContext context,
+    Map<String, dynamic> course,
+    CourseController courseController,
+    TeacherController teacherController,
+  ) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+      children: [
+        CourseUpdateMethod(context, course),
+        CourseDeleteMethod(context, course['course_id'], studentId,
+            courseController, teacherController),
+      ],
+    );
+  }
+
+  ElevatedButton CourseDeleteMethod(
+    BuildContext context,
+    int courseId,
+    int studentId,
+    CourseController courseController,
+    TeacherController teacherController,
+  ) {
     return ElevatedButton.icon(
       onPressed: () async {
-        await courseController.deleteCourse(courseId, studentId);
+        // AlertDialog oluştur
+        bool deleteConfirmed = await showDialog(
+          context: context,
+          builder: (BuildContext context) {
+            return AlertDialog(
+              title: const Text("Silmek istediğinize emin misiniz?"),
+              actions: [
+                TextButton(
+                  onPressed: () {
+                    Navigator.of(context).pop(false); // 'Hayır'ı seç
+                  },
+                  child: const Text("Hayır"),
+                ),
+                TextButton(
+                  onPressed: () {
+                    Navigator.of(context).pop(true); // 'Evet'i seç
+                  },
+                  child: const Text("Evet"),
+                ),
+              ],
+            );
+          },
+        );
+
+        // Eğer kullanıcı 'Evet'i seçerse, dersi sil
+        if (deleteConfirmed == true) {
+          await courseController.deleteCourse(courseId, studentId);
+        }
       },
       icon: Container(
         padding: const EdgeInsets.all(8),

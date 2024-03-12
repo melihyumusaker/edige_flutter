@@ -1,5 +1,5 @@
 class ApiConfig {
-  static const String baseUrl = 'http://192.168.1.34:8080';
+  static const String baseUrl = 'http://192.168.1.75:8080';
   static const String signInEndpoint = '/api/v1/auth/signin';
   static const String getStudentIdByUserId = '/students/getStudentIdByUserId';
   static const String getStudentById = '/students/getStudentById';
@@ -23,15 +23,24 @@ class ApiConfig {
   static const String getTeacherInfo = '/teachers/getTeacherInfo';
   static const String updateTeacherEnneagramTypeAndAbout =
       '/teachers/updateTeacherEnneagramTypeAndAbout';
-  static const String getStudentTrialExamsByTeacher ='/trial-exams/getStudentTrialExamsByTeacher';
-  static const String setStudentTrialExamResult ='/trial-exams/setStudentTrialExamResult';
-  static const String addNewCourse ='/courses/addNewCourse';
-  static const String addNewStudentCourse ='/students-courses/addNewStudentCourse';
-  static const String createWeeklyProgram ='/weekly-programs/createWeeklyProgram';
-  static const String updateWeeklyProgram ='/weekly-programs/updateWeeklyProgram';
-  static const String deleteWeeklyProgram ='/weekly-programs/deleteWeeklyProgram';
-  static const String deleteCourse ='/courses/deleteCourse';
-  static const String updateCourse ='/courses/updateCourse';
-  static const String deleteTrialExam ='/trial-exams/deleteTrialExam';
-  static const String updateTrialExam ='/trial-exams/updateTrialExam';
+  static const String getStudentTrialExamsByTeacher =
+      '/trial-exams/getStudentTrialExamsByTeacher';
+  static const String setStudentTrialExamResult =
+      '/trial-exams/setStudentTrialExamResult';
+  static const String addNewCourse = '/courses/addNewCourse';
+  static const String addNewStudentCourse =
+      '/students-courses/addNewStudentCourse';
+  static const String createWeeklyProgram =
+      '/weekly-programs/createWeeklyProgram';
+  static const String updateWeeklyProgram =
+      '/weekly-programs/updateWeeklyProgram';
+  static const String deleteWeeklyProgram =
+      '/weekly-programs/deleteWeeklyProgram';
+  static const String deleteCourse = '/courses/deleteCourse';
+  static const String updateCourse = '/courses/updateCourse';
+  static const String deleteTrialExam = '/trial-exams/deleteTrialExam';
+  static const String updateTrialExam = '/trial-exams/updateTrialExam';
+  static const String messageList = '/message/messageList';
+  static const String createMessage = '/message/createMessage';
+  static const String deleteAllMessages = '/message/deleteAllMessages';
 }
