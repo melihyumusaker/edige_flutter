@@ -2,6 +2,7 @@
 
 import 'package:edige/controllers/MessageController.dart';
 import 'package:edige/controllers/TeacherController.dart';
+import 'package:edige/screens/teacherPages/TeacherMessage/ChatPage.dart';
 import 'package:edige/screens/teacherPages/TeacherMessage/StartChatPage.dart';
 import 'package:edige/utils/CustomDecorations.dart';
 import 'package:flutter/material.dart';
@@ -45,7 +46,13 @@ class MessageBox extends StatelessWidget {
           initials += message['surname'][0];
         }
         return InkWell(
-          onTap: () {},
+          onTap: () {
+            controller.getMessageStreamWhileCondition.value = true;
+            Get.to(() => ChatPage(
+                  receiverId: message['user_id'],
+                  receiverName: message['name'],
+                ));
+          },
           child: Container(
             decoration: CustomDecorations.buildGradientBoxDecoration(
               Colors.lightBlueAccent,
@@ -145,7 +152,7 @@ class MessageBox extends StatelessWidget {
                 padding: EdgeInsets.all(5.0),
                 child: Icon(
                   Icons.message,
-                  color: Colors.blue, 
+                  color: Colors.blue,
                 ),
               ),
             ),

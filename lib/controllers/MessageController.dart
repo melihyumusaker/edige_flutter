@@ -1,5 +1,6 @@
 // ignore_for_file: avoid_print, file_names
 
+import 'dart:async';
 import 'dart:convert';
 import 'package:edige/controllers/TeacherController.dart';
 import 'package:flutter/material.dart';
@@ -11,7 +12,13 @@ class MessageController extends GetxController {
   var messageLists = [].obs;
   var isLoading = true.obs;
 
+  final StreamController<List<dynamic>> _messageStreamController =
+      StreamController<List<dynamic>>.broadcast();
+  Stream<List<dynamic>> get messageStream => _messageStreamController.stream;
+
   final TeacherController teacherController = Get.find<TeacherController>();
+
+  var getMessageStreamWhileCondition = true.obs;
 
   @override
   void onInit() {
@@ -21,6 +28,44 @@ class MessageController extends GetxController {
       teacherController.token.value,
     );
     teacherController.showStudents();
+  }
+
+  @override
+  void onClose() {
+    _messageStreamController.close();
+    super.onClose();
+  }
+
+  Future<void> getMessageStream(String token, int senderId, int receiverId,
+      StreamController<List<dynamic>> messageStreamController) async {
+    while (true) {
+      if (getMessageStreamWhileCondition.value == false) {
+        break;
+      }
+      await Future.delayed(const Duration(seconds: 2));
+      final response = await http.post(
+        Uri.parse('${ApiConfig.baseUrl}${ApiConfig.messageHistory}'),
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer $token'
+        },
+        body: jsonEncode({
+          'senderId': senderId,
+          'receiverId': receiverId,
+          'page': 0,
+          'size': 30,
+        }),
+      );
+
+      if (response.statusCode == 200) {
+        print(
+            'bir sıkıntı yok getMessageStream çalışıyor${response.statusCode}');
+        List<dynamic> messages = jsonDecode(response.body);
+        messageStreamController.sink.add(messages);
+      } else {
+        print('bir sıkıntı oldu ${response.statusCode}');
+      }
+    }
   }
 
   Future<void> messageList(int userId, String token) async {
@@ -79,6 +124,35 @@ class MessageController extends GetxController {
     }
 
     isLoading.value = false;
+  }
+
+   Future<void> sendMessage(
+    int senderId,
+    int receiverId,
+    String messageContent,
+    String token,
+  ) async {
+
+    final response = await http.post(
+      Uri.parse('${ApiConfig.baseUrl}${ApiConfig.createMessage}'),
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer $token',
+      },
+      body: jsonEncode({
+        'senderId': senderId,
+        'receiverId': receiverId,
+        'messageContent': messageContent
+      }),
+    );
+
+    if (response.statusCode == 200) {
+      print("200 döndü createMessage method çalıştı");
+      update();
+    } else {
+      print("problem createMessage ${response.body}");
+    }
+
   }
 
   Future<void> deleteAllMessages(

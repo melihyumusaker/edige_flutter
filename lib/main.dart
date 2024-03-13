@@ -16,7 +16,6 @@ void main() {
   Get.put(StudentController(), permanent: true);
   Get.put(CourseController() , permanent: true);
   Get.put(WeeklyProgramController() , permanent: true);
-  // Get.put(MessageController() , permanent: true);
   SystemChrome.setSystemUIOverlayStyle(
       const SystemUiOverlayStyle(statusBarColor: Colors.transparent));
   WidgetsFlutterBinding.ensureInitialized();

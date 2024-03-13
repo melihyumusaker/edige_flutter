@@ -43,4 +43,5 @@ class ApiConfig {
   static const String messageList = '/message/messageList';
   static const String createMessage = '/message/createMessage';
   static const String deleteAllMessages = '/message/deleteAllMessages';
+  static const String messageHistory = '/message/messageHistory';
 }
