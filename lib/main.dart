@@ -1,4 +1,5 @@
 import 'package:edige/controllers/CourseController.dart';
+import 'package:edige/controllers/LoginController.dart';
 import 'package:edige/controllers/StudentController.dart';
 import 'package:edige/controllers/TeacherController.dart';
 import 'package:edige/controllers/TrialExamController.dart';
@@ -16,6 +17,7 @@ void main() {
   Get.put(StudentController(), permanent: true);
   Get.put(CourseController() , permanent: true);
   Get.put(WeeklyProgramController() , permanent: true);
+  Get.put(LoginController() , permanent: true);
   SystemChrome.setSystemUIOverlayStyle(
       const SystemUiOverlayStyle(statusBarColor: Colors.transparent));
   WidgetsFlutterBinding.ensureInitialized();

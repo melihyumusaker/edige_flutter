@@ -1,6 +1,6 @@
 // ignore_for_file: library_private_types_in_public_api, file_names, must_be_immutable, non_constant_identifier_names
 
-import 'package:edige/controllers/MessageController.dart';
+import 'package:edige/controllers/MessageControllers/MessageController.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 

@@ -1,6 +1,6 @@
 // ignore_for_file: file_names, non_constant_identifier_names
 
-import 'package:edige/controllers/MessageController.dart';
+import 'package:edige/controllers/MessageControllers/MessageController.dart';
 import 'package:edige/screens/teacherPages/TeacherMessage/MessageBox.dart';
 import 'package:edige/utils/CustomDecorations.dart';
 import 'package:flutter/material.dart';

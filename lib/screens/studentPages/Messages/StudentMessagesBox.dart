@@ -1,19 +1,17 @@
-// ignore_for_file: non_constant_identifier_names, file_names, use_build_context_synchronously
-
-import 'package:edige/controllers/MessageControllers/MessageController.dart';
-import 'package:edige/controllers/TeacherController.dart';
-import 'package:edige/screens/teacherPages/TeacherMessage/ChatPage.dart';
-import 'package:edige/screens/teacherPages/TeacherMessage/StartChatPage.dart';
+import 'package:edige/controllers/LoginController.dart';
+import 'package:edige/controllers/MessageControllers/StudentMessageController.dart';
+import 'package:edige/screens/studentPages/Messages/StudentChatPage.dart';
 import 'package:edige/utils/CustomDecorations.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-class MessageBox extends StatelessWidget {
-  const MessageBox({super.key});
+class StudentMessagesBox extends StatelessWidget {
+  const StudentMessagesBox({super.key});
 
   @override
   Widget build(BuildContext context) {
-    final MessageController controller = Get.find<MessageController>();
+    final StudentMessageController controller =
+        Get.find<StudentMessageController>();
 
     return Scaffold(
       appBar: MessageBoxAppBar(),
@@ -33,7 +31,7 @@ class MessageBox extends StatelessWidget {
     );
   }
 
-  ListView AllMessagesWidget(MessageController controller) {
+  ListView AllMessagesWidget(StudentMessageController controller) {
     return ListView.builder(
       itemCount: controller.messageLists.length,
       itemBuilder: (context, index) {
@@ -48,7 +46,7 @@ class MessageBox extends StatelessWidget {
         return InkWell(
           onTap: () {
             controller.getMessageStreamWhileCondition.value = true;
-            Get.to(() => ChatPage(
+            Get.to(() => StudentChatPage(
                   receiverId: message['user_id'],
                   receiverName: message['name'],
                 ));
@@ -85,8 +83,19 @@ class MessageBox extends StatelessWidget {
     );
   }
 
+  AppBar MessageBoxAppBar() {
+    return AppBar(
+      centerTitle: true,
+      backgroundColor: Colors.blue,
+      title: const Text(
+        "Mesaj Listesi",
+        style: TextStyle(color: Colors.white),
+      ),
+    );
+  }
+
   IconButton deleteMessages(BuildContext context,
-      MessageController messageController, int receiverId) {
+      StudentMessageController messageController, int receiverId) {
     return IconButton(
       icon: const Icon(
         Icons.delete_outline_outlined,
@@ -111,13 +120,13 @@ class MessageBox extends StatelessWidget {
                   child: const Text('Evet'),
                   onPressed: () async {
                     await messageController.deleteAllMessages(
-                        int.parse(Get.find<TeacherController>().user_id.value),
+                        int.parse(Get.find<LoginController>().user_id.value),
                         receiverId,
-                        Get.find<TeacherController>().token.value);
+                        Get.find<LoginController>().token.value);
 
                     await messageController.messageList(
-                      int.parse(Get.find<TeacherController>().user_id.value),
-                      Get.find<TeacherController>().token.value,
+                      int.parse(Get.find<LoginController>().user_id.value),
+                      Get.find<LoginController>().token.value,
                     );
 
                     Navigator.of(context).pop();
@@ -128,37 +137,6 @@ class MessageBox extends StatelessWidget {
           },
         );
       },
-    );
-  }
-
-  AppBar MessageBoxAppBar() {
-    return AppBar(
-      centerTitle: true,
-      backgroundColor: Colors.blue,
-      title: const Text("Mesaj Listesi", style: TextStyle(color: Colors.white)),
-      actions: <Widget>[
-        Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: InkWell(
-            onTap: () {
-              Get.to(() => StartChatPage());
-            },
-            child: Container(
-              decoration: const BoxDecoration(
-                color: Colors.white,
-                shape: BoxShape.circle,
-              ),
-              child: const Padding(
-                padding: EdgeInsets.all(5.0),
-                child: Icon(
-                  Icons.message,
-                  color: Colors.blue,
-                ),
-              ),
-            ),
-          ),
-        ),
-      ],
     );
   }
 }

@@ -1,28 +1,24 @@
-// ignore_for_file: file_names
-
 import 'dart:async';
+
+import 'package:edige/controllers/LoginController.dart';
+import 'package:edige/controllers/MessageControllers/StudentMessageController.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 
-import 'package:edige/controllers/MessageControllers/MessageController.dart';
-import 'package:edige/controllers/TeacherController.dart';
-
-class ChatPage extends StatefulWidget {
+class StudentChatPage extends StatefulWidget {
   final int receiverId;
   final String receiverName;
-
-  const ChatPage(
-      {Key? key, required this.receiverId, required this.receiverName})
-      : super(key: key);
+  const StudentChatPage(
+      {super.key, required this.receiverId, required this.receiverName});
 
   @override
-  State<ChatPage> createState() => _ChatPageState();
+  State<StudentChatPage> createState() => _StudentChatPageState();
 }
 
-class _ChatPageState extends State<ChatPage> {
+class _StudentChatPageState extends State<StudentChatPage> {
   late ScrollController _scrollController;
-  late MessageController messageController;
+  late StudentMessageController messageController;
   late StreamController<List<dynamic>> messageStreamController;
   final TextEditingController _textEditingController = TextEditingController();
 
@@ -47,12 +43,13 @@ class _ChatPageState extends State<ChatPage> {
     _scrollController = ScrollController();
     _scrollController.addListener(_scrollListener);
     messageStreamController = StreamController<List<dynamic>>.broadcast();
-    messageController = Get.find<MessageController>();
+    messageController = Get.find<StudentMessageController>();
     messageController.getMessageStream(
-        Get.find<TeacherController>().token.value,
-        int.parse(Get.find<TeacherController>().user_id.value),
-        widget.receiverId,
-        messageStreamController);
+      Get.find<LoginController>().token.value,
+      int.parse(Get.find<LoginController>().user_id.value),
+      widget.receiverId,
+      messageStreamController,
+    );
   }
 
   @override
@@ -123,7 +120,7 @@ class _ChatPageState extends State<ChatPage> {
                         itemBuilder: (context, index) {
                           var message = snapshot.data![index];
                           return message['sender_id'] ==
-                                  int.parse(Get.find<TeacherController>()
+                                  int.parse(Get.find<LoginController>()
                                       .user_id
                                       .value)
                               ? _buildSenderMessage(message)
@@ -165,12 +162,12 @@ class _ChatPageState extends State<ChatPage> {
                     child: InkWell(
                       borderRadius: BorderRadius.circular(30.0),
                       onTap: () async {
-                        await Get.find<MessageController>().sendMessage(
+                        await Get.find<StudentMessageController>().sendMessage(
                             int.parse(
-                                Get.find<TeacherController>().user_id.value),
+                                Get.find<LoginController>().user_id.value),
                             widget.receiverId,
                             _textEditingController.text,
-                            Get.find<TeacherController>().token.value);
+                            Get.find<LoginController>().token.value);
                         _textEditingController.text = "";
                       },
                       child: const Padding(

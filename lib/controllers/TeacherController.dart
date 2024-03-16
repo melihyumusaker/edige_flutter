@@ -1,6 +1,5 @@
 // ignore_for_file: prefer_typing_uninitialized_variables, non_constant_identifier_names, avoid_print, file_names, unused_import
 
-import 'dart:ffi';
 
 import 'package:edige/screens/teacherPages/TeacherFirstEntry/TeacherCircularPage.dart';
 import 'package:edige/screens/teacherPages/TeachersStudents/Homework/AllHomeworksPage.dart';

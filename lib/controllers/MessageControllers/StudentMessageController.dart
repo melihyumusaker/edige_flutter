@@ -1,14 +1,13 @@
-// ignore_for_file: avoid_print, file_names
+// ignore_for_file: file_names, avoid_print
 
 import 'dart:async';
 import 'dart:convert';
-import 'package:edige/controllers/TeacherController.dart';
-import 'package:flutter/material.dart';
-import 'package:http/http.dart' as http;
 import 'package:edige/config/api_config.dart';
+import 'package:edige/controllers/LoginController.dart';
 import 'package:get/get.dart';
+import 'package:http/http.dart' as http;
 
-class MessageController extends GetxController {
+class StudentMessageController extends GetxController {
   var messageLists = [].obs;
   var isLoading = true.obs;
 
@@ -16,18 +15,17 @@ class MessageController extends GetxController {
       StreamController<List<dynamic>>.broadcast();
   Stream<List<dynamic>> get messageStream => _messageStreamController.stream;
 
-  final TeacherController teacherController = Get.find<TeacherController>();
-
   var getMessageStreamWhileCondition = true.obs;
+
+  final LoginController studentController = Get.find<LoginController>();
 
   @override
   void onInit() {
     super.onInit();
     messageList(
-      int.parse(teacherController.user_id.value),
-      teacherController.token.value,
+      int.parse(studentController.user_id.value),
+      studentController.token.value,
     );
-    teacherController.showStudents();
   }
 
   @override
@@ -93,68 +91,6 @@ class MessageController extends GetxController {
     isLoading.value = false;
   }
 
-  Future<void> createMessage(
-    int senderId,
-    int receiverId,
-    String messageContent,
-    String token,
-  ) async {
-    isLoading.value = true;
-
-    final response = await http.post(
-      Uri.parse('${ApiConfig.baseUrl}${ApiConfig.createMessage}'),
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': 'Bearer $token',
-      },
-      body: jsonEncode({
-        'senderId': senderId,
-        'receiverId': receiverId,
-        'messageContent': messageContent
-      }),
-    );
-
-    if (response.statusCode == 200) {
-      print("200 döndü createMessage method çalıştı");
-      showSuccessDialog();
-      update();
-    } else {
-      print("problem createMessage ${response.body}");
-      showErrorDialog();
-    }
-
-    isLoading.value = false;
-  }
-
-   Future<void> sendMessage(
-    int senderId,
-    int receiverId,
-    String messageContent,
-    String token,
-  ) async {
-
-    final response = await http.post(
-      Uri.parse('${ApiConfig.baseUrl}${ApiConfig.createMessage}'),
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': 'Bearer $token',
-      },
-      body: jsonEncode({
-        'senderId': senderId,
-        'receiverId': receiverId,
-        'messageContent': messageContent
-      }),
-    );
-
-    if (response.statusCode == 200) {
-      print("200 döndü createMessage method çalıştı");
-      update();
-    } else {
-      print("problem createMessage ${response.body}");
-    }
-
-  }
-
   Future<void> deleteAllMessages(
     int senderId,
     int receiverId,
@@ -184,33 +120,32 @@ class MessageController extends GetxController {
     isLoading.value = false;
   }
 
-  void showSuccessDialog() {
-    Get.dialog(
-      AlertDialog(
-        title: const Text('Başarılı'),
-        content: const Text('İşlem başarıyla gerçekleştirildi.'),
-        actions: [
-          TextButton(
-            onPressed: () => Get.back(),
-            child: const Text('Tamam'),
-          ),
-        ],
-      ),
-    );
-  }
+     Future<void> sendMessage(
+    int senderId,
+    int receiverId,
+    String messageContent,
+    String token,
+  ) async {
 
-  void showErrorDialog() {
-    Get.dialog(
-      AlertDialog(
-        title: const Text('Hata'),
-        content: const Text('İşlem sırasında bir hata oluştu'),
-        actions: [
-          TextButton(
-            onPressed: () => Get.back(),
-            child: const Text('Tamam'),
-          ),
-        ],
-      ),
+    final response = await http.post(
+      Uri.parse('${ApiConfig.baseUrl}${ApiConfig.createMessage}'),
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer $token',
+      },
+      body: jsonEncode({
+        'senderId': senderId,
+        'receiverId': receiverId,
+        'messageContent': messageContent
+      }),
     );
+
+    if (response.statusCode == 200) {
+      print("200 döndü createMessage method çalıştı");
+      update();
+    } else {
+      print("problem createMessage ${response.body}");
+    }
+
   }
 }
