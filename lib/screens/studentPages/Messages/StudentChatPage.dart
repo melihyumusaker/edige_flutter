@@ -120,9 +120,8 @@ class _StudentChatPageState extends State<StudentChatPage> {
                         itemBuilder: (context, index) {
                           var message = snapshot.data![index];
                           return message['sender_id'] ==
-                                  int.parse(Get.find<LoginController>()
-                                      .user_id
-                                      .value)
+                                  int.parse(
+                                      Get.find<LoginController>().user_id.value)
                               ? _buildSenderMessage(message)
                               : _buildReceiverMessage(message);
                         },

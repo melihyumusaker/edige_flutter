@@ -1,13 +1,11 @@
-// ignore_for_file: non_constant_identifier_names, file_names, unused_import, unused_local_variable
+// ignore_for_file: non_constant_identifier_names
 
-import 'package:edige/controllers/TeacherController.dart';
-import 'package:edige/controllers/WeeklyProgramController.dart';
-import 'package:edige/screens/teacherPages/TeachersStudents/TrialExam/SetStudentTrialExamPage.dart';
-import 'package:edige/screens/teacherPages/TeachersStudents/Homework/StudentHomeworksPage.dart';
-import 'package:edige/screens/teacherPages/TeachersStudents/TrialExam/StudentTrialExamDetailPage.dart';
-import 'package:edige/screens/teacherPages/TeachersStudents/WeeklyProgram/GetStudentWeeklyProgramPage.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:edige/controllers/TeacherController.dart';
+import 'package:edige/screens/teacherPages/TeachersStudents/TrialExam/StudentTrialExamDetailPage.dart';
+import 'package:edige/screens/teacherPages/TeachersStudents/Homework/StudentHomeworksPage.dart';
+import 'package:edige/screens/teacherPages/TeachersStudents/WeeklyProgram/GetStudentWeeklyProgramPage.dart';
 
 class StudentDetailPage extends StatelessWidget {
   final int student_id;
@@ -18,58 +16,83 @@ class StudentDetailPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final teacherController = Get.find<TeacherController>();
-    final weeklyProgramController =
-        Get.put<WeeklyProgramController>(WeeklyProgramController());
     return Scaffold(
       appBar: studentDetailAppBar(teacherController),
-      body: Column(
-        children: [
-          Center(
-            child: ElevatedButton(
-              onPressed: () async {
+      body: Container(
+        padding: const EdgeInsets.all(20.0),
+        decoration: BoxDecoration(
+          gradient: LinearGradient(
+            begin: Alignment.topLeft,
+            end: Alignment.bottomRight,
+            colors: [
+              Colors.blue.shade300,
+              Colors.blue.shade800,
+            ],
+          ),
+        ),
+        child: Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              customElevatedButton(
+                  context, 'Öğrencinin Deneme Sınavı Sonuçlarını Gör',
+                  () async {
                 await teacherController
                     .getStudentTrialExamsByTeacher(student_id);
-
                 Get.to(
                     () => StudentTrialExamDetailPage(student_id: student_id));
-              },
-              child: const Text('Öğrencinin Deneme Sınavı Sonuçlarını Gör'),
-            ),
-          ),
-          Center(
-            child: ElevatedButton(
-              onPressed: () async {
+              }),
+              const SizedBox(height: 20),
+              customElevatedButton(context, 'Öğrenci Ödev İşlemleri', () {
                 Get.to(() => StudentHomeworksPage(studentId: student_id));
-              },
-              child: const Text('Öğrenci Ödev İşlemleri'),
-            ),
-          ),
-          Center(
-            child: ElevatedButton(
-              onPressed: () async {
+              }),
+              const SizedBox(height: 20),
+              customElevatedButton(context, 'Öğrenci Ders Programı İşlemleri',
+                  () async {
                 await teacherController
                     .fetchWeeklyProgramByStudentId(student_id);
                 Get.to(
                     () => GetStudentWeeklyProgramPage(studentId: student_id));
-              },
-              child: const Text('Öğrenci Ders Programı İşlemleri'),
-            ),
+              }),
+            ],
           ),
-        ],
+        ),
       ),
     );
   }
 
   AppBar studentDetailAppBar(TeacherController teacherController) {
     return AppBar(
-      title: const Text('Öğrenci Deneme Sınavı Sonuçları'),
-      // Geri tuşuna basıldığında clearStudentTrialExamResults fonksiyonunu çağır
-      leading: IconButton(
-        icon: const Icon(Icons.arrow_back),
-        onPressed: () {
-          teacherController.clearStudentTrialExamResults();
-          Get.back();
-        },
+      title: const Text(
+        'Öğrenci Detayları',
+        style: TextStyle(color: Colors.white, fontSize: 25),
+      ),
+      centerTitle: true,
+      backgroundColor: Colors.blue.shade700,
+    );
+  }
+
+  Widget customElevatedButton(
+      BuildContext context, String text, VoidCallback onPressed) {
+    return SizedBox(
+      width: MediaQuery.of(context).size.width * 0.8,
+      height: 80,
+      child: ElevatedButton(
+        style: ElevatedButton.styleFrom(
+          backgroundColor: Colors.white,
+          foregroundColor: Colors.blue.shade800,
+          elevation: 10,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(50),
+          ),
+          textStyle: TextStyle(
+            fontSize: 18,
+            fontWeight: FontWeight.bold,
+            color: Colors.blue.shade800,
+          ),
+        ),
+        onPressed: onPressed,
+        child: Text(text, textAlign: TextAlign.center),
       ),
     );
   }

@@ -1,6 +1,5 @@
 // ignore_for_file: prefer_typing_uninitialized_variables, non_constant_identifier_names, avoid_print, file_names, unused_import
 
-
 import 'package:edige/screens/teacherPages/TeacherFirstEntry/TeacherCircularPage.dart';
 import 'package:edige/screens/teacherPages/TeachersStudents/Homework/AllHomeworksPage.dart';
 import 'package:edige/screens/teacherPages/TeachersStudents/Homework/DoneHomeworksPage.dart';
@@ -15,7 +14,7 @@ class TeacherController extends GetxController {
   final teacherEmailController = TextEditingController();
   final teacherPasswordController = TextEditingController();
   var isFetchingData = false.obs;
-
+  var isLoading = true.obs;
   var teacherId = 0.obs;
   var token = "".obs;
   var refreshToken = "".obs;
@@ -424,6 +423,7 @@ class TeacherController extends GetxController {
   final weeklyProgram = <String, List<dynamic>>{}.obs;
 
   Future<void> fetchWeeklyProgramByStudentId(int studentId) async {
+    isLoading.value = true;
     final response = await http.post(
       Uri.parse('${ApiConfig.baseUrl}${ApiConfig.getWeeklyProgramByStudentId}'),
       headers: {
@@ -454,6 +454,8 @@ class TeacherController extends GetxController {
       weeklyProgram.clear();
       print('fetchWeeklyProgramByStudentId çalışmadı   ${response.statusCode}');
     }
+
+    isLoading.value = false;
   }
 
   Future<void> getAllStudentsCoursesAfterUpdate(int studentId) async {

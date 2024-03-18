@@ -129,13 +129,13 @@ class HomePage extends StatelessWidget {
       title: const Text(
         "Edige Öğrenci Sayfası",
         style: TextStyle(
-          fontSize: 22, // Yazı boyutu
-          fontWeight: FontWeight.bold, // Kalın font
-          letterSpacing: 2, // Harfler arası mesafe
-          color: Color.fromARGB(255, 0, 0, 0), // Yazı rengi
+          fontSize: 22,
+          fontWeight: FontWeight.bold,
+          letterSpacing: 2,
+          color: Color.fromARGB(255, 0, 0, 0),
         ),
       ),
-      centerTitle: true, // Yazıyı ortala
+      centerTitle: true,
       backgroundColor: const Color.fromARGB(255, 135, 230, 253),
     );
   }

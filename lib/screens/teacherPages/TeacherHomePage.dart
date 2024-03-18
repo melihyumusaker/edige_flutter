@@ -3,6 +3,7 @@
 import 'package:edige/controllers/MessageControllers/MessageController.dart';
 import 'package:edige/screens/teacherPages/TeacherMessage/MessageBox.dart';
 import 'package:edige/utils/CustomDecorations.dart';
+import 'package:edige/widgets/TeacherDrawer.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -16,6 +17,7 @@ class TeacherHomePage extends StatelessWidget {
     final controller = Get.put(TeacherController());
     return Scaffold(
       appBar: TeacherHomePageAppBar(),
+      drawer: TeacherDrawer(),
       body: Container(
         decoration: CustomDecorations.buildGradientBoxDecoration(
             const Color.fromARGB(255, 219, 97, 158),
