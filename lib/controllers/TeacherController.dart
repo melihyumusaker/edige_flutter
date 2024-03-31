@@ -85,7 +85,6 @@ class TeacherController extends GetxController {
 
       Get.find<TeacherController>().user_id.value = userId;
       print('Teacherin User ID: $user_id');
-      print('Teacherin token : $token');
       Get.off(() => const TeacherCircularPage());
     } else {
       print('Login method çalışamadı');

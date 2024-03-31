@@ -34,10 +34,8 @@ class CourseController extends GetxController {
         headers: {
           'Content-Type': 'application/json',
         },
-        body: jsonEncode({
-          'student_id': Get.find<StudentController>().studentId.value
-          //,
-        }),
+        body: jsonEncode(
+            {'student_id': Get.find<StudentController>().studentId.value}),
       );
 
       if (response.statusCode == 200) {
@@ -50,12 +48,10 @@ class CourseController extends GetxController {
 
         getAllStudentsCoursesList.assignAll(coursesList);
       } else {
-        // Sunucudan hata döndüyse
         print("Error: ${response.statusCode}");
         print(response.body);
       }
     } catch (e) {
-      // Hata oluştuysa
       print(" getAllStudentsCourses Exception: $e");
     }
   }
@@ -112,7 +108,6 @@ class CourseController extends GetxController {
 
         getStudentsNotDoneCoursesList.assignAll(coursesList);
       } else {
-        // Sunucudan hata döndüyse
         print("Error: ${response.statusCode}");
         print(response.body);
       }
@@ -169,7 +164,7 @@ class CourseController extends GetxController {
         },
         body: jsonEncode({
           'course_name': courseName,
-          'subcourse_name': courseName,
+          'subcourse_name': subcourseName,
           'homework_description': homeworkDescription,
           'homework_deadline': homeworkDeadline
         }),
@@ -227,15 +222,17 @@ class CourseController extends GetxController {
           courseName, subcourseName, homeworkDescription, homeworkDeadline);
       await addNewStudentCourse(addNewCourseCourseId, studentId);
 
-      // Başarılı Snackbar, arka planı yeşil
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
-          content: const Text("Başarıyla kaydedildi",
-              style: TextStyle(color: Colors.white)),
+          content: const Text(
+            "Başarıyla kaydedildi",
+            style: TextStyle(color: Colors.white),
+          ),
           backgroundColor: Colors.green,
           behavior: SnackBarBehavior.floating,
-          shape:
-              RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(20),
+          ),
         ),
       );
     } catch (e) {

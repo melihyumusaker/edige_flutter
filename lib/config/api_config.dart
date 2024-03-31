@@ -1,5 +1,5 @@
 class ApiConfig {
-  static const String baseUrl = 'http://192.168.1.75:8080';
+  static const String baseUrl = 'http://192.168.1.51:8080';
   static const String signInEndpoint = '/api/v1/auth/signin';
   static const String getStudentIdByUserId = '/students/getStudentIdByUserId';
   static const String getStudentById = '/students/getStudentById';
@@ -44,4 +44,6 @@ class ApiConfig {
   static const String createMessage = '/message/createMessage';
   static const String deleteAllMessages = '/message/deleteAllMessages';
   static const String messageHistory = '/message/messageHistory';
+  static const String generateQRCode = '/qrSettings/generateQRCode';
+  static const String saveStudentRecords = '/qrSettings/saveStudentRecords';
 }

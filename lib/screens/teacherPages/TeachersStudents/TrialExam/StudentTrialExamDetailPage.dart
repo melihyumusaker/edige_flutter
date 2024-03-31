@@ -1,6 +1,7 @@
 // ignore_for_file: non_constant_identifier_names, file_names, use_build_context_synchronously
 
 import 'package:edige/controllers/TrialExamController.dart';
+import 'package:edige/screens/teacherPages/TeachersStudents/TrialExam/GraphicAnalysisPage.dart';
 import 'package:edige/screens/teacherPages/TeachersStudents/TrialExam/SetStudentTrialExamPage.dart';
 import 'package:edige/screens/teacherPages/TeachersStudents/TrialExam/UpdateTrialExam.dart';
 import 'package:flutter/material.dart';
@@ -27,10 +28,69 @@ class StudentTrialExamDetailPage extends StatelessWidget {
             if (teacherController.studentsTrialExamResults.isEmpty) {
               return ListEmptyTextWidget();
             } else {
-              return trialExamResults(teacherController, trialExamController);
+              return Column(
+                children: [
+                  graphicAnalysisButton(),
+                  Expanded(
+                    child: trialExamResults(
+                      teacherController,
+                      trialExamController,
+                    ),
+                  ),
+                ],
+              );
             }
           }),
         ],
+      ),
+    );
+  }
+
+  Padding graphicAnalysisButton() {
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: Container(
+        height: 50,
+        decoration: BoxDecoration(
+          gradient: LinearGradient(
+            begin: Alignment.bottomLeft,
+            end: Alignment.topRight,
+            colors: [
+              Colors.blue.shade900,
+              Colors.blue.shade300,
+            ],
+          ),
+          borderRadius: BorderRadius.circular(10),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black.withOpacity(0.3),
+              spreadRadius: 1,
+              blurRadius: 5,
+              offset: const Offset(0, 3),
+            ),
+          ],
+        ),
+        child: TextButton(
+          onPressed: () {
+            Get.to(
+              () => const GraphicAnalysisPage(),
+              transition: Transition.upToDown,
+            );
+          },
+          style: TextButton.styleFrom(
+            foregroundColor: Colors.white,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(10),
+            ),
+          ),
+          child: const Text(
+            'Detaylı Grafik Analizi',
+            style: TextStyle(
+              fontSize: 16,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+        ),
       ),
     );
   }
@@ -79,7 +139,7 @@ class StudentTrialExamDetailPage extends StatelessWidget {
     return const Center(
       child: Text(
         'Öğrencinin deneme sınavı sonucu bulunamadı.',
-        textAlign: TextAlign.center, // Metni ortalama
+        textAlign: TextAlign.center, 
         style: TextStyle(
           color: Colors.white70,
           fontSize: 20, // Yazı boyutu
@@ -202,13 +262,13 @@ class StudentTrialExamDetailPage extends StatelessWidget {
                       onPressed: () {
                         Navigator.of(context).pop(false); // 'Hayır'ı seç
                       },
-                      child:const Text("Hayır"),
+                      child: const Text("Hayır"),
                     ),
                     TextButton(
                       onPressed: () {
                         Navigator.of(context).pop(true); // 'Evet'i seç
                       },
-                      child:const Text("Evet"),
+                      child: const Text("Evet"),
                     ),
                   ],
                 );

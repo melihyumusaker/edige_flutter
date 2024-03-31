@@ -17,7 +17,7 @@ class TeacherHomePage extends StatelessWidget {
     final controller = Get.put(TeacherController());
     return Scaffold(
       appBar: TeacherHomePageAppBar(),
-      drawer: TeacherDrawer(),
+      drawer: const TeacherDrawer(),
       body: Container(
         decoration: CustomDecorations.buildGradientBoxDecoration(
             const Color.fromARGB(255, 219, 97, 158),

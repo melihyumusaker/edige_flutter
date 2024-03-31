@@ -1,5 +1,6 @@
 import 'package:edige/controllers/CourseController.dart';
 import 'package:edige/controllers/LoginController.dart';
+import 'package:edige/controllers/QRController.dart';
 import 'package:edige/controllers/StudentController.dart';
 import 'package:edige/controllers/TeacherController.dart';
 import 'package:edige/controllers/TrialExamController.dart';
@@ -13,11 +14,13 @@ import 'package:get/get.dart';
 
 void main() {
   Get.put(TeacherController(), permanent: true);
-   Get.put(TrialExamController(), permanent: true);
+  Get.put(TrialExamController(), permanent: true);
   Get.put(StudentController(), permanent: true);
-  Get.put(CourseController() , permanent: true);
-  Get.put(WeeklyProgramController() , permanent: true);
-  Get.put(LoginController() , permanent: true);
+  Get.put(CourseController(), permanent: true);
+  Get.put(WeeklyProgramController(), permanent: true);
+  Get.put(LoginController(), permanent: true);
+  Get.put(QRController(), permanent: true);
+
   SystemChrome.setSystemUIOverlayStyle(
       const SystemUiOverlayStyle(statusBarColor: Colors.transparent));
   WidgetsFlutterBinding.ensureInitialized();
@@ -40,7 +43,7 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
-      home:const  SplashScreen(),
+      home: const SplashScreen(),
       getPages: routes,
     );
   }

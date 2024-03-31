@@ -2,11 +2,11 @@
 
 import 'package:edige/controllers/CourseController.dart';
 import 'package:edige/controllers/LoginController.dart';
-import 'package:edige/controllers/MessageControllers/MessageController.dart';
 import 'package:edige/controllers/MessageControllers/StudentMessageController.dart';
 import 'package:edige/controllers/StudentController.dart';
 import 'package:edige/controllers/TrialExamController.dart';
 import 'package:edige/screens/studentPages/Messages/StudentMessagesBox.dart';
+import 'package:edige/screens/QR/StudentQRCode.dart';
 import 'package:edige/widgets/MyDrawer.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -76,6 +76,33 @@ class HomePage extends StatelessWidget {
                       UserInfo(formattedDate: formattedDate),
                       const WeeklyProgramAndTrialExamButtons(),
                       homeworksAndMessages(context),
+                      InkWell(
+                        onTap: () {
+                          Get.to(() => StudentQRCode());
+                        },
+                        child: SizedBox(
+                          width: MediaQuery.of(context).size.width / 2 - 40,
+                          height: MediaQuery.of(context).size.height / 5,
+                          child: Card(
+                            elevation: 8,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(25.0),
+                            ),
+                            color: const Color.fromARGB(255, 172, 223, 191),
+                            child: const Center(
+                              child: Text(
+                                'QR',
+                                style: TextStyle(
+                                  fontSize: 20.0,
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.black,
+                                ),
+                                textAlign: TextAlign.center,
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
                     ],
                   );
                 }

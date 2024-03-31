@@ -4,4 +4,10 @@
          to allow setting breakpoints, to provide hot reload, etc.
     -->
     <uses-permission android:name="android.permission.INTERNET"/>
+
+    <!-- CAMERA permission is required for QR code scanning functionality. -->
+    <uses-permission android:name="android.permission.CAMERA"/>
+
+    <!-- This tag is required to declare that the application wants to access the camera -->
+    <uses-feature android:name="android.hardware.camera" android:required="true"/>
 </manifest>

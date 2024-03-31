@@ -1,18 +1,23 @@
 // ignore_for_file: file_names
 
-import 'package:edige/widgets/FirstScreenRouteButtons.dart';
 import 'package:flutter/material.dart';
+import 'package:edige/widgets/FirstScreenRouteButtons.dart';
 
 class FirstScreen extends StatelessWidget {
   const FirstScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
+    // Ekran boyutlarını al
+    Size screenSize = MediaQuery.of(context).size;
+    double buttonWidth = screenSize.width * 0.5; // Ekran genişliğinin %50'si
+    double logoSize = screenSize.width * 0.5; // Ekran genişliğinin %50'si
+
     return Scaffold(
       body: Center(
         child: Container(
           width: double.infinity,
-          height: MediaQuery.of(context).size.height,
+          height: screenSize.height,
           decoration: const BoxDecoration(
             gradient: LinearGradient(
               colors: [
@@ -24,59 +29,73 @@ class FirstScreen extends StatelessWidget {
               end: Alignment.bottomCenter,
             ),
           ),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              edigeLogo(),
-              const SizedBox(height: 20),
-              ogrenciLogin(),
-              const SizedBox(height: 10),
-              ogretmenLogin(),
-              const SizedBox(height: 10),
-              veliLogin(),
-            ],
+          child: SingleChildScrollView(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                SizedBox(height: screenSize.height * 0.2),
+                edigeLogo(logoSize),
+                SizedBox(height: screenSize.height * 0.02),
+                ogrenciLogin(buttonWidth),
+                SizedBox(height: screenSize.height * 0.01),
+                ogretmenLogin(buttonWidth),
+                SizedBox(height: screenSize.height * 0.01),
+                veliLogin(buttonWidth),
+                SizedBox(height: screenSize.height * 0.01),
+                adminLogin(buttonWidth),
+              ],
+            ),
           ),
         ),
       ),
     );
   }
 
-  FirstScreenRouteButtons veliLogin() {
-    return const FirstScreenRouteButtons(
-              width: 200,
-              height: 50,
-              buttonName: 'Veli Girişi',
-              destinationPage: '/parent',
-            );
+  FirstScreenRouteButtons adminLogin(double width) {
+    return FirstScreenRouteButtons(
+      width: width,
+      height: 50,
+      buttonName: 'Kurum Girişi',
+      destinationPage: '/QRScanPage',
+    );
   }
 
-  FirstScreenRouteButtons ogretmenLogin() {
-    return const FirstScreenRouteButtons(
-              width: 200,
-              height: 50,
-              buttonName: 'Öğretmen Girişi',
-              destinationPage: '/TeacherLogin',
-            );
+  FirstScreenRouteButtons veliLogin(double width) {
+    return FirstScreenRouteButtons(
+      width: width,
+      height: 50,
+      buttonName: 'Veli Girişi',
+      destinationPage: '/parent',
+    );
   }
 
-  FirstScreenRouteButtons ogrenciLogin() {
-    return const FirstScreenRouteButtons(
-              width: 200,
-              height: 50,
-              buttonName: 'Öğrenci Girişi',
-              destinationPage: '/Login',
-            );
+  FirstScreenRouteButtons ogretmenLogin(double width) {
+    return FirstScreenRouteButtons(
+      width: width,
+      height: 50,
+      buttonName: 'Öğretmen Girişi',
+      destinationPage: '/TeacherLogin',
+    );
   }
 
-  Container edigeLogo() {
+  FirstScreenRouteButtons ogrenciLogin(double width) {
+    return FirstScreenRouteButtons(
+      width: width,
+      height: 50,
+      buttonName: 'Öğrenci Girişi',
+      destinationPage: '/Login',
+    );
+  }
+
+  Container edigeLogo(double size) {
     return Container(
-              width: 200,
-              height: 200,
-              margin:const EdgeInsets.only(bottom: 20),
-              child: Image.asset(
-                'assets/images/logo.png',
-                fit: BoxFit.contain,
-              ),
-            );
+      width: size,
+      height: size,
+      margin: const EdgeInsets.only(bottom: 20),
+      child: Image.asset(
+        'assets/images/logo.png',
+        fit: BoxFit.contain,
+      ),
+    );
   }
 }

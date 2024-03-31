@@ -1,10 +1,13 @@
+// ignore_for_file: file_names
+
 import 'dart:async';
 
-import 'package:edige/controllers/LoginController.dart';
-import 'package:edige/controllers/MessageControllers/StudentMessageController.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
+
+import 'package:edige/controllers/LoginController.dart';
+import 'package:edige/controllers/MessageControllers/StudentMessageController.dart';
 
 class StudentChatPage extends StatefulWidget {
   final int receiverId;
@@ -107,7 +110,7 @@ class _StudentChatPageState extends State<StudentChatPage> {
                           if (_scrollController.hasClients && _userIsAtBottom) {
                             _scrollController.animateTo(
                               _scrollController.position.maxScrollExtent,
-                              duration: Duration(milliseconds: 200),
+                              duration:const  Duration(milliseconds: 200),
                               curve: Curves.easeOut,
                             );
                           }

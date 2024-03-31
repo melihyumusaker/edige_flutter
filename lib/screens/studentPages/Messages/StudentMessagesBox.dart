@@ -1,9 +1,12 @@
+// ignore_for_file: file_names, non_constant_identifier_names, use_build_context_synchronously
+
+import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+
 import 'package:edige/controllers/LoginController.dart';
 import 'package:edige/controllers/MessageControllers/StudentMessageController.dart';
 import 'package:edige/screens/studentPages/Messages/StudentChatPage.dart';
 import 'package:edige/utils/CustomDecorations.dart';
-import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 
 class StudentMessagesBox extends StatelessWidget {
   const StudentMessagesBox({super.key});

@@ -14,6 +14,9 @@ class TrialExamPage extends StatelessWidget {
     Get.put(TrialExamController());
     Get.put(StudentController());
 
+    var reversedExam =
+        Get.find<TrialExamController>().studentTrialExams.value.reversed.toList();
+
     return Scaffold(
       appBar: TrialExamPageAppBar(),
       backgroundColor:
@@ -23,7 +26,7 @@ class TrialExamPage extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            for (var exam in Get.find<TrialExamController>().studentTrialExams)
+            for (var exam in reversedExam)
               InkWell(
                 onTap: () {
                   // Seçilen sınavın bilgilerini bir String'e dönüştür
@@ -60,7 +63,7 @@ class TrialExamPage extends StatelessWidget {
         borderRadius: BorderRadius.circular(15.0),
       ),
       margin: const EdgeInsets.only(bottom: 16.0),
-      color:const Color.fromARGB(255, 44, 87, 107), // Card rengi
+      color: const Color.fromARGB(255, 44, 87, 107), // Card rengi
       child: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(
