@@ -1,6 +1,7 @@
-// ignore_for_file: file_names, unused_local_variable, non_constant_identifier_names
+// ignore_for_file: file_names, unused_local_variable, non_constant_identifier_names, use_build_context_synchronously
 
 import 'package:edige/controllers/CourseController.dart';
+import 'package:edige/controllers/LessonController.dart';
 import 'package:edige/controllers/TeacherController.dart';
 import 'package:edige/screens/teacherPages/TeachersStudents/Homework/NewHomeworkPage.dart';
 import 'package:flutter/material.dart';
@@ -13,6 +14,7 @@ class StudentHomeworksPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final lessonController = Get.find<LessonController>();
     final teacherController = Get.find<TeacherController>();
     final courseController = Get.put<CourseController>(CourseController());
 
@@ -70,8 +72,8 @@ class StudentHomeworksPage extends StatelessWidget {
                     buttonText: 'Yeni Ödev Gir',
                     gradientColors: const [Colors.green, Colors.teal],
                     onTap: () async {
-                      Get.to(() => NewHomeworkPage(studentId: studentId),
-                          transition: Transition.fadeIn);
+                      await _handleNewHomeworkTap(
+                          context, lessonController, studentId);
                     },
                   ),
                 ],
@@ -81,6 +83,23 @@ class StudentHomeworksPage extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  Future<void> _handleNewHomeworkTap(
+    BuildContext context,
+    LessonController lessonController,
+    int studentId,
+  ) async {
+    showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (context) => const Center(child: CircularProgressIndicator()),
+    );
+    await lessonController.fetchAllLessonsAndFetchGrades();
+    Navigator.pop(context);
+
+    Get.to(() => NewHomeworkPage(studentId: studentId),
+        transition: Transition.fadeIn);
   }
 
   PreferredSize StudentHomeworksPageAppbar() {

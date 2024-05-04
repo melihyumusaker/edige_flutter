@@ -1,4 +1,5 @@
 import 'package:edige/controllers/CourseController.dart';
+import 'package:edige/controllers/LessonController.dart';
 import 'package:edige/controllers/LoginController.dart';
 import 'package:edige/controllers/QRController.dart';
 import 'package:edige/controllers/StudentController.dart';
@@ -20,6 +21,7 @@ void main() {
   Get.put(WeeklyProgramController(), permanent: true);
   Get.put(LoginController(), permanent: true);
   Get.put(QRController(), permanent: true);
+  Get.put(LessonController(), permanent: true);
 
   SystemChrome.setSystemUIOverlayStyle(
       const SystemUiOverlayStyle(statusBarColor: Colors.transparent));

@@ -121,58 +121,57 @@ class WeeklyProgramController extends GetxController {
   }
 
   Future<void> updateWeeklyProgram(
-  BuildContext context,
-  int weeklyProgramId,
-  String lessonName,
-  String lessonStartHour,
-  String lessonEndHour,
-) async {
-  final response = await http.put(
-    Uri.parse('${ApiConfig.baseUrl}${ApiConfig.updateWeeklyProgram}'),
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: jsonEncode({
-      "weekly_program_id": weeklyProgramId,
-      "lesson_end_hour": lessonEndHour,
-      "lesson_start_hour": lessonStartHour,
-      "lesson_name": lessonName
-    }),
-  );
+    BuildContext context,
+    int weeklyProgramId,
+    String lessonName,
+    String lessonStartHour,
+    String lessonEndHour,
+  ) async {
+    final response = await http.put(
+      Uri.parse('${ApiConfig.baseUrl}${ApiConfig.updateWeeklyProgram}'),
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: jsonEncode({
+        "weekly_program_id": weeklyProgramId,
+        "lesson_end_hour": lessonEndHour,
+        "lesson_start_hour": lessonStartHour,
+        "lesson_name": lessonName
+      }),
+    );
 
-  if (response.statusCode == 200) {
-    print('updateWeeklyProgram çalıştı 200 döndü');
-    showDialog(
-      context: context,
-      builder: (context) => AlertDialog(
-        title:const Text('Başarılı'),
-        content:const Text('Ders programı başarıyla güncellendi.'),
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.of(context).pop(),
-            child:const Text('Tamam'),
-          ),
-        ],
-      ),
-    );
-  } else {
-    print('updateWeeklyProgram çalışmadı   ${response.statusCode}');
-    showDialog(
-      context: context,
-      builder: (context) => AlertDialog(
-        title:const Text('Hata'),
-        content:const Text('Bir hata oluştu. Lütfen tekrar deneyin.'),
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.of(context).pop(),
-            child:const Text('Tamam'),
-          ),
-        ],
-      ),
-    );
+    if (response.statusCode == 200) {
+      print('updateWeeklyProgram çalıştı 200 döndü');
+      showDialog(
+        context: context,
+        builder: (context) => AlertDialog(
+          title: const Text('Başarılı'),
+          content: const Text('Ders programı başarıyla güncellendi.'),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.of(context).pop(),
+              child: const Text('Tamam'),
+            ),
+          ],
+        ),
+      );
+    } else {
+      print('updateWeeklyProgram çalışmadı   ${response.statusCode}');
+      showDialog(
+        context: context,
+        builder: (context) => AlertDialog(
+          title: const Text('Hata'),
+          content: const Text('Bir hata oluştu. Lütfen tekrar deneyin.'),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.of(context).pop(),
+              child: const Text('Tamam'),
+            ),
+          ],
+        ),
+      );
+    }
   }
-}
-
 
   Future<void> deleteWeeklyProgram(
       BuildContext context, weeklyProgramId) async {
@@ -197,7 +196,7 @@ class WeeklyProgramController extends GetxController {
                 onPressed: () {
                   Navigator.of(context).pop();
                 },
-                child:const  Text('Tamam'),
+                child: const Text('Tamam'),
               ),
             ],
           );

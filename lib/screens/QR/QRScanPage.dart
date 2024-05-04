@@ -36,13 +36,16 @@ class _QRScanPageState extends State<QRScanPage> {
   @override
   Widget build(BuildContext context) {
     final QRController qrController = Get.find<QRController>();
+    double screenHeight = MediaQuery.of(context).size.height;
 
     return Scaffold(
       appBar: qrCodeScanPageAppBar(),
       body: Column(
         children: <Widget>[
           Expanded(
-            flex: 5,
+            flex: MediaQuery.of(context).orientation == Orientation.portrait
+                ? 5
+                : 3,
             child: QRView(
               key: qrKey,
               onQRViewCreated: _onQRViewCreated,
@@ -54,15 +57,15 @@ class _QRScanPageState extends State<QRScanPage> {
                 ? const Center(child: CircularProgressIndicator())
                 : Container(
                     width: double.infinity,
-                    padding: const EdgeInsets.all(16),
+                    padding: EdgeInsets.all(screenHeight * 0.02),
                     color: Colors.deepPurpleAccent,
                     child: Text(
                       result != null
                           ? Get.find<QRController>().realResponse.value
                           : 'QR kodu tarayın',
                       textAlign: TextAlign.center,
-                      style: const TextStyle(
-                        fontSize: 20,
+                      style: TextStyle(
+                        fontSize: screenHeight * 0.025,
                         color: Colors.white,
                         fontWeight: FontWeight.bold,
                       ),

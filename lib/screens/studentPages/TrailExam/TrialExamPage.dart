@@ -1,4 +1,4 @@
-// ignore_for_file: non_constant_identifier_names, file_names
+// ignore_for_file: non_constant_identifier_names, file_names, invalid_use_of_protected_member
 
 import 'package:edige/controllers/StudentController.dart';
 import 'package:edige/controllers/TrialExamController.dart';

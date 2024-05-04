@@ -1,8 +1,10 @@
 // ignore_for_file: use_build_context_synchronously, avoid_print, non_constant_identifier_names, unnecessary_import, file_names, unused_local_variable
 
 import 'package:edige/config/api_config.dart';
+import 'package:edige/controllers/LoginController.dart';
 import 'package:edige/controllers/StudentController.dart';
 import 'package:edige/controllers/TeacherController.dart';
+import 'package:edige/screens/studentPages/Homework/HomeworkDetailPage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
@@ -20,6 +22,7 @@ class CourseController extends GetxController {
 
   var selectedCourseDetail = {}.obs;
 
+  var unShownCourseNumber = 0.obs;
   var selectedCourseStatus = 'Tamamlanamadı'.obs;
   var selectedButton = 'Ödevler'.obs;
   void updateCourseStatus(String newStatus) {
@@ -146,6 +149,32 @@ class CourseController extends GetxController {
     } catch (e) {
       // Hata oluştuysa
       print(" getStudentsNotDoneCourses Exception: $e");
+    }
+  }
+
+  Future<void> unshownCourseNumber(int studentId) async {
+    try {
+      final response = await http.post(
+        Uri.parse('${ApiConfig.baseUrl}${ApiConfig.unshownCourseNumber}'),
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer ${Get.find<LoginController>().token}',
+        },
+        body: jsonEncode({
+          'student_id': studentId,
+        }),
+      );
+
+      if (response.statusCode == 200) {
+        print("unshownCourseNumber çalıştı");
+        unShownCourseNumber.value = jsonDecode(response.body);
+        print(unShownCourseNumber.value);
+      } else {
+        print("unshownCourseNumber Error: ${response.statusCode}");
+        print(response.body);
+      }
+    } catch (e) {
+      print(" unshownCourseNumber Exception: $e");
     }
   }
 
@@ -354,6 +383,46 @@ class CourseController extends GetxController {
         snackPosition: SnackPosition.BOTTOM,
       );
       print("deleteCourse Exception: $e");
+    }
+  }
+
+  Future<void> setCourseShown(
+      BuildContext context, int courseId, int isShown) async {
+    showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (BuildContext context) {
+        return const Dialog(
+          child: Padding(
+            padding: EdgeInsets.all(20),
+            child: Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                CircularProgressIndicator(),
+                SizedBox(width: 20),
+                Text("Ödev Detay Sayfasına Geçiliyor..."),
+              ],
+            ),
+          ),
+        );
+      },
+    );
+    try {
+      final response = await http.put(
+        Uri.parse('${ApiConfig.baseUrl}${ApiConfig.updateCourse}'),
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer ${Get.find<LoginController>().token}',
+        },
+        body: jsonEncode({'course_id': courseId, 'is_shown': isShown}),
+      );
+
+      if (response.statusCode == 200) {
+      } else {}
+    } catch (e) {
+      print("setCourseShown Exception: $e");
+    } finally {
+      Navigator.of(context).pop();
     }
   }
 }

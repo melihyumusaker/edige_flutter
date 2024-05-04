@@ -42,14 +42,14 @@ class Homeworks extends StatelessWidget {
               padding: const EdgeInsets.only(top: 8.0, right: 8.0, left: 8.0),
               child: HomeworkButtons(context),
             ),
-            Courses(),
+            Courses(context),
           ],
         ),
       ),
     );
   }
 
-  Expanded Courses() {
+  Expanded Courses(BuildContext context) {
     return Expanded(
       child: Padding(
         padding: const EdgeInsets.all(16.0),
@@ -59,17 +59,17 @@ class Homeworks extends StatelessWidget {
             if (Get.find<CourseController>().selectedButton.value ==
                 'Ödevler') {
               return HomeworkList(
-                courses: courseController.getAllStudentsCoursesList,
-              );
+                  courses: courseController.getAllStudentsCoursesList,
+                  context: context);
             } else if (Get.find<CourseController>().selectedButton.value ==
                 'Yapılmakta') {
               return HomeworkList(
-                courses: courseController.getStudentsNotDoneCoursesList,
-              );
+                  courses: courseController.getStudentsNotDoneCoursesList,
+                  context: context);
             } else {
               return HomeworkList(
-                courses: courseController.getStudentsDoneCoursesList,
-              );
+                  courses: courseController.getStudentsDoneCoursesList,
+                  context: context);
             }
           },
         ),
@@ -77,12 +77,14 @@ class Homeworks extends StatelessWidget {
     );
   }
 
-  Widget HomeworkList({required List<Map<String, dynamic>> courses}) {
+  Widget HomeworkList(
+      {required List<Map<String, dynamic>> courses,
+      required BuildContext context}) {
     return ListView.builder(
       itemCount: courses.length,
       itemBuilder: (context, index) {
         final course = courses[index];
-        return HomeworkCard(course);
+        return HomeworkCard(course, context);
       },
     );
   }

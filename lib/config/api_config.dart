@@ -1,5 +1,5 @@
 class ApiConfig {
-  static const String baseUrl = 'http://192.168.1.51:8080';
+  static const String baseUrl = 'http://192.168.1.44:8080';
   static const String signInEndpoint = '/api/v1/auth/signin';
   static const String getStudentIdByUserId = '/students/getStudentIdByUserId';
   static const String getStudentById = '/students/getStudentById';
@@ -18,6 +18,7 @@ class ApiConfig {
       '/students-courses/get-students-not-done-courses';
   static const String getAllStudentsCourses =
       '/students-courses/get-all-students-courses';
+  static const String unshownCourseNumber = "/students-courses/unshownCourseNumber";
   static const String getTeacherIdByUserId = '/teachers/getTeacherIdByUserId';
   static const String showStudents = '/teachers/showStudents';
   static const String getTeacherInfo = '/teachers/getTeacherInfo';
@@ -46,4 +47,10 @@ class ApiConfig {
   static const String messageHistory = '/message/messageHistory';
   static const String generateQRCode = '/qrSettings/generateQRCode';
   static const String saveStudentRecords = '/qrSettings/saveStudentRecords';
+  static const String grades = '/lessons/grades';
+  static const String lessonNames = '/lessons/lessonNames';
+  static const String sublessonNames = '/lessons/sublessonNames';
+  static const String sublessonNameDetails = '/lessons/sublessonNameDetails';
+  static const String getAllLessons = '/lessons/getAllLessons';
+ 
 }

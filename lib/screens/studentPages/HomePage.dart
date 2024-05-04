@@ -168,6 +168,8 @@ class HomePage extends StatelessWidget {
   }
 
   InkWell homeworks(BuildContext context) {
+    double sizeFactor = MediaQuery.of(context).size.width / 360;
+
     return InkWell(
       onTap: () async {
         Get.toNamed("/Homework");
@@ -175,23 +177,54 @@ class HomePage extends StatelessWidget {
       child: SizedBox(
         width: MediaQuery.of(context).size.width / 2 - 40,
         height: MediaQuery.of(context).size.height / 5,
-        child: Card(
-          elevation: 8,
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(25.0),
-          ),
-          color: const Color.fromARGB(255, 172, 223, 191),
-          child: const Center(
-            child: Text(
-              'Ödevler',
-              style: TextStyle(
-                fontSize: 20.0,
-                fontWeight: FontWeight.bold,
-                color: Colors.black,
+        child: Stack(
+          alignment: Alignment.topRight,
+          children: [
+            Card(
+              elevation: 8,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(25.0 * sizeFactor),
               ),
-              textAlign: TextAlign.center,
+              color: const Color.fromARGB(255, 172, 223, 191),
+              child: const Center(
+                child: Text(
+                  'Ödevler',
+                  style: TextStyle(
+                    fontSize: 20.0,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.black,
+                  ),
+                  textAlign: TextAlign.center,
+                ),
+              ),
             ),
-          ),
+            Positioned(
+              top: 4 * sizeFactor,
+              right: 4 * sizeFactor,
+              child: Container(
+                width: 24 * sizeFactor,
+                height: 24 * sizeFactor,
+                decoration: BoxDecoration(
+                  color: Colors.red,
+                  shape: BoxShape.rectangle,
+                  borderRadius: BorderRadius.circular(8 * sizeFactor),
+                ),
+                child: Center(
+                  child: Obx(() => Text(
+                        Get.find<CourseController>()
+                            .unShownCourseNumber
+                            .value
+                            .toString(),
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 12 * sizeFactor,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      )),
+                ),
+              ),
+            ),
+          ],
         ),
       ),
     );

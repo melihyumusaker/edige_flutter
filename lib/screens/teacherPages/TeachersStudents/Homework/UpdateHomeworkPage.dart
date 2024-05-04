@@ -157,7 +157,7 @@ class _UpdateHomeworkPageState extends State<UpdateHomeworkPage> {
           subcourseName,
           homeworkDescription,
           isHomeworkDone,
-          formattedDeadline,
+          formattedDeadline
         );
 
         await Get.find<TeacherController>()
