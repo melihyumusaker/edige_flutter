@@ -1,4 +1,4 @@
-// ignore_for_file: use_build_context_synchronously, avoid_print, non_constant_identifier_names, unnecessary_import, file_names, unused_local_variable
+// ignore_for_file: use_build_context_synchronously, avoid_print, non_constant_identifier_names, unnecessary_import, file_names, unused_local_variable, unused_import
 
 import 'package:edige/config/api_config.dart';
 import 'package:edige/controllers/LoginController.dart';

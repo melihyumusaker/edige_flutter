@@ -2,6 +2,7 @@
 
 import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:edige/controllers/TeacherController.dart';
+import 'package:edige/screens/teacherPages/TeacherSettings/SettingsPage.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -65,12 +66,18 @@ class TeacherDrawer extends StatelessWidget {
             ),
             const Divider(),
             ListTile(
-              title: const Text(
-                'Ayarlar',
-                style: TextStyle(
-                  fontSize: 16.0,
-                  fontWeight: FontWeight.bold,
-                  color: Color.fromARGB(255, 230, 226, 226),
+              title: InkWell(
+                onTap: () {
+                  Get.to(() => SettingsPage(
+                      token: Get.find<TeacherController>().token.value));
+                },
+                child: const Text(
+                  'Ayarlar',
+                  style: TextStyle(
+                    fontSize: 16.0,
+                    fontWeight: FontWeight.bold,
+                    color: Color.fromARGB(255, 230, 226, 226),
+                  ),
                 ),
               ),
               leading: const Icon(

@@ -17,6 +17,7 @@ class StudentController extends GetxController {
   var email = ''.obs;
   var city = ''.obs;
   final studentsTeacher = ''.obs;
+  final studentTeacherId = 0.obs;
   var birthDate = DateTime.now().obs;
   var isEnneagramTestSolved = 0.obs;
 
@@ -78,6 +79,9 @@ class StudentController extends GetxController {
                   " " +
                   responseData['teacher']['user']['surname'] ??
               '';
+      studentTeacherId.value = responseData['teacher'] == null
+          ? studentTeacherId.value = 0
+          : responseData['teacher']['teacher_id'];
 
       final user = responseData['user'];
       if (user != null) {

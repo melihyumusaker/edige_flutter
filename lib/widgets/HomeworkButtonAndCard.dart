@@ -1,7 +1,6 @@
 // ignore_for_file: file_names, non_constant_identifier_names
 
 import 'package:edige/controllers/CourseController.dart';
-import 'package:edige/controllers/LoginController.dart';
 import 'package:edige/controllers/StudentController.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';

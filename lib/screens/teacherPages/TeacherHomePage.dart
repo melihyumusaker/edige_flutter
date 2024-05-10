@@ -1,7 +1,9 @@
 // ignore_for_file: file_names, non_constant_identifier_names
 
+import 'package:edige/controllers/MeetingController.dart';
 import 'package:edige/controllers/MessageControllers/MessageController.dart';
 import 'package:edige/screens/teacherPages/TeacherMessage/MessageBox.dart';
+import 'package:edige/screens/teacherPages/TeachersStudents/Meetings/ShowAllTeacherMeetingsPage.dart';
 import 'package:edige/utils/CustomDecorations.dart';
 import 'package:edige/widgets/TeacherDrawer.dart';
 import 'package:flutter/material.dart';
@@ -14,6 +16,7 @@ class TeacherHomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final meetingController = Get.find<MeetingController>();
     final controller = Get.put(TeacherController());
     return Scaffold(
       appBar: TeacherHomePageAppBar(),
@@ -30,7 +33,38 @@ class TeacherHomePage extends StatelessWidget {
               teacherInfoCard(controller),
               const SizedBox(height: 16),
               studentInfosButton(),
-              messageButton()
+              messageButton(),
+              Padding(
+                padding: const EdgeInsets.only(top: 15.0),
+                child: ElevatedButton.icon(
+                  onPressed: () {
+                    meetingController.getTeacherAllMeetings(
+                      Get.find<TeacherController>().teacherId.value,
+                      Get.find<TeacherController>().token.value,
+                    );
+                    Get.to(() => ShowAllTeacherMeetingsPage());
+                  },
+                  icon: const Icon(
+                    Icons.arrow_forward,
+                    color: Colors.white,
+                  ),
+                  label: const Text(
+                    "Toplantılar",
+                    style: TextStyle(fontSize: 16, color: Colors.black),
+                  ),
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Colors.lightBlue,
+                    foregroundColor: Colors.white,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(20),
+                    ),
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 20,
+                      vertical: 12,
+                    ), // Custom padding
+                  ),
+                ),
+              )
             ],
           ),
         ),

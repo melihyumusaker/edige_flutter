@@ -1,5 +1,7 @@
 // ignore_for_file: non_constant_identifier_names, file_names
 
+import 'package:edige/controllers/MeetingController.dart';
+import 'package:edige/screens/teacherPages/TeachersStudents/Meetings/ShowMeetingsPage.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:edige/controllers/TeacherController.dart';
@@ -16,6 +18,8 @@ class StudentDetailPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final teacherController = Get.find<TeacherController>();
+    final meetingController = Get.put(MeetingController());
+
     return Scaffold(
       appBar: studentDetailAppBar(teacherController),
       body: Container(
@@ -47,12 +51,34 @@ class StudentDetailPage extends StatelessWidget {
                 Get.to(() => StudentHomeworksPage(studentId: student_id));
               }),
               const SizedBox(height: 20),
-              customElevatedButton(context, 'Öğrenci Ders Programı İşlemleri',
-                  () async {
-                await teacherController
-                    .fetchWeeklyProgramByStudentId(student_id);
-                Get.to(
-                    () => GetStudentWeeklyProgramPage(studentId: student_id));
+              customElevatedButton(
+                context,
+                'Öğrenci Ders Programı İşlemleri',
+                () async {
+                  await teacherController
+                      .fetchWeeklyProgramByStudentId(student_id);
+                  Get.to(
+                      () => GetStudentWeeklyProgramPage(studentId: student_id));
+                },
+              ),
+              const SizedBox(height: 20),
+              customElevatedButton(context, "Toplantıları Gör", () async {
+                await Get.find<MeetingController>()
+                    .getStudentAndTeacherSpecialMeetings(
+                        student_id,
+                        Get.find<TeacherController>().teacherId.value,
+                        Get.find<TeacherController>().token.value);
+
+                Get.to(() => ShowMeetingsPage(studentId: student_id));
+              }),
+              Obx(() {
+                if (meetingController.isLoading.value) {
+                  return const Center(
+                    child: CircularProgressIndicator(),
+                  );
+                } else {
+                  return const SizedBox.shrink(); // Boş alan
+                }
               }),
             ],
           ),

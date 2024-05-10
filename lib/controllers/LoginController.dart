@@ -1,5 +1,6 @@
 // ignore_for_file: file_names, non_constant_identifier_names, avoid_print
 
+import 'package:edige/controllers/TeacherController.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:edige/controllers/StudentController.dart';
 import 'package:edige/widgets/CircularPage.dart';
@@ -100,5 +101,30 @@ class LoginController extends GetxController {
     }
     final payload = parts[1];
     return payload;
+  }
+
+  Future<String> forgetMyPassword(
+      String oldPassword, String newPassword, String email , String token) async {
+    try {
+      final response = await http.post(
+        Uri.parse('${ApiConfig.baseUrl}${ApiConfig.forgetPassword}'),
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer $token'
+        },
+        body: jsonEncode({
+          'oldPassword': oldPassword,
+          'newPassword': newPassword,
+          'email': email,
+        }),
+      );
+      if (response.statusCode == 200) {
+        return "Şifre başarıyla değiştirildi.";
+      } else {
+        return "Hata: ${response.body}";
+      }
+    } catch (e) {
+      return "Hata: $e";
+    }
   }
 }
