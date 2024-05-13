@@ -8,10 +8,9 @@ import 'package:edige/utils/CustomDecorations.dart';
 
 class ForgetMyPasswordPage extends StatefulWidget {
   var token;
-   ForgetMyPasswordPage({
-    Key? key,
-    required this.token,
-  }) : super(key: key);
+  var email;
+  ForgetMyPasswordPage({Key? key, required this.token, required this.email})
+      : super(key: key);
 
   @override
   _ForgetMyPasswordPageState createState() => _ForgetMyPasswordPageState();
@@ -51,6 +50,7 @@ class _ForgetMyPasswordPageState extends State<ForgetMyPasswordPage> {
     _oldPasswordController.addListener(_checkAllFieldsFilled);
     _newPasswordController.addListener(_checkPasswordsMatch);
     _confirmPasswordController.addListener(_checkPasswordsMatch);
+    _emailController.text = widget.email.toString();
   }
 
   @override
@@ -68,11 +68,13 @@ class _ForgetMyPasswordPageState extends State<ForgetMyPasswordPage> {
     required TextEditingController controller,
     required IconData icon,
     required double width,
+    required enableValue,
     bool obscureText = false,
   }) {
     return Container(
       width: width * 0.9, // Ekran genişliğinin %90'ı kadar olacak
       child: TextField(
+        enabled: enableValue,
         controller: controller,
         decoration: InputDecoration(
           prefixIcon: Icon(icon),
@@ -211,12 +213,14 @@ class _ForgetMyPasswordPageState extends State<ForgetMyPasswordPage> {
           child: Column(
             children: [
               _buildTextField(
+                  enableValue: false,
                   label: 'Email',
                   controller: _emailController,
                   icon: Icons.mail,
                   width: screenWidth),
               const SizedBox(height: 16),
               _buildTextField(
+                  enableValue: true,
                   label: 'Eski Şifre',
                   controller: _oldPasswordController,
                   width: screenWidth,
@@ -224,6 +228,7 @@ class _ForgetMyPasswordPageState extends State<ForgetMyPasswordPage> {
                   obscureText: true),
               const SizedBox(height: 16),
               _buildTextField(
+                  enableValue: true,
                   label: 'Yeni Şifre',
                   controller: _newPasswordController,
                   width: screenWidth,
@@ -231,6 +236,7 @@ class _ForgetMyPasswordPageState extends State<ForgetMyPasswordPage> {
                   obscureText: true),
               const SizedBox(height: 16),
               _buildTextField(
+                  enableValue: true,
                   label: 'Yeni Şifre (Tekrar)',
                   controller: _confirmPasswordController,
                   width: screenWidth,

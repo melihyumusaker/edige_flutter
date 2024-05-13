@@ -18,6 +18,7 @@ class StudentController extends GetxController {
   var city = ''.obs;
   final studentsTeacher = ''.obs;
   final studentTeacherId = 0.obs;
+  final studentTeacherMail = ''.obs;
   var birthDate = DateTime.now().obs;
   var isEnneagramTestSolved = 0.obs;
 
@@ -73,6 +74,7 @@ class StudentController extends GetxController {
       enneagramResult.value = responseData['enneagram_result'] ?? '';
       isEnneagramTestSolved.value =
           responseData['is_enneagram_test_solved'] ?? 0;
+
       studentsTeacher.value = responseData['teacher'] == null
           ? studentsTeacher.value = ''
           : responseData['teacher']['user']['name'] +
@@ -82,6 +84,7 @@ class StudentController extends GetxController {
       studentTeacherId.value = responseData['teacher'] == null
           ? studentTeacherId.value = 0
           : responseData['teacher']['teacher_id'];
+
 
       final user = responseData['user'];
       if (user != null) {

@@ -42,6 +42,7 @@ class ApiConfig {
   static const String updateCourse = '/courses/updateCourse';
   static const String deleteTrialExam = '/trial-exams/deleteTrialExam';
   static const String updateTrialExam = '/trial-exams/updateTrialExam';
+  static const String updateTrialExamIsShownValue = '/trial-exams/updateTrialExamIsShownValue';
   static const String messageList = '/message/messageList';
   static const String createMessage = '/message/createMessage';
   static const String deleteAllMessages = '/message/deleteAllMessages';
@@ -60,4 +61,5 @@ class ApiConfig {
   static const String deleteMeeting = '/meetings/deleteMeeting';
   static const String updateMeeting = '/meetings/updateMeeting';
   static const String forgetPassword = '/api/v1/auth/forget-password';
+  static const String countUnshown = '/trial-exams/countUnshown';
 }

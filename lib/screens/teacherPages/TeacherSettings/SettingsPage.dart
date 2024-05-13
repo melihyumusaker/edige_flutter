@@ -5,10 +5,9 @@ import 'package:edige/screens/teacherPages/TeacherSettings/ForgetMyPasswordPage.
 
 class SettingsPage extends StatelessWidget {
   var token;
-   SettingsPage({
-    Key? key,
-    required this.token,
-  }) : super(key: key);
+  var email;
+  SettingsPage({Key? key, required this.token, required this.email})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -17,7 +16,7 @@ class SettingsPage extends StatelessWidget {
       body: Column(children: [
         ElevatedButton(
             onPressed: () {
-              Get.to(() => ForgetMyPasswordPage(token: token));
+              Get.to(() => ForgetMyPasswordPage(token: token, email: email));
             },
             child: Text('Şifre Değiştir'))
       ]),

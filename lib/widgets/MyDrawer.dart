@@ -1,12 +1,14 @@
 // ignore_for_file: file_names
 
 import 'package:awesome_dialog/awesome_dialog.dart';
+import 'package:edige/controllers/LoginController.dart';
 import 'package:edige/controllers/StudentController.dart';
+import 'package:edige/screens/teacherPages/TeacherSettings/SettingsPage.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class MyDrawer extends StatelessWidget {
-  const MyDrawer({
+  MyDrawer({
     super.key,
   });
 
@@ -46,29 +48,32 @@ class MyDrawer extends StatelessWidget {
               ),
             ),
             Obx(() => Container(
-              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  const Text(
-                    'Danışman Koç',
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 16.0,
-                      fontWeight: FontWeight.bold,
-                    ),
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      const Text(
+                        'Danışman Koç',
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 16.0,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      const SizedBox(height: 4),
+                      Text(
+                        Get.find<StudentController>()
+                            .studentsTeacher
+                            .toString(),
+                        style: const TextStyle(
+                          color: Colors.white70,
+                          fontSize: 14.0,
+                        ),
+                      ),
+                    ],
                   ),
-                  const SizedBox(height: 4),
-                  Text(
-                    Get.find<StudentController>().studentsTeacher.toString(),
-                    style: const TextStyle(
-                      color: Colors.white70,
-                      fontSize: 14.0,
-                    ),
-                  ),
-                ],
-              ),
-            ))  ,
+                )),
             const Divider(),
             ListTile(
               title: const Text(
@@ -102,7 +107,10 @@ class MyDrawer extends StatelessWidget {
                 color: Colors.white,
               ),
               onTap: () {
-                // Ayarlar sayfasına git
+                Get.to(() => SettingsPage(
+                      token: Get.find<LoginController>().token.value,
+                      email: Get.find<StudentController>().email,
+                    ));
               },
             ),
             const Divider(),

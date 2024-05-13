@@ -69,7 +69,10 @@ class TeacherDrawer extends StatelessWidget {
               title: InkWell(
                 onTap: () {
                   Get.to(() => SettingsPage(
-                      token: Get.find<TeacherController>().token.value));
+                        token: Get.find<TeacherController>().token.value,
+                        email: Get.find<TeacherController>().teacherInfo['user']
+                            ['email'],
+                      ));
                 },
                 child: const Text(
                   'Ayarlar',

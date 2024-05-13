@@ -52,7 +52,7 @@ class HomePage extends StatelessWidget {
 
     return Scaffold(
       appBar: homePageAppBar(),
-      drawer: const MyDrawer(),
+      drawer: MyDrawer(),
       body: SingleChildScrollView(
         child: Container(
           width: double.infinity,
@@ -278,6 +278,7 @@ class WeeklyProgramAndTrialExamButtons extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    double sizeFactor = MediaQuery.of(context).size.width / 360;
     Get.put(TrialExamController());
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -312,31 +313,57 @@ class WeeklyProgramAndTrialExamButtons extends StatelessWidget {
         InkWell(
           onTap: () async {
             await Get.find<TrialExamController>().getStudentTrialExams();
-            print(Get.find<TrialExamController>().studentTrialExams[0]
-                ["turkce_true"]);
             Get.toNamed("/TrialExamPage");
           },
           child: SizedBox(
             width: MediaQuery.of(context).size.width / 2 - 40,
             height: MediaQuery.of(context).size.height / 5,
-            child: Card(
-              elevation: 8,
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(25.0),
-              ),
-              color: const Color.fromARGB(255, 172, 223, 191),
-              child: const Center(
-                child: Text(
-                  'Deneme Sınavı Sonuçları', // Burada sınav sonuçlarını gösterebilirsin
-                  style: TextStyle(
-                    fontSize: 20.0,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.black,
+            child: Stack(children: [
+              Card(
+                elevation: 8,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(25.0),
+                ),
+                color: const Color.fromARGB(255, 172, 223, 191),
+                child: const Center(
+                  child: Text(
+                    'Deneme Sınavı Sonuçları', // Burada sınav sonuçlarını gösterebilirsin
+                    style: TextStyle(
+                      fontSize: 20.0,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.black,
+                    ),
+                    textAlign: TextAlign.center,
                   ),
-                  textAlign: TextAlign.center,
                 ),
               ),
-            ),
+              Positioned(
+                top: 4 * sizeFactor,
+                right: 4 * sizeFactor,
+                child: Container(
+                  width: 24 * sizeFactor,
+                  height: 24 * sizeFactor,
+                  decoration: BoxDecoration(
+                    color: Colors.red,
+                    shape: BoxShape.rectangle,
+                    borderRadius: BorderRadius.circular(8 * sizeFactor),
+                  ),
+                  child: Center(
+                    child: Obx(() => Text(
+                          Get.find<TrialExamController>()
+                              .unShownTrialExamNumber
+                              .value
+                              .toString(),
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 12 * sizeFactor,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        )),
+                  ),
+                ),
+              ),
+            ]),
           ),
         )
       ],

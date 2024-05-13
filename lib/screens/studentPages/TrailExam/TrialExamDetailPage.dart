@@ -1,5 +1,6 @@
 // ignore_for_file: non_constant_identifier_names, duplicate_ignore, file_names
 
+import 'package:edige/controllers/TrialExamController.dart';
 import 'package:flutter/material.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'dart:convert';
@@ -12,7 +13,6 @@ class TrailExamDetailPage extends StatefulWidget {
   State<TrailExamDetailPage> createState() => _TrailExamDetailPageState();
 }
 
-// ignore: duplicate_ignore
 class _TrailExamDetailPageState extends State<TrailExamDetailPage> {
   late Map<String, dynamic> selectedExam;
 

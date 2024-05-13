@@ -12,6 +12,7 @@ import 'package:http/http.dart' as http;
 class TrialExamController extends GetxController {
   RxList<Map<String, dynamic>> studentTrialExams = <Map<String, dynamic>>[].obs;
   RxMap selectedExamDetail = {}.obs;
+  var unShownTrialExamNumber = 0.obs;
 
   Future<void> getStudentTrialExams() async {
     try {
@@ -141,5 +142,54 @@ class TrialExamController extends GetxController {
         ],
       ),
     );
+  }
+
+  Future<void> updateTrialExamIsShownValue(
+      {required int trialExamId, required String token}) async {
+    try {
+      final response = await http.put(
+        Uri.parse(
+            '${ApiConfig.baseUrl}${ApiConfig.updateTrialExamIsShownValue}'),
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer $token',
+        },
+        body: jsonEncode({'trial_exam_id': trialExamId}),
+      );
+
+      if (response.statusCode == 200) {
+        print("updateTrialExamIsShownValue çalıştı");
+        getStudentTrialExams();
+      } else {
+        print("updateTrialExamIsShownValue Error: ${response.statusCode}");
+      }
+    } catch (e) {
+      print(" updateTrialExam Exception: $e");
+      showErrorDialog(e.toString());
+    }
+  }
+
+  Future<void> countUnshown(
+      {required int studentId, required String token}) async {
+    try {
+      final response = await http.post(
+        Uri.parse('${ApiConfig.baseUrl}${ApiConfig.countUnshown}'),
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer $token',
+        },
+        body: jsonEncode({'student_id': studentId}),
+      );
+
+      if (response.statusCode == 200) {
+        unShownTrialExamNumber.value = jsonDecode(response.body);
+        print(unShownTrialExamNumber.value);
+        print("countUnshown çalıştı");
+      } else {
+        print("countUnshown Error: ${response.statusCode}");
+      }
+    } catch (e) {
+      print("CountUnshown Exception: $e");
+    }
   }
 }
