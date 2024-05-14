@@ -1,10 +1,14 @@
+// ignore_for_file: file_names
+
 import 'package:edige/controllers/MeetingController.dart';
 import 'package:edige/controllers/TeacherController.dart';
+import 'package:edige/screens/teacherPages/TeachersStudents/Meetings/MeetingDetailPage.dart';
 import 'package:edige/screens/teacherPages/TeachersStudents/Meetings/UpdateMeetingPage.dart';
 import 'package:edige/utils/CustomDecorations.dart';
 import 'package:edige/utils/Helper.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:intl/intl.dart';
 
 class ShowAllTeacherMeetingsPage extends StatelessWidget {
   const ShowAllTeacherMeetingsPage({super.key});
@@ -38,7 +42,7 @@ class ShowAllTeacherMeetingsPage extends StatelessWidget {
         return AlertDialog(
           title: Text('Açıklama', style: TextStyle(fontSize: fontSize + 2)),
           content: Text(
-            description ?? "Açıklama yok",
+            description,
             style: TextStyle(fontSize: fontSize),
           ),
           actions: <Widget>[
@@ -219,12 +223,24 @@ class ShowAllTeacherMeetingsPage extends StatelessWidget {
                         Colors.blue,
                       ),
                       SizedBox(height: scaleHeight(12, screenHeight)),
-                      Text(
-                        'Oluşturulma Tarihi: ${Helper.formatDate(meeting['createdAt'] ?? 'Bilinmiyor')}',
-                        style: TextStyle(
-                          fontSize: scaleWidth(14, screenWidth),
-                          color: Colors.grey,
-                        ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          createdAtWidget(meeting, screenWidth),
+                          IconButton(
+                            onPressed: () {
+                              Get.to(
+                                () => MeetingDetailPage(
+                                  meetingId: meeting["meeting_id"],
+                                ),
+                              );
+                            },
+                            icon: const Icon(
+                              Icons.arrow_forward,
+                              color: Colors.blueAccent,
+                            ),
+                          )
+                        ],
                       ),
                     ],
                   ),
@@ -235,5 +251,25 @@ class ShowAllTeacherMeetingsPage extends StatelessWidget {
         }),
       ),
     );
+  }
+
+  Text createdAtWidget(Map<String, dynamic> meeting, double screenWidth) {
+    return Text(
+      'Oluşturulma Tarihi: ${formatDate(meeting['createdAt'] ?? 'Bilinmiyor')}',
+      style: TextStyle(
+        fontSize: scaleWidth(14, screenWidth),
+        color: Colors.grey,
+      ),
+    );
+  }
+
+  String formatDate(String date) {
+    try {
+      final DateTime parsedDate = DateTime.parse(date);
+      final DateFormat formatter = DateFormat('dd/MM/yyyy');
+      return formatter.format(parsedDate);
+    } catch (e) {
+      return 'Geçersiz tarih';
+    }
   }
 }

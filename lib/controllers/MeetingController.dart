@@ -14,6 +14,8 @@ class MeetingController extends GetxController {
       <Map<String, dynamic>>[].obs;
   RxBool isLoading = false.obs;
 
+var unShownMeetingNumber = 0.obs;
+
   Future<void> getStudentAndTeacherSpecialMeetings(
       int studentId, int teacherId, String token) async {
     try {
@@ -151,6 +153,7 @@ class MeetingController extends GetxController {
   String? startDay,
   String? startHour,
   String? location,
+  String? teacherComment
 }) async {
   try {
     isLoading.value = true;
@@ -167,6 +170,7 @@ class MeetingController extends GetxController {
     if (startDay != null) requestBody['start_day'] = startDay;
     if (startHour != null) requestBody['start_hour'] = startHour;
     if (location != null) requestBody['location'] = location;
+    if (teacherComment != null) requestBody['teacher_comment'] = teacherComment;
 
     final response = await http.put(
       Uri.parse('${ApiConfig.baseUrl}${ApiConfig.updateMeeting}'),
@@ -191,5 +195,31 @@ class MeetingController extends GetxController {
     isLoading.value = false;
   }
 }
+
+Future<void> unshownMeetingumber(int studentId , String token) async {
+    try {
+      final response = await http.post(
+        Uri.parse('${ApiConfig.baseUrl}${ApiConfig.countUnshownMeetings}'),
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer $token',
+        },
+        body: jsonEncode({
+          'student_id': studentId,
+        }),
+      );
+
+      if (response.statusCode == 200) {
+        print("unshownMeetingumber çalıştı");
+        unShownMeetingNumber.value = jsonDecode(response.body);
+        print(unShownMeetingNumber.value);
+      } else {
+        print("unshownMeetingumber Error: ${response.statusCode}");
+        print(response.body);
+      }
+    } catch (e) {
+      print(" unshownMeetingumber Exception: $e");
+    }
+  }
 
 }

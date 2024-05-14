@@ -1,3 +1,5 @@
+// ignore_for_file: prefer_typing_uninitialized_variables, must_be_immutable, file_names
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -12,13 +14,13 @@ class SettingsPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('Ayalar')),
+      appBar: AppBar(title:const Text('Ayalar')),
       body: Column(children: [
         ElevatedButton(
             onPressed: () {
               Get.to(() => ForgetMyPasswordPage(token: token, email: email));
             },
-            child: Text('Şifre Değiştir'))
+            child: const Text('Şifre Değiştir'))
       ]),
     );
   }

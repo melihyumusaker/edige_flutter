@@ -1,6 +1,5 @@
 // ignore_for_file: file_names, non_constant_identifier_names, avoid_print
 
-import 'package:edige/controllers/TeacherController.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:edige/controllers/StudentController.dart';
 import 'package:edige/widgets/CircularPage.dart';

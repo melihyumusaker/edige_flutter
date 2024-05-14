@@ -42,7 +42,7 @@ class TeacherHomePage extends StatelessWidget {
                       Get.find<TeacherController>().teacherId.value,
                       Get.find<TeacherController>().token.value,
                     );
-                    Get.to(() => ShowAllTeacherMeetingsPage());
+                    Get.to(() =>const ShowAllTeacherMeetingsPage());
                   },
                   icon: const Icon(
                     Icons.arrow_forward,

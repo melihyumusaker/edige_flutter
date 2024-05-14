@@ -8,7 +8,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class MyDrawer extends StatelessWidget {
-  MyDrawer({
+ const MyDrawer({
     super.key,
   });
 

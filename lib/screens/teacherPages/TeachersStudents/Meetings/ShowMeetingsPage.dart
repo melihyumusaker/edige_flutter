@@ -1,7 +1,8 @@
-// ignore_for_file: must_be_immutable, prefer_typing_uninitialized_variables, file_names
+// ignore_for_file: must_be_immutable, prefer_typing_uninitialized_variables, file_names, non_constant_identifier_names
 
 import 'package:edige/controllers/TeacherController.dart';
 import 'package:edige/screens/teacherPages/TeachersStudents/Meetings/CreateMeetingsPage.dart';
+import 'package:edige/screens/teacherPages/TeachersStudents/Meetings/MeetingDetailPage.dart';
 import 'package:edige/screens/teacherPages/TeachersStudents/Meetings/UpdateMeetingPage.dart';
 import 'package:edige/utils/CustomDecorations.dart';
 import 'package:flutter/material.dart';
@@ -64,7 +65,7 @@ class ShowMeetingsPage extends StatelessWidget {
         return AlertDialog(
           title: Text('Açıklama', style: TextStyle(fontSize: fontSize + 2)),
           content: Text(
-            description ?? "Açıklama yok",
+            description,
             style: TextStyle(fontSize: fontSize),
           ),
           actions: <Widget>[
@@ -87,29 +88,7 @@ class ShowMeetingsPage extends StatelessWidget {
     final double screenHeight = MediaQuery.of(context).size.height;
 
     return Scaffold(
-      appBar: AppBar(
-        title: Text(
-          'Toplantılar',
-          style: TextStyle(
-            color: Colors.white,
-            fontSize: scaleWidth(25, screenWidth),
-          ),
-        ),
-        backgroundColor: const Color(0xFF4A90E2),
-        centerTitle: true,
-        actions: [
-          IconButton(
-            icon: Icon(
-              Icons.add,
-              size: scaleWidth(30, screenWidth),
-              color: Colors.lime,
-            ),
-            onPressed: () {
-              Get.to(() => CreateMeetingsPage(studentId: studentId));
-            },
-          ),
-        ],
-      ),
+      appBar: ShowMeetingsPageAppbar(screenWidth),
       body: Container(
         decoration: CustomDecorations.buildGradientBoxDecoration(
             const Color(0xFF4A90E2), const Color(0xFF50E3C2)),
@@ -149,80 +128,8 @@ class ShowMeetingsPage extends StatelessWidget {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Expanded(
-                            child: ListTile(
-                              leading: Icon(Icons.event,
-                                  color: Colors.blue,
-                                  size: scaleWidth(24, screenWidth)),
-                              title: Text(
-                                meeting['title'] ?? 'Bilinmiyor',
-                                style: TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: scaleWidth(15, screenWidth),
-                                ),
-                              ),
-                              trailing: Icon(Icons.info_outline,
-                                  color: Colors.blue,
-                                  size: scaleWidth(24, screenWidth)),
-                              onTap: () {
-                                showDescriptionDialog(
-                                    context,
-                                    meeting['description'],
-                                    scaleWidth(16, screenWidth));
-                              },
-                            ),
-                          ),
-                          // Silme ve Düzenleme Butonları
-                          Row(
-                            children: [
-                              IconButton(
-                                icon: Icon(
-                                  Icons.delete,
-                                  color: Colors.redAccent,
-                                  size: scaleWidth(24, screenWidth),
-                                ),
-                                onPressed: () async {
-                                  await meetingController.deleteMeeting(
-                                      meeting['meeting_id'],
-                                      Get.find<TeacherController>()
-                                          .token
-                                          .value);
-
-                                  meetingController
-                                      .getStudentAndTeacherSpecialMeetings(
-                                          studentId,
-                                          Get.find<TeacherController>()
-                                              .teacherId
-                                              .value,
-                                          Get.find<TeacherController>()
-                                              .token
-                                              .value);
-                                },
-                              ),
-                              IconButton(
-                                icon: Icon(
-                                  Icons.edit,
-                                  color: Colors.orangeAccent,
-                                  size: scaleWidth(24, screenWidth),
-                                ),
-                                onPressed: () {
-                                  Get.to(() => UpdateMeetingPage(
-                                      meetingId: meeting['meeting_id'],
-                                      title: meeting['title'],
-                                      description: meeting['description'],
-                                      startDay: meeting['start_day'],
-                                      startHour: meeting['start_hour'],
-                                      location: meeting['location'],
-                                      studentId: studentId));
-                                },
-                              ),
-                            ],
-                          )
-                        ],
-                      ),
+                      titleAndDeleleUpdateButtons(
+                          screenWidth, meeting, context, meetingController),
                       SizedBox(height: scaleHeight(12, screenHeight)),
                       iconWithText(
                           Icons.calendar_today,
@@ -239,18 +146,31 @@ class ShowMeetingsPage extends StatelessWidget {
                           Colors.blue),
                       SizedBox(height: scaleHeight(12, screenHeight)),
                       iconWithText(
-                          Icons.location_on,
-                          meeting['location'] ?? 'Yer belirtilmemiş',
-                          scaleWidth(16, screenWidth),
-                          scaleWidth(16, screenWidth),
-                          Colors.blue),
+                        Icons.location_on,
+                        meeting['location'] ?? 'Yer belirtilmemiş',
+                        scaleWidth(16, screenWidth),
+                        scaleWidth(16, screenWidth),
+                        Colors.blue,
+                      ),
                       SizedBox(height: scaleHeight(12, screenHeight)),
-                      Text(
-                        'Oluşturulma Tarihi: ${formatDate(meeting['createdAt'] ?? 'Bilinmiyor')}',
-                        style: TextStyle(
-                          fontSize: scaleWidth(14, screenWidth),
-                          color: Colors.grey,
-                        ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          createdAtWidget(meeting, screenWidth),
+                          IconButton(
+                            onPressed: () {
+                              Get.to(
+                                () => MeetingDetailPage(
+                                  meetingId: meeting["meeting_id"],
+                                ),
+                              );
+                            },
+                            icon: const Icon(
+                              Icons.arrow_forward,
+                              color: Colors.blueAccent,
+                            ),
+                          )
+                        ],
                       ),
                     ],
                   ),
@@ -260,6 +180,111 @@ class ShowMeetingsPage extends StatelessWidget {
           );
         }),
       ),
+    );
+  }
+
+  Text createdAtWidget(Map<String, dynamic> meeting, double screenWidth) {
+    return Text(
+      'Oluşturulma Tarihi: ${formatDate(meeting['createdAt'] ?? 'Bilinmiyor')}',
+      style: TextStyle(
+        fontSize: scaleWidth(14, screenWidth),
+        color: Colors.grey,
+      ),
+    );
+  }
+
+  Row titleAndDeleleUpdateButtons(
+      double screenWidth,
+      Map<String, dynamic> meeting,
+      BuildContext context,
+      MeetingController meetingController) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        Expanded(
+          child: ListTile(
+            leading: Icon(Icons.event,
+                color: Colors.blue, size: scaleWidth(24, screenWidth)),
+            title: Text(
+              meeting['title'] ?? 'Bilinmiyor',
+              style: TextStyle(
+                fontWeight: FontWeight.bold,
+                fontSize: scaleWidth(15, screenWidth),
+              ),
+            ),
+            trailing: Icon(Icons.info_outline,
+                color: Colors.blue, size: scaleWidth(24, screenWidth)),
+            onTap: () {
+              showDescriptionDialog(
+                  context, meeting['description'], scaleWidth(16, screenWidth));
+            },
+          ),
+        ),
+        // Silme ve Düzenleme Butonları
+        Row(
+          children: [
+            IconButton(
+              icon: Icon(
+                Icons.delete,
+                color: Colors.redAccent,
+                size: scaleWidth(24, screenWidth),
+              ),
+              onPressed: () async {
+                await meetingController.deleteMeeting(meeting['meeting_id'],
+                    Get.find<TeacherController>().token.value);
+
+                meetingController.getStudentAndTeacherSpecialMeetings(
+                    studentId,
+                    Get.find<TeacherController>().teacherId.value,
+                    Get.find<TeacherController>().token.value);
+              },
+            ),
+            IconButton(
+              icon: Icon(
+                Icons.edit,
+                color: Colors.orangeAccent,
+                size: scaleWidth(24, screenWidth),
+              ),
+              onPressed: () {
+                Get.to(() => UpdateMeetingPage(
+                    meetingId: meeting['meeting_id'],
+                    title: meeting['title'],
+                    description: meeting['description'],
+                    startDay: meeting['start_day'],
+                    startHour: meeting['start_hour'],
+                    location: meeting['location'],
+                    studentId: studentId));
+              },
+            ),
+          ],
+        )
+      ],
+    );
+  }
+
+  AppBar ShowMeetingsPageAppbar(double screenWidth) {
+    return AppBar(
+      title: Text(
+        'Toplantılar',
+        style: TextStyle(
+          color: Colors.white,
+          fontSize: scaleWidth(25, screenWidth),
+        ),
+      ),
+      backgroundColor: const Color(0xFF4A90E2),
+      centerTitle: true,
+      actions: [
+        IconButton(
+          icon: Icon(
+            Icons.add,
+            size: scaleWidth(30, screenWidth),
+            color: Colors.lime,
+          ),
+          onPressed: () {
+            Get.to(() => CreateMeetingsPage(studentId: studentId));
+          },
+        ),
+      ],
     );
   }
 }

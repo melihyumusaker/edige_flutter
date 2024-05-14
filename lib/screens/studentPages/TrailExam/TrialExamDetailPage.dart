@@ -1,6 +1,5 @@
 // ignore_for_file: non_constant_identifier_names, duplicate_ignore, file_names
 
-import 'package:edige/controllers/TrialExamController.dart';
 import 'package:flutter/material.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'dart:convert';

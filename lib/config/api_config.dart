@@ -1,5 +1,5 @@
 class ApiConfig {
-  static const String baseUrl = 'http://192.168.1.80:8080';
+  static const String baseUrl = 'http://192.168.1.58:8080';
   static const String signInEndpoint = '/api/v1/auth/signin';
   static const String getStudentIdByUserId = '/students/getStudentIdByUserId';
   static const String getStudentById = '/students/getStudentById';
@@ -42,7 +42,8 @@ class ApiConfig {
   static const String updateCourse = '/courses/updateCourse';
   static const String deleteTrialExam = '/trial-exams/deleteTrialExam';
   static const String updateTrialExam = '/trial-exams/updateTrialExam';
-  static const String updateTrialExamIsShownValue = '/trial-exams/updateTrialExamIsShownValue';
+  static const String updateTrialExamIsShownValue =
+      '/trial-exams/updateTrialExamIsShownValue';
   static const String messageList = '/message/messageList';
   static const String createMessage = '/message/createMessage';
   static const String deleteAllMessages = '/message/deleteAllMessages';
@@ -62,4 +63,5 @@ class ApiConfig {
   static const String updateMeeting = '/meetings/updateMeeting';
   static const String forgetPassword = '/api/v1/auth/forget-password';
   static const String countUnshown = '/trial-exams/countUnshown';
+  static const String countUnshownMeetings = '/meetings/countUnshown';
 }

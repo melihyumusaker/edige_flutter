@@ -2,6 +2,7 @@
 
 import 'package:edige/controllers/CourseController.dart';
 import 'package:edige/controllers/LoginController.dart';
+import 'package:edige/controllers/MeetingController.dart';
 import 'package:edige/controllers/StudentController.dart';
 import 'package:edige/controllers/TrialExamController.dart';
 import 'package:edige/screens/studentPages/EnneagramType.dart';
@@ -25,7 +26,6 @@ class CircularPage extends StatelessWidget {
         Get.off(const EnneagramType());
       } else if (Get.find<StudentController>().isEnneagramTestSolved.value ==
           1) {
-            
         await Get.find<CourseController>()
             .unshownCourseNumber(Get.find<StudentController>().studentId.value);
 
@@ -33,6 +33,10 @@ class CircularPage extends StatelessWidget {
           studentId: Get.find<StudentController>().studentId.value,
           token: Get.find<LoginController>().token.value,
         );
+
+        await Get.find<MeetingController>().unshownMeetingumber(
+            Get.find<StudentController>().studentId.value,
+            Get.find<LoginController>().token.value);
         Get.offNamed('/HomePage');
       }
     } else {

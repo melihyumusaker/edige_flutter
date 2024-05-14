@@ -1,9 +1,10 @@
+// ignore_for_file: sized_box_for_whitespace, library_private_types_in_public_api, prefer_typing_uninitialized_variables, must_be_immutable, file_names
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import 'package:edige/controllers/LoginController.dart';
 import 'package:edige/screens/programDefaultPages/FirstScreen.dart';
-import 'package:edige/screens/studentPages/HomePage.dart';
 import 'package:edige/utils/CustomDecorations.dart';
 
 class ForgetMyPasswordPage extends StatefulWidget {
@@ -169,8 +170,8 @@ class _ForgetMyPasswordPageState extends State<ForgetMyPasswordPage> {
                 );
 
                 if (responseMessage.contains('başarıyla')) {
-                  Duration(seconds: 2);
-                  Get.to(() => FirstScreen());
+                const  Duration(seconds: 2);
+                  Get.to(() =>const FirstScreen());
                 }
               }
             : null,
@@ -197,7 +198,7 @@ class _ForgetMyPasswordPageState extends State<ForgetMyPasswordPage> {
       appBar: AppBar(
         centerTitle: true,
         title: const Text(
-          'Şifremi Unuttum',
+          'Şifremi Değiştir',
           style: TextStyle(color: Colors.white),
         ),
         backgroundColor: const Color.fromARGB(255, 214, 99, 240),

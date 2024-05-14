@@ -1,3 +1,5 @@
+// ignore_for_file: library_private_types_in_public_api, use_build_context_synchronously, file_names
+
 import 'package:edige/controllers/MeetingController.dart';
 import 'package:edige/controllers/TeacherController.dart';
 import 'package:edige/utils/CustomDecorations.dart';

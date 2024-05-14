@@ -1,3 +1,5 @@
+// ignore_for_file: file_names
+
 import 'package:edige/controllers/MeetingController.dart';
 import 'package:edige/utils/CustomDecorations.dart';
 import 'package:edige/utils/Helper.dart';
@@ -34,7 +36,7 @@ class StudentMeetingsPage extends StatelessWidget {
         return AlertDialog(
           title: Text('Açıklama', style: TextStyle(fontSize: fontSize + 2)),
           content: Text(
-            description ?? "Açıklama yok",
+            description,
             style: TextStyle(fontSize: fontSize),
           ),
           actions: <Widget>[
@@ -94,82 +96,107 @@ class StudentMeetingsPage extends StatelessWidget {
               final meeting =
                   meetingController.studentAndTeacherSpecialMeetings[index];
 
-              return Card(
-                shape: RoundedRectangleBorder(
-                  borderRadius:
-                      BorderRadius.circular(scaleWidth(15.0, screenWidth)),
-                ),
-                elevation: scaleWidth(6.0, screenWidth),
-                margin: EdgeInsets.symmetric(
-                    vertical: scaleWidth(12.0, screenWidth)),
-                child: Padding(
-                  padding: EdgeInsets.all(scaleWidth(16.0, screenWidth)),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              return Stack(
+                children: [
+                  Card(
+                    shape: RoundedRectangleBorder(
+                      borderRadius:
+                          BorderRadius.circular(scaleWidth(15.0, screenWidth)),
+                    ),
+                    elevation: scaleWidth(6.0, screenWidth),
+                    margin: EdgeInsets.symmetric(
+                        vertical: scaleWidth(12.0, screenWidth)),
+                    child: Padding(
+                      padding: EdgeInsets.all(scaleWidth(16.0, screenWidth)),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Expanded(
-                            child: ListTile(
-                              leading: Icon(Icons.event,
-                                  color: Colors.blue,
-                                  size: scaleWidth(24, screenWidth)),
-                              title: Text(
-                                meeting['title'] ?? 'Bilinmiyor',
-                                style: TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: scaleWidth(15, screenWidth),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Expanded(
+                                child: ListTile(
+                                  leading: Icon(Icons.event,
+                                      color: Colors.blue,
+                                      size: scaleWidth(24, screenWidth)),
+                                  title: Text(
+                                    meeting['title'] ?? 'Bilinmiyor',
+                                    style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: scaleWidth(15, screenWidth),
+                                    ),
+                                  ),
+                                  trailing: Icon(Icons.info_outline,
+                                      color: Colors.blue,
+                                      size: scaleWidth(24, screenWidth)),
+                                  onTap: () {
+                                    showDescriptionDialog(
+                                        context,
+                                        meeting['description'],
+                                        scaleWidth(16, screenWidth));
+                                  },
                                 ),
                               ),
-                              trailing: Icon(Icons.info_outline,
-                                  color: Colors.blue,
-                                  size: scaleWidth(24, screenWidth)),
-                              onTap: () {
-                                showDescriptionDialog(
-                                    context,
-                                    meeting['description'],
-                                    scaleWidth(16, screenWidth));
-                              },
+                              // Silme ve Düzenleme Butonları
+                            ],
+                          ),
+                          SizedBox(height: scaleHeight(12, screenHeight)),
+                          iconWithText(
+                              Icons.calendar_today,
+                              Helper.formatDate(
+                                  meeting['start_day'] ?? 'Bilinmiyor'),
+                              scaleWidth(16, screenWidth),
+                              scaleWidth(16, screenWidth),
+                              Colors.blue),
+                          SizedBox(height: scaleHeight(12, screenHeight)),
+                          iconWithText(
+                              Icons.access_time,
+                              Helper.formatTime(
+                                  meeting['start_hour'] ?? 'Bilinmiyor'),
+                              scaleWidth(16, screenWidth),
+                              scaleWidth(16, screenWidth),
+                              Colors.blue),
+                          SizedBox(height: scaleHeight(12, screenHeight)),
+                          iconWithText(
+                              Icons.location_on,
+                              meeting['location'] ?? 'Yer belirtilmemiş',
+                              scaleWidth(16, screenWidth),
+                              scaleWidth(16, screenWidth),
+                              Colors.blue),
+                          SizedBox(height: scaleHeight(12, screenHeight)),
+                          Text(
+                            'Oluşturulma Tarihi: ${Helper.formatDate(meeting['createdAt'] ?? 'Bilinmiyor')}',
+                            style: TextStyle(
+                              fontSize: scaleWidth(14, screenWidth),
+                              color: Colors.grey,
                             ),
                           ),
-                          // Silme ve Düzenleme Butonları
                         ],
                       ),
-                      SizedBox(height: scaleHeight(12, screenHeight)),
-                      iconWithText(
-                          Icons.calendar_today,
-                          Helper.formatDate(
-                              meeting['start_day'] ?? 'Bilinmiyor'),
-                          scaleWidth(16, screenWidth),
-                          scaleWidth(16, screenWidth),
-                          Colors.blue),
-                      SizedBox(height: scaleHeight(12, screenHeight)),
-                      iconWithText(
-                          Icons.access_time,
-                          Helper.formatTime(
-                              meeting['start_hour'] ?? 'Bilinmiyor'),
-                          scaleWidth(16, screenWidth),
-                          scaleWidth(16, screenWidth),
-                          Colors.blue),
-                      SizedBox(height: scaleHeight(12, screenHeight)),
-                      iconWithText(
-                          Icons.location_on,
-                          meeting['location'] ?? 'Yer belirtilmemiş',
-                          scaleWidth(16, screenWidth),
-                          scaleWidth(16, screenWidth),
-                          Colors.blue),
-                      SizedBox(height: scaleHeight(12, screenHeight)),
-                      Text(
-                        'Oluşturulma Tarihi: ${Helper.formatDate(meeting['createdAt'] ?? 'Bilinmiyor')}',
-                        style: TextStyle(
-                          fontSize: scaleWidth(14, screenWidth),
-                          color: Colors.grey,
+                    ),
+                  ),
+                  if (meeting["is_shown"] == 0)
+                    Positioned(
+                      top: 8,
+                      right: 8,
+                      child: Container(
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 8.0, vertical: 4.0),
+                        decoration: BoxDecoration(
+                          color: Colors.yellow,
+                          borderRadius: BorderRadius.circular(8.0),
+                        ),
+                        child: const Text(
+                          'YENİ',
+                          style: TextStyle(
+                            fontSize: 12.0,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.black,
+                          ),
                         ),
                       ),
-                    ],
-                  ),
-                ),
+                    ),
+                ],
               );
             },
           );
