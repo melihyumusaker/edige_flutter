@@ -2,6 +2,7 @@
 
 import 'dart:convert';
 
+import 'package:edige/controllers/TeacherController.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
@@ -47,7 +48,7 @@ class QRController extends GetxController {
         Uri.parse('${ApiConfig.baseUrl}${ApiConfig.saveStudentRecords}'),
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': 'Bearer ${Get.find<LoginController>().token}',
+          'Authorization': 'Bearer ${Get.find<TeacherController>().token}'
         },
         body: jsonEncode({'user_id': userId}),
       );

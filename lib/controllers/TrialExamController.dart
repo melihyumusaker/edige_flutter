@@ -13,6 +13,7 @@ class TrialExamController extends GetxController {
   RxList<Map<String, dynamic>> studentTrialExams = <Map<String, dynamic>>[].obs;
   RxMap selectedExamDetail = {}.obs;
   var unShownTrialExamNumber = 0.obs;
+  var isLoading = false.obs;
 
   Future<void> getStudentTrialExams() async {
     try {
@@ -147,6 +148,8 @@ class TrialExamController extends GetxController {
   Future<void> updateTrialExamIsShownValue(
       {required int trialExamId, required String token}) async {
     try {
+      isLoading.value = true;
+
       final response = await http.put(
         Uri.parse(
             '${ApiConfig.baseUrl}${ApiConfig.updateTrialExamIsShownValue}'),
@@ -166,12 +169,15 @@ class TrialExamController extends GetxController {
     } catch (e) {
       print(" updateTrialExam Exception: $e");
       showErrorDialog(e.toString());
+    } finally {
+      isLoading.value = false;
     }
   }
 
   Future<void> countUnshown(
       {required int studentId, required String token}) async {
     try {
+      isLoading.value = true;
       final response = await http.post(
         Uri.parse('${ApiConfig.baseUrl}${ApiConfig.countUnshown}'),
         headers: {
@@ -190,6 +196,8 @@ class TrialExamController extends GetxController {
       }
     } catch (e) {
       print("CountUnshown Exception: $e");
+    } finally {
+      isLoading.value = false;
     }
   }
 }

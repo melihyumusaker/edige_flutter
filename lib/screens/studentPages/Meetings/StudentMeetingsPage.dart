@@ -1,4 +1,4 @@
-// ignore_for_file: file_names
+// ignore_for_file: non_constant_identifier_names, file_names
 
 import 'package:edige/controllers/MeetingController.dart';
 import 'package:edige/utils/CustomDecorations.dart';
@@ -59,17 +59,7 @@ class StudentMeetingsPage extends StatelessWidget {
     final double screenHeight = MediaQuery.of(context).size.height;
 
     return Scaffold(
-      appBar: AppBar(
-        title: Text(
-          'Toplantılar',
-          style: TextStyle(
-            color: Colors.white,
-            fontSize: scaleWidth(25, screenWidth),
-          ),
-        ),
-        backgroundColor: const Color(0xFF4A90E2),
-        centerTitle: true,
-      ),
+      appBar: StudentMeetingsPageAppBar(screenWidth),
       body: Container(
         decoration: CustomDecorations.buildGradientBoxDecoration(
             const Color(0xFF4A90E2), const Color(0xFF50E3C2)),
@@ -95,10 +85,15 @@ class StudentMeetingsPage extends StatelessWidget {
             itemBuilder: (context, index) {
               final meeting =
                   meetingController.studentAndTeacherSpecialMeetings[index];
+              final meetingDateTime = DateTime.parse(
+                  "${meeting['start_day']} ${meeting['start_hour']}");
+              final isPastMeeting = DateTime.now().isAfter(meetingDateTime) &&
+                  meeting["is_student_join"] == 1;
 
               return Stack(
                 children: [
                   Card(
+                    color: isPastMeeting ? Colors.blueGrey : Colors.white,
                     shape: RoundedRectangleBorder(
                       borderRadius:
                           BorderRadius.circular(scaleWidth(15.0, screenWidth)),
@@ -111,35 +106,15 @@ class StudentMeetingsPage extends StatelessWidget {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Expanded(
-                                child: ListTile(
-                                  leading: Icon(Icons.event,
-                                      color: Colors.blue,
-                                      size: scaleWidth(24, screenWidth)),
-                                  title: Text(
-                                    meeting['title'] ?? 'Bilinmiyor',
-                                    style: TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: scaleWidth(15, screenWidth),
-                                    ),
-                                  ),
-                                  trailing: Icon(Icons.info_outline,
-                                      color: Colors.blue,
-                                      size: scaleWidth(24, screenWidth)),
-                                  onTap: () {
-                                    showDescriptionDialog(
-                                        context,
-                                        meeting['description'],
-                                        scaleWidth(16, screenWidth));
-                                  },
-                                ),
+                          if (isPastMeeting)
+                            const Text(
+                              "Toplantı Gerçekleştirildi",
+                              style: TextStyle(
+                                color: Colors.white70,
+                                fontSize: 15,
                               ),
-                              // Silme ve Düzenleme Butonları
-                            ],
-                          ),
+                            ),
+                          titleAndDescription(screenWidth, meeting, context),
                           SizedBox(height: scaleHeight(12, screenHeight)),
                           iconWithText(
                               Icons.calendar_today,
@@ -175,33 +150,78 @@ class StudentMeetingsPage extends StatelessWidget {
                       ),
                     ),
                   ),
-                  if (meeting["is_shown"] == 0)
-                    Positioned(
-                      top: 8,
-                      right: 8,
-                      child: Container(
-                        padding: const EdgeInsets.symmetric(
-                            horizontal: 8.0, vertical: 4.0),
-                        decoration: BoxDecoration(
-                          color: Colors.yellow,
-                          borderRadius: BorderRadius.circular(8.0),
-                        ),
-                        child: const Text(
-                          'YENİ',
-                          style: TextStyle(
-                            fontSize: 12.0,
-                            fontWeight: FontWeight.bold,
-                            color: Colors.black,
-                          ),
-                        ),
-                      ),
-                    ),
+                  if (meeting["is_shown"] == 0) NewMeetingText(),
                 ],
               );
             },
           );
         }),
       ),
+    );
+  }
+
+  Row titleAndDescription(
+      double screenWidth, Map<String, dynamic> meeting, BuildContext context) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        Expanded(
+          child: ListTile(
+            leading: Icon(Icons.event,
+                color: Colors.blue, size: scaleWidth(24, screenWidth)),
+            title: Text(
+              meeting['title'] ?? 'Bilinmiyor',
+              style: TextStyle(
+                fontWeight: FontWeight.bold,
+                fontSize: scaleWidth(15, screenWidth),
+              ),
+            ),
+            trailing: Icon(Icons.info_outline,
+                color: Colors.blue, size: scaleWidth(24, screenWidth)),
+            onTap: () {
+              showDescriptionDialog(
+                  context, meeting['description'], scaleWidth(16, screenWidth));
+            },
+          ),
+        ),
+        // Silme ve Düzenleme Butonları
+      ],
+    );
+  }
+
+  Positioned NewMeetingText() {
+    return Positioned(
+      top: 8,
+      right: 8,
+      child: Container(
+        padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 4.0),
+        decoration: BoxDecoration(
+          color: Colors.yellow,
+          borderRadius: BorderRadius.circular(8.0),
+        ),
+        child: const Text(
+          'YENİ',
+          style: TextStyle(
+            fontSize: 12.0,
+            fontWeight: FontWeight.bold,
+            color: Colors.black,
+          ),
+        ),
+      ),
+    );
+  }
+
+  AppBar StudentMeetingsPageAppBar(double screenWidth) {
+    return AppBar(
+      title: Text(
+        'Toplantılar',
+        style: TextStyle(
+          color: Colors.white,
+          fontSize: scaleWidth(25, screenWidth),
+        ),
+      ),
+      backgroundColor: const Color(0xFF4A90E2),
+      centerTitle: true,
     );
   }
 }

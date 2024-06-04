@@ -10,8 +10,8 @@ class FirstScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     // Ekran boyutlarını al
     Size screenSize = MediaQuery.of(context).size;
-    double buttonWidth = screenSize.width * 0.5; // Ekran genişliğinin %50'si
-    double logoSize = screenSize.width * 0.5; // Ekran genişliğinin %50'si
+    double buttonWidth = screenSize.width * 0.5; 
+    double logoSize = screenSize.width * 0.5; 
 
     return Scaffold(
       body: Center(
@@ -35,14 +35,11 @@ class FirstScreen extends StatelessWidget {
               children: [
                 SizedBox(height: screenSize.height * 0.2),
                 edigeLogo(logoSize),
-                SizedBox(height: screenSize.height * 0.02),
+                SizedBox(height: screenSize.height * 0.05),
                 ogrenciLogin(buttonWidth),
                 SizedBox(height: screenSize.height * 0.01),
                 ogretmenLogin(buttonWidth),
-                SizedBox(height: screenSize.height * 0.01),
-                veliLogin(buttonWidth),
-                SizedBox(height: screenSize.height * 0.01),
-                adminLogin(buttonWidth),
+                SizedBox(height: screenSize.height * 0.01)
               ],
             ),
           ),
@@ -51,37 +48,15 @@ class FirstScreen extends StatelessWidget {
     );
   }
 
-  FirstScreenRouteButtons adminLogin(double width) {
-    return FirstScreenRouteButtons(
-      width: width,
-      height: 50,
-      buttonName: 'Kurum Girişi',
-      destinationPage: '/QRScanPage',
-    );
-  }
-
-  FirstScreenRouteButtons veliLogin(double width) {
-    return FirstScreenRouteButtons(
-      width: width,
-      height: 50,
-      buttonName: 'Veli Girişi',
-      destinationPage: '/parent',
-    );
-  }
-
   FirstScreenRouteButtons ogretmenLogin(double width) {
-    return FirstScreenRouteButtons(
-      width: width,
-      height: 50,
+    return const FirstScreenRouteButtons(
       buttonName: 'Öğretmen Girişi',
       destinationPage: '/TeacherLogin',
     );
   }
 
   FirstScreenRouteButtons ogrenciLogin(double width) {
-    return FirstScreenRouteButtons(
-      width: width,
-      height: 50,
+    return const FirstScreenRouteButtons(
       buttonName: 'Öğrenci Girişi',
       destinationPage: '/Login',
     );

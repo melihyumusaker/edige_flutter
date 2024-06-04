@@ -17,6 +17,7 @@ class LoginController extends GetxController {
   var refreshToken = "".obs; // Observable variable to hold the refresh token
   var user_id = "".obs;
   var rememberMe = false.obs;
+  var role = "".obs;
 
   @override
   void onInit() {
@@ -59,6 +60,7 @@ class LoginController extends GetxController {
 
       token.value = parsedResponse['token'];
       refreshToken.value = parsedResponse['refreshToken'];
+      role.value = parsedResponse['role'];
 
       var tokenPayload = getTokenPayload(parsedResponse['token']);
       if (tokenPayload.length % 4 > 0) {
@@ -68,29 +70,35 @@ class LoginController extends GetxController {
           jsonDecode(utf8.decode(base64Url.decode(tokenPayload)));
 
       final userId = decodedPayload['user_id'].toString();
-      print('User ID: $userId'); // Eklenen satır
-      Get.find<LoginController>().user_id.value = userId;
 
-      await Get.find<StudentController>()
-          .getStudentIdByUserId(int.parse(user_id.value));
+      if (role.value == "STUDENT") {
+        print('User ID: $userId'); // Eklenen satır
+        Get.find<LoginController>().user_id.value = userId;
 
-      Get.off(() => const CircularPage());
+        await Get.find<StudentController>()
+            .getStudentIdByUserId(int.parse(user_id.value));
+
+        Get.off(() => const CircularPage());
+      } else {
+        Get.dialog(loginUnsuccess());
+      }
     } else {
-      print('Login method çalışamadı');
-      Get.dialog(
-        AlertDialog(
-            title: const Text("Giriş Başarısız"),
-            content: const Text('Kullanıcı adı veya şifre hatalı.'),
-            actions: <Widget>[
-              TextButton(
-                onPressed: () {
-                  Get.back(); // Dialogu kapat
-                },
-                child: const Text('Tamam'),
-              ),
-            ]),
-      );
+      Get.dialog(loginUnsuccess());
     }
+  }
+
+  AlertDialog loginUnsuccess() {
+    return AlertDialog(
+        title: const Text("Giriş Başarısız"),
+        content: const Text('Kullanıcı adı veya şifre hatalı.'),
+        actions: <Widget>[
+          TextButton(
+            onPressed: () {
+              Get.back(); // Dialogu kapat
+            },
+            child: const Text('Tamam'),
+          ),
+        ]);
   }
 
   String getTokenPayload(String token) {
@@ -102,8 +110,8 @@ class LoginController extends GetxController {
     return payload;
   }
 
-  Future<String> forgetMyPassword(
-      String oldPassword, String newPassword, String email , String token) async {
+  Future<String> forgetMyPassword(String oldPassword, String newPassword,
+      String email, String token) async {
     try {
       final response = await http.post(
         Uri.parse('${ApiConfig.baseUrl}${ApiConfig.forgetPassword}'),

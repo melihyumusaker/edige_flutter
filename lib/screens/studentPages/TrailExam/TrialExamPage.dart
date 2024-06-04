@@ -22,6 +22,14 @@ class TrialExamPage extends StatelessWidget {
         padding: const EdgeInsets.all(16.0),
         child: Obx(
           () {
+            var controller = Get.find<TrialExamController>();
+
+            if (controller.isLoading.value) {
+              return Center(
+                child: CircularProgressIndicator(),
+              );
+            }
+
             var reversedExam = Get.find<TrialExamController>()
                 .studentTrialExams
                 .value

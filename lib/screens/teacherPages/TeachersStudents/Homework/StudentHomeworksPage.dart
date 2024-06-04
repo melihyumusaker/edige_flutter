@@ -24,8 +24,8 @@ class StudentHomeworksPage extends StatelessWidget {
         decoration: const BoxDecoration(
           gradient: LinearGradient(
             colors: [Colors.blue, Colors.green, Colors.orange],
-            begin: Alignment.topLeft,
-            end: Alignment.bottomRight,
+            begin: Alignment.topCenter,
+            end: Alignment.bottomCenter,
           ),
         ),
         child: Center(
@@ -73,7 +73,10 @@ class StudentHomeworksPage extends StatelessWidget {
                     gradientColors: const [Colors.green, Colors.teal],
                     onTap: () async {
                       await _handleNewHomeworkTap(
-                          context, lessonController, studentId);
+                        context,
+                        lessonController,
+                        studentId,
+                      );
                     },
                   ),
                 ],

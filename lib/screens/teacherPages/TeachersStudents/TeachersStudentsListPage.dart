@@ -1,6 +1,7 @@
 // ignore_for_file: file_names, non_constant_identifier_names
 
 import 'package:edige/screens/teacherPages/TeachersStudents/StudentsDetailPage.dart';
+import 'package:edige/utils/CustomDecorations.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:edige/controllers/TeacherController.dart';
@@ -15,16 +16,9 @@ class TeachersStudentsListPage extends StatelessWidget {
     return Scaffold(
       appBar: TeacherHomePageAppBar(),
       body: Container(
-        decoration: const BoxDecoration(
-          gradient: LinearGradient(
-            begin: Alignment.topCenter,
-            end: Alignment.bottomCenter,
-            colors: [
-              Color.fromARGB(255, 155, 117, 61),
-              Color.fromARGB(255, 151, 113, 223),
-            ],
-          ),
-        ),
+        decoration: CustomDecorations.buildGradientBoxDecoration(
+            const Color.fromARGB(255, 155, 117, 61),
+            const Color.fromARGB(255, 151, 113, 223)),
         child: Column(
           children: [
             studentSearchTextField(),
@@ -58,24 +52,14 @@ class TeachersStudentsListPage extends StatelessWidget {
           itemBuilder: (context, index) {
             var student = teacherController.filteredStudentsList[index];
             return Card(
-              elevation: 10, // Gölgelendirme artırıldı
+              elevation: 10,
               margin: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
               shape: RoundedRectangleBorder(
-                borderRadius:
-                    BorderRadius.circular(20), // Köşeler daha yuvarlak
+                borderRadius: BorderRadius.circular(20),
               ),
               child: Container(
-                decoration: BoxDecoration(
-                  gradient: LinearGradient(
-                    begin: Alignment.topLeft,
-                    end: Alignment.bottomRight,
-                    colors: [
-                      Colors.deepPurple.shade300,
-                      Colors.deepOrange.shade300
-                    ],
-                  ),
-                  borderRadius: BorderRadius.circular(20),
-                ),
+                decoration: CustomDecorations.buildGradientBoxDecoration(
+                    Colors.deepPurple.shade300, Colors.deepOrange.shade300),
                 padding: const EdgeInsets.all(8),
                 child: ListTile(
                   contentPadding:
@@ -94,7 +78,7 @@ class TeachersStudentsListPage extends StatelessWidget {
                         fontWeight: FontWeight.bold, color: Colors.white),
                   ),
                   subtitle: Text(
-                    'Email: ${student['user']['email']}\nSection: ${student['section']}',
+                    'Email: ${student['user']['email']}\nBölüm: ${student['section']}',
                     style: const TextStyle(color: Colors.white70),
                   ),
                   trailing: IconButton(
@@ -103,8 +87,16 @@ class TeachersStudentsListPage extends StatelessWidget {
                       color: Colors.white,
                     ),
                     onPressed: () async {
-                      Get.to(() =>
-                          StudentDetailPage(student_id: student['student_id']));
+                      Get.to(() => StudentDetailPage(
+                          student_id: student['student_id'],
+                          section: student['section'],
+                          school: student['school'],
+                          birthDate: student['user']['birth_date'],
+                          city: student['user']['city'],
+                          email: student['user']['email'],
+                          name: student['user']['name'],
+                          phone: student['user']['phone'],
+                          surName: student['user']['surname']));
                     },
                   ),
                 ),

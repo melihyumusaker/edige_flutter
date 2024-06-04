@@ -85,6 +85,7 @@ class NewHomeworkPage extends StatelessWidget {
       appBar: newHomeworkPageAppBar(context),
       body: SingleChildScrollView(
         child: Container(
+          height: MediaQuery.of(context).size.height,
           decoration: const BoxDecoration(
             gradient: LinearGradient(
               colors: [Colors.blue, Colors.green, Colors.orange],

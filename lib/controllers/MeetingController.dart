@@ -144,7 +144,7 @@ var unShownMeetingNumber = 0.obs;
     }
   }
 
-  Future<void> updateMeeting({
+  Future<bool> updateMeeting({
   required int meetingId,
   int? isStudentJoin,
   int? isParentJoin,
@@ -153,7 +153,7 @@ var unShownMeetingNumber = 0.obs;
   String? startDay,
   String? startHour,
   String? location,
-  String? teacherComment
+  String? teacherComment,
 }) async {
   try {
     isLoading.value = true;
@@ -184,13 +184,16 @@ var unShownMeetingNumber = 0.obs;
     if (response.statusCode == 200) {
       print("updateMeeting çalıştı");
       update();
+      return true; // İşlem başarılı
     } else {
-      print('Bir sıkıntı oldu updateMeeting ');
+      print('Bir sıkıntı oldu updateMeeting');
       print('Status Code: ${response.statusCode}');
       print('Response Body: ${response.body}');
+      return false; // İşlem başarısız
     }
   } catch (e) {
     print("updateMeeting Exception: $e");
+    return false; // İşlem başarısız
   } finally {
     isLoading.value = false;
   }

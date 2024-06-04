@@ -1,17 +1,12 @@
-// ignore_for_file: file_names
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class FirstScreenRouteButtons extends StatelessWidget {
-  final double width;
-  final double height;
   final String buttonName;
   final String destinationPage;
 
   const FirstScreenRouteButtons({
     Key? key,
-    required this.width,
-    required this.height,
     required this.buttonName,
     required this.destinationPage,
   }) : super(key: key);
@@ -19,49 +14,78 @@ class FirstScreenRouteButtons extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: width + 15,
-      height: height,
+      width: MediaQuery.of(context).size.width * 0.6,
+      height: MediaQuery.of(context).size.width * 0.15,
       decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(10),
+        borderRadius: BorderRadius.circular(20),
+        gradient: const LinearGradient(
+          colors: [Color(0xff6dd5ed), Color(0xff2193b0)],
+          begin: Alignment.topLeft,
+          end: Alignment.bottomRight,
+        ),
       ),
       child: ElevatedButton(
         style: ElevatedButton.styleFrom(
-            foregroundColor: Colors.white, // Buton rengi beyaz
-            elevation: 5, // Gölgelendirme yok
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(10),
-            ),
-            shadowColor: Colors.greenAccent),
+          foregroundColor: Colors.white,
+          elevation: 8,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(20),
+          ),
+          padding: EdgeInsets.zero,
+        ),
         onPressed: () {
           Get.toNamed(destinationPage);
         },
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
-          children: [
-            Text(
-              buttonName,
-              style: const TextStyle(
-                fontFamily: "PlayfairDisplay",
-                color: Colors.black, // Metin rengi siyah
-                fontSize: 16, // Metin boyutu
-              ),
+        child: Ink(
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(20),
+            gradient: const LinearGradient(
+              colors: [
+                Color.fromARGB(255, 15, 102, 124),
+                Color.fromARGB(255, 86, 161, 179)
+              ],
+              begin: Alignment.topLeft,
+              end: Alignment.bottomRight,
             ),
-            const Spacer(),
-            Container(
-              decoration: BoxDecoration(shape: BoxShape.circle, boxShadow: [
-                BoxShadow(
-                  color: Colors.grey.withOpacity(0.5),
-                  spreadRadius: 4,
-                  blurRadius: 15,
-                  offset: const Offset(0, 3),
-                )
-              ]),
-              child: const CircleAvatar(
-                backgroundColor: Color.fromARGB(255, 136, 178, 215),
-                child: Icon(Icons.arrow_right_alt_rounded, color: Colors.white),
-              ),
+          ),
+          child: Container(
+            alignment: Alignment.center,
+            padding: const EdgeInsets.symmetric(horizontal: 16),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(
+                  buttonName,
+                  style: const TextStyle(
+                    fontFamily: "PlayfairDisplay",
+                    color: Colors.white,
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                Container(
+                  decoration: BoxDecoration(
+                    shape: BoxShape.circle,
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.black.withOpacity(0.3),
+                        spreadRadius: 2,
+                        blurRadius: 10,
+                        offset: const Offset(0, 3),
+                      )
+                    ],
+                  ),
+                  child: const CircleAvatar(
+                    backgroundColor: Colors.white,
+                    child: Icon(
+                      Icons.arrow_right_alt_rounded,
+                      color: Color(0xff2193b0),
+                    ),
+                  ),
+                ),
+              ],
             ),
-          ],
+          ),
         ),
       ),
     );

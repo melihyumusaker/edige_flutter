@@ -1,5 +1,6 @@
 // ignore_for_file: prefer_typing_uninitialized_variables, non_constant_identifier_names, avoid_print, file_names, unused_import
 
+import 'package:edige/screens/QR/QRScanPage.dart';
 import 'package:edige/screens/teacherPages/TeacherFirstEntry/TeacherCircularPage.dart';
 import 'package:edige/screens/teacherPages/TeachersStudents/Homework/AllHomeworksPage.dart';
 import 'package:edige/screens/teacherPages/TeachersStudents/Homework/DoneHomeworksPage.dart';
@@ -20,6 +21,7 @@ class TeacherController extends GetxController {
   var refreshToken = "".obs;
   var user_id = "".obs;
   var teacherInfo;
+  var role = "".obs;
 
   var studentsList = <Map<String, dynamic>>[].obs;
   var filteredStudentsList = <Map<String, dynamic>>[].obs;
@@ -73,6 +75,7 @@ class TeacherController extends GetxController {
 
       token.value = parsedResponse['token'];
       refreshToken.value = parsedResponse['refreshToken'];
+      role.value = parsedResponse['role'];
 
       var tokenPayload = getTokenPayload(parsedResponse['token']);
       if (tokenPayload.length % 4 > 0) {
@@ -83,25 +86,31 @@ class TeacherController extends GetxController {
 
       final userId = decodedPayload['user_id'].toString();
 
-      Get.find<TeacherController>().user_id.value = userId;
-      print('Teacherin User ID: $user_id');
-      Get.off(() => const TeacherCircularPage());
+      if (role.value == "TEACHER") {
+        Get.find<TeacherController>().user_id.value = userId;
+        Get.off(() => const TeacherCircularPage());
+      } else if (role.value == "ADMIN") {
+        Get.off(() => QRScanPage());
+      } else {
+        Get.dialog(loginUnsuccess());
+      }
     } else {
-      print('Login method çalışamadı');
-      Get.dialog(
-        AlertDialog(
-            title: const Text("Giriş Başarısız"),
-            content: const Text('Kullanıcı adı veya şifre hatalı.'),
-            actions: <Widget>[
-              TextButton(
-                onPressed: () {
-                  Get.back(); // Dialogu kapat
-                },
-                child: const Text('Tamam'),
-              ),
-            ]),
-      );
+      Get.dialog(loginUnsuccess());
     }
+  }
+
+  AlertDialog loginUnsuccess() {
+    return AlertDialog(
+        title: const Text("Giriş Başarısız"),
+        content: const Text('Kullanıcı adı veya şifre hatalı.'),
+        actions: <Widget>[
+          TextButton(
+            onPressed: () {
+              Get.back(); // Dialogu kapat
+            },
+            child: const Text('Tamam'),
+          ),
+        ]);
   }
 
   String getTokenPayload(String token) {

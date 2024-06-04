@@ -114,8 +114,13 @@ class ShowMeetingsPage extends StatelessWidget {
             itemBuilder: (context, index) {
               final meeting =
                   meetingController.studentAndTeacherSpecialMeetings[index];
+              final meetingDateTime = DateTime.parse(
+                  "${meeting['start_day']} ${meeting['start_hour']}");
+              final isPastMeeting = DateTime.now().isAfter(meetingDateTime) &&
+                  meeting["is_student_join"] == 1;
 
               return Card(
+                color: isPastMeeting ? Colors.blueGrey : Colors.white,
                 shape: RoundedRectangleBorder(
                   borderRadius:
                       BorderRadius.circular(scaleWidth(15.0, screenWidth)),
@@ -128,6 +133,14 @@ class ShowMeetingsPage extends StatelessWidget {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
+                      if (isPastMeeting)
+                        const Text(
+                          "Toplantı Gerçekleştirildi",
+                          style: TextStyle(
+                            color: Colors.white70,
+                            fontSize: 15,
+                          ),
+                        ),
                       titleAndDeleleUpdateButtons(
                           screenWidth, meeting, context, meetingController),
                       SizedBox(height: scaleHeight(12, screenHeight)),

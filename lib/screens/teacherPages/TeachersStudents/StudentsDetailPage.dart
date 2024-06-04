@@ -11,8 +11,26 @@ import 'package:edige/screens/teacherPages/TeachersStudents/WeeklyProgram/GetStu
 
 class StudentDetailPage extends StatelessWidget {
   final int student_id;
+  final String section;
+  final String school;
+  final String name;
+  final String surName;
+  final String birthDate;
+  final String email;
+  final String phone;
+  final String city;
 
-  const StudentDetailPage({Key? key, required this.student_id})
+  const StudentDetailPage(
+      {Key? key,
+      required this.student_id,
+      required this.section,
+      required this.school,
+      required this.name,
+      required this.surName,
+      required this.birthDate,
+      required this.email,
+      required this.phone,
+      required this.city})
       : super(key: key);
 
   @override
@@ -80,6 +98,61 @@ class StudentDetailPage extends StatelessWidget {
                   return const SizedBox.shrink(); // Boş alan
                 }
               }),
+              const SizedBox(height: 20),
+              customElevatedButton(
+                context,
+                "Öğrenci Bilgileri",
+                () {
+                  showDialog(
+                    context: context,
+                    builder: (context) {
+                      return AlertDialog(
+                        title: const Text(
+                          "Öğrenci Bilgileri",
+                          style: TextStyle(
+                              fontSize: 20, fontWeight: FontWeight.bold),
+                        ),
+                        content: Container(
+                          width: 300,
+                          child: Column(
+                            mainAxisSize: MainAxisSize.min,
+                            children: <Widget>[
+                              ListTile(
+                                title: const Text("Öğrenci İsmi"),
+                                subtitle: Text("$name $surName"),
+                              ),
+                              ListTile(
+                                title: const Text("Bölüm"),
+                                subtitle: Text(section),
+                              ),
+                              ListTile(
+                                title: const Text("Okul"),
+                                subtitle: Text(school),
+                              ),
+                              ListTile(
+                                title: const Text("Doğum Tarihi"),
+                                subtitle: Text(birthDate),
+                              ),
+                              ListTile(
+                                title: const Text("Email"),
+                                subtitle: Text(email),
+                              ),
+                              ListTile(
+                                title: const Text("Telefon"),
+                                subtitle: Text(phone),
+                              ),
+                              ListTile(
+                                title: const Text("Şehir"),
+                                subtitle: Text(city),
+                              ),
+                            ],
+                          ),
+                        ),
+                      );
+                    },
+                  );
+                },
+              ),
             ],
           ),
         ),

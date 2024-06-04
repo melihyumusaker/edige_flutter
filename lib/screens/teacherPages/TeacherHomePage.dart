@@ -1,5 +1,3 @@
-// ignore_for_file: file_names, non_constant_identifier_names
-
 import 'package:edige/controllers/MeetingController.dart';
 import 'package:edige/controllers/MessageControllers/MessageController.dart';
 import 'package:edige/screens/teacherPages/TeacherMessage/MessageBox.dart';
@@ -18,6 +16,9 @@ class TeacherHomePage extends StatelessWidget {
   Widget build(BuildContext context) {
     final meetingController = Get.find<MeetingController>();
     final controller = Get.put(TeacherController());
+    final buttonWidth = MediaQuery.of(context).size.width * 0.6;
+    final buttonHeight = MediaQuery.of(context).size.width * 0.15;
+
     return Scaffold(
       appBar: TeacherHomePageAppBar(),
       drawer: const TeacherDrawer(),
@@ -32,39 +33,36 @@ class TeacherHomePage extends StatelessWidget {
             children: [
               teacherInfoCard(controller),
               const SizedBox(height: 16),
-              studentInfosButton(),
-              messageButton(),
-              Padding(
-                padding: const EdgeInsets.only(top: 15.0),
-                child: ElevatedButton.icon(
-                  onPressed: () {
-                    meetingController.getTeacherAllMeetings(
-                      Get.find<TeacherController>().teacherId.value,
-                      Get.find<TeacherController>().token.value,
-                    );
-                    Get.to(() =>const ShowAllTeacherMeetingsPage());
-                  },
-                  icon: const Icon(
-                    Icons.arrow_forward,
-                    color: Colors.white,
-                  ),
-                  label: const Text(
-                    "Toplantılar",
-                    style: TextStyle(fontSize: 16, color: Colors.black),
-                  ),
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.lightBlue,
-                    foregroundColor: Colors.white,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(20),
-                    ),
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: 20,
-                      vertical: 12,
-                    ), // Custom padding
-                  ),
-                ),
-              )
+              buildButton(
+                width: buttonWidth,
+                height: buttonHeight,
+                text: "Öğrenci İşlemleri",
+                onPressed: () {
+                  Get.toNamed("/TeachersStudentsListPage");
+                },
+              ),
+              buildButton(
+                width: buttonWidth,
+                height: buttonHeight,
+                text: "Mesaj İşlemleri",
+                onPressed: () {
+                  Get.to(() => const MessageBox(), binding: BindingsBuilder(() {
+                    Get.put(MessageController());
+                  }));
+                },
+              ),
+              buildButton(
+                width: buttonWidth,
+                height: buttonHeight,
+                text: "Toplantılar",
+                onPressed: () {
+                  meetingController.getTeacherAllMeetings(
+                    Get.find<TeacherController>().teacherId.value,
+                    Get.find<TeacherController>().token.value,
+                  );
+                  Get.to(() => const ShowAllTeacherMeetingsPage());
+                },
+              ),
             ],
           ),
         ),
@@ -72,54 +70,40 @@ class TeacherHomePage extends StatelessWidget {
     );
   }
 
-  Padding messageButton() {
+  // Ortak buton oluşturma fonksiyonu
+  Padding buildButton({
+    required double width,
+    required double height,
+    required String text,
+    required VoidCallback onPressed,
+  }) {
     return Padding(
       padding: const EdgeInsets.only(top: 15.0),
-      child: ElevatedButton.icon(
-        onPressed: () {
-          Get.to(() => const MessageBox(), binding: BindingsBuilder(() {
-            Get.put(MessageController());
-          }));
-        },
-        icon: const Icon(
-          Icons.arrow_forward,
-          color: Colors.white,
-        ),
-        label: const Text(
-          "Mesaj İşlemleri",
-          style: TextStyle(fontSize: 16, color: Colors.black),
-        ),
-        style: ElevatedButton.styleFrom(
-          backgroundColor: Colors.lightBlue,
-          foregroundColor: Colors.white,
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(20),
+      child: SizedBox(
+        width: width,
+        height: height,
+        child: ElevatedButton.icon(
+          onPressed: onPressed,
+          icon: const Icon(
+            Icons.arrow_forward,
+            color: Colors.white,
           ),
-          padding: const EdgeInsets.symmetric(
-            horizontal: 20,
-            vertical: 12,
-          ), // Custom padding
+          label: Text(
+            text,
+            style: const TextStyle(fontSize: 16, color: Colors.black),
+          ),
+          style: ElevatedButton.styleFrom(
+            backgroundColor: Colors.lightBlue,
+            foregroundColor: Colors.white,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(20),
+            ),
+            padding: const EdgeInsets.symmetric(
+              horizontal: 20,
+              vertical: 12,
+            ), // Custom padding
+          ),
         ),
-      ),
-    );
-  }
-
-  FloatingActionButton studentInfosButton() {
-    return FloatingActionButton.extended(
-      onPressed: () {
-        Get.toNamed("/TeachersStudentsListPage");
-      },
-      label: const Text(
-        "Öğrenci İşlemleri",
-        style: TextStyle(fontSize: 16),
-      ),
-      icon: const Icon(
-        Icons.arrow_forward,
-        color: Colors.white,
-      ),
-      backgroundColor: Colors.lightBlue,
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(20),
       ),
     );
   }

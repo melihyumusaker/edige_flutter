@@ -1,4 +1,4 @@
-// ignore_for_file: file_names, must_be_immutable, prefer_typing_uninitialized_variables, library_private_types_in_public_api, non_constant_identifier_names
+// ignore_for_file: use_build_context_synchronously, file_names, must_be_immutable, library_private_types_in_public_api, non_constant_identifier_names, prefer_typing_uninitialized_variables
 
 import 'package:edige/controllers/MeetingController.dart';
 import 'package:flutter/material.dart';
@@ -20,6 +20,11 @@ class _MeetingDetailPageState extends State<MeetingDetailPage> {
   bool? studentAttended;
   bool? parentAttended;
   final TextEditingController commentController = TextEditingController();
+
+  bool get isFormValid =>
+      studentAttended != null &&
+      parentAttended != null &&
+      commentController.text.isNotEmpty;
 
   @override
   Widget build(BuildContext context) {
@@ -144,6 +149,9 @@ class _MeetingDetailPageState extends State<MeetingDetailPage> {
                             hintText: 'Yorumunuzu buraya yazın',
                             hintStyle: TextStyle(color: Colors.grey[700]),
                           ),
+                          onChanged: (text) {
+                            setState(() {});
+                          },
                         ),
                       ),
                       const SizedBox(
@@ -169,18 +177,61 @@ class _MeetingDetailPageState extends State<MeetingDetailPage> {
       double buttonPaddingHorizontal, double buttonPaddingVertical) {
     return Center(
       child: ElevatedButton(
-        onPressed: () async {
-          int studentAttendedValue = studentAttended == true ? 1 : 0;
-          int parentAttendedValue = parentAttended == true ? 1 : 0;
-          String comment = commentController.text;
+        onPressed: isFormValid
+            ? () async {
+                int studentAttendedValue = studentAttended == true ? 1 : 0;
+                int parentAttendedValue = parentAttended == true ? 1 : 0;
+                String comment = commentController.text;
 
-          await meetingController.updateMeeting(
-            meetingId: widget.meetingId,
-            isStudentJoin: studentAttendedValue,
-            isParentJoin: parentAttendedValue,
-            teacherComment: comment,
-          );
-        },
+                bool isSuccess = await meetingController.updateMeeting(
+                  meetingId: widget.meetingId,
+                  isStudentJoin: studentAttendedValue,
+                  isParentJoin: parentAttendedValue,
+                  teacherComment: comment,
+                );
+
+                 showDialog(
+                  context: context,
+                  builder: (BuildContext context) {
+                    Future.delayed(const Duration(seconds: 1), () {
+                      Navigator.of(context).pop(true);
+                    });
+                    return AlertDialog(
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                      title: Row(
+                        children: [
+                          Icon(
+                            isSuccess ? Icons.check_circle : Icons.error,
+                            color: isSuccess ? Colors.green : Colors.red,
+                          ),
+                          const SizedBox(width: 8),
+                          Text(isSuccess ? 'Başarılı' : 'Başarısız'),
+                        ],
+                      ),
+                      content: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Icon(
+                            isSuccess ? Icons.check_circle : Icons.error,
+                            color: isSuccess ? Colors.green : Colors.red,
+                            size: 80,
+                          ),
+                          const SizedBox(height: 16),
+                          Text(
+                            isSuccess
+                                ? 'İşlem başarılı bir şekilde gerçekleştirildi.'
+                                : 'İşlem başarısız oldu. Lütfen tekrar deneyin.',
+                            textAlign: TextAlign.center,
+                          ),
+                        ],
+                      ),
+                    );
+                  },
+                );
+              }
+            : null,
         style: ElevatedButton.styleFrom(
           backgroundColor: null,
           padding: EdgeInsets.zero,
