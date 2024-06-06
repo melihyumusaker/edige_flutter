@@ -44,7 +44,12 @@ class TeachersStudentsListPage extends StatelessWidget {
     return Expanded(
       child: Obx(() {
         if (teacherController.studentsList.isEmpty) {
-          return const Center(child: CircularProgressIndicator());
+          return const Center(
+              child: Text(
+            "Herhangi Bir Öğrenciniz Henüz Bulunmamakta",
+            style: TextStyle(color: Colors.white, fontSize: 25),
+            textAlign: TextAlign.center,
+          ));
         }
 
         return ListView.builder(

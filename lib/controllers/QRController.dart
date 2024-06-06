@@ -53,7 +53,7 @@ class QRController extends GetxController {
         body: jsonEncode({'user_id': userId}),
       );
       if (response.statusCode == 200) {
-         realResponse.value = "Giriş Başarili";
+        realResponse.value = response.body; // Sunucudan gelen yanıtı burada kullanın
         return response;
       } else {
         debugPrint('Server Error: ${response.statusCode}');

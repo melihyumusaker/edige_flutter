@@ -1,91 +1,103 @@
-// ignore_for_file: file_names, non_constant_identifier_names, unused_element, no_leading_underscores_for_local_identifiers, use_build_context_synchronously, unused_local_variable
-
 import 'package:edige/controllers/CourseController.dart';
 import 'package:edige/controllers/LessonController.dart';
-import 'package:edige/controllers/TeacherController.dart';
+import 'package:edige/utils/CustomDecorations.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 
-class NewHomeworkPage extends StatelessWidget {
+class NewHomeworkPage extends StatefulWidget {
   final int studentId;
   const NewHomeworkPage({Key? key, required this.studentId}) : super(key: key);
 
   @override
-  Widget build(BuildContext context) {
-    final courseController = Get.put<CourseController>(CourseController());
-    final teacherController = Get.find<TeacherController>();
-    final lessonController = Get.find<LessonController>();
+  State<NewHomeworkPage> createState() => _NewHomeworkPageState();
+}
 
-    TextEditingController courseNameController = TextEditingController();
-    TextEditingController subjectNameController = TextEditingController();
-    TextEditingController homeworkDescriptionController =
-        TextEditingController();
-    TextEditingController deadlineController = TextEditingController();
+class _NewHomeworkPageState extends State<NewHomeworkPage> {
+  late TextEditingController courseNameController;
+  late TextEditingController subjectNameController;
+  late TextEditingController homeworkDescriptionController;
+  late TextEditingController deadlineController;
 
-    Future<void> _selectDateAndTime(BuildContext context) async {
-      DateTime? pickedDate = await showDatePicker(
+  @override
+  void initState() {
+    super.initState();
+    courseNameController = TextEditingController();
+    subjectNameController = TextEditingController();
+    homeworkDescriptionController = TextEditingController();
+    deadlineController = TextEditingController();
+  }
+
+  Future<void> _selectDateAndTime(BuildContext context) async {
+    DateTime? pickedDate = await showDatePicker(
+      context: context,
+      initialDate: DateTime.now(),
+      firstDate: DateTime.now(),
+      lastDate: DateTime(DateTime.now().year + 1),
+    );
+
+    if (pickedDate != null) {
+      TimeOfDay? pickedTime = await showTimePicker(
         context: context,
-        initialDate: DateTime.now(),
-        firstDate: DateTime.now(),
-        lastDate: DateTime(DateTime.now().year + 1),
+        initialTime: TimeOfDay.now(),
       );
 
-      if (pickedDate != null) {
-        TimeOfDay? pickedTime = await showTimePicker(
-          context: context,
-          initialTime: TimeOfDay.now(),
+      if (pickedTime != null) {
+        DateTime combinedDateTime = DateTime(
+          pickedDate.year,
+          pickedDate.month,
+          pickedDate.day,
+          pickedTime.hour,
+          pickedTime.minute,
         );
 
-        if (pickedTime != null) {
-          DateTime combinedDateTime = DateTime(
-            pickedDate.year,
-            pickedDate.month,
-            pickedDate.day,
-            pickedTime.hour,
-            pickedTime.minute,
-          );
-
-          deadlineController.text = combinedDateTime.toString();
-        }
+        setState(() {
+          deadlineController.text =
+              DateFormat('yyyy-MM-dd HH:mm').format(combinedDateTime);
+        });
       }
     }
+  }
 
-    String formatDate(DateTime dateTime) {
-      String formattedDate =
-          "${dateTime.year}-${dateTime.month.toString().padLeft(2, '0')}-${dateTime.day.toString().padLeft(2, '0')}";
-      String formattedTime =
-          "${dateTime.hour.toString().padLeft(2, '0')}:${dateTime.minute.toString().padLeft(2, '0')}";
-      return "$formattedDate $formattedTime";
-    }
+  String formatDate(DateTime dateTime) {
+    String formattedDate =
+        "${dateTime.year}-${dateTime.month.toString().padLeft(2, '0')}-${dateTime.day.toString().padLeft(2, '0')}";
+    String formattedTime =
+        "${dateTime.hour.toString().padLeft(2, '0')}:${dateTime.minute.toString().padLeft(2, '0')}";
+    return "$formattedDate $formattedTime";
+  }
 
-    Widget buildTextFormField(
-        TextEditingController controller, String labelText,
-        {bool isMultiline = false, Function()? onTap}) {
-      return TextFormField(
-        controller: controller,
-        decoration: InputDecoration(
-          labelText: labelText,
-          border: const OutlineInputBorder(
-            borderSide: BorderSide(
-              color: Colors.white,
-              width: 2.0,
-            ),
+  Widget buildTextFormField(TextEditingController controller, String labelText,
+      {bool isMultiline = false, Function()? onTap}) {
+    return TextFormField(
+      controller: controller,
+      decoration: InputDecoration(
+        labelText: labelText,
+        border: const OutlineInputBorder(
+          borderSide: BorderSide(
+            color: Colors.white,
+            width: 2.0,
           ),
-          filled: true,
-          fillColor: Colors.white.withOpacity(0.5),
-          contentPadding: const EdgeInsets.all(12.0),
         ),
-        maxLines: isMultiline ? 5 : 1,
-        onTap: onTap,
-      );
-    }
+        filled: true,
+        fillColor: Colors.white.withOpacity(0.5),
+        contentPadding: const EdgeInsets.all(12.0),
+      ),
+      maxLines: isMultiline ? 5 : 1,
+      onTap: onTap,
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final courseController = Get.put<CourseController>(CourseController());
+    final lessonController = Get.find<LessonController>();
 
     return Scaffold(
       appBar: newHomeworkPageAppBar(context),
       body: SingleChildScrollView(
         child: Container(
-          height: MediaQuery.of(context).size.height,
+          height: MediaQuery.of(context).size.height * 1.3,
           decoration: const BoxDecoration(
             gradient: LinearGradient(
               colors: [Colors.blue, Colors.green, Colors.orange],
@@ -134,72 +146,109 @@ class NewHomeworkPage extends StatelessWidget {
 
   Obx konuAltBaslikSecmeDropDown(LessonController lessonController,
       TextEditingController subjectNameController) {
-    return Obx(() => DropdownButtonFormField<String>(
-          decoration: InputDecoration(
-            labelText: 'Alt Ders Detayı',
-            border: const OutlineInputBorder(),
-            filled: true,
-            fillColor: Colors.white.withOpacity(0.5),
+    return Obx(() => DropdownButtonHideUnderline(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              InputDecorator(
+                decoration: InputDecoration(
+                  border: const OutlineInputBorder(),
+                  filled: true,
+                  fillColor: Colors.white.withOpacity(0.5),
+                ),
+                isEmpty:
+                    lessonController.selectedTextSublessonDetailName.value ==
+                        '',
+                child: DropdownButton<String>(
+                  isExpanded: true,
+                  value: lessonController
+                          .selectedTextSublessonDetailName.value.isEmpty
+                      ? null
+                      : lessonController.selectedTextSublessonDetailName.value,
+                  onChanged: lessonController
+                          .isSublessonDetailDropdownEnabled.value
+                      ? (String? newValue) {
+                          if (newValue != null) {
+                            lessonController.selectedTextSublessonDetailName
+                                .value = newValue;
+                            WidgetsBinding.instance.addPostFrameCallback((_) {
+                              subjectNameController.text =
+                                  "${lessonController.selectedTextSubLessonName} - $newValue";
+                            });
+                            lessonController.disableAllDropdowns();
+                          }
+                        }
+                      : null,
+                  items: lessonController.filteredSublessonNameDetails
+                      .map<DropdownMenuItem<String>>((String detail) {
+                    return DropdownMenuItem<String>(
+                      value: detail,
+                      child: Text(
+                        detail,
+                        maxLines: 3,
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                    );
+                  }).toList(),
+                  hint: const Text("Lütfen bir alt ders detayı seçin"),
+                ),
+              ),
+            ],
           ),
-          value: null,
-          items: lessonController.filteredSublessonNameDetails
-              .map((String detail) {
-            return DropdownMenuItem<String>(
-              value: detail,
-              child: Text(detail.length > 40
-                  ? '${detail.substring(0, 40)}...'
-                  : detail),
-            );
-          }).toList(),
-          onChanged: lessonController.isSublessonDetailDropdownEnabled.value
-              ? (String? newValue) {
-                  if (newValue != null) {
-                    lessonController.selectedTextSublessonDetailName.value =
-                        newValue;
-                    WidgetsBinding.instance.addPostFrameCallback((_) {
-                      subjectNameController.text =
-                          "${lessonController.selectedTextSubLessonName} - $newValue";
-                    });
-                    lessonController.disableAllDropdowns();
-                  }
-                }
-              : null,
-          hint: const Text("Lütfen bir alt ders detayı seçin"),
         ));
   }
 
   Obx konuSecmeDropDown(LessonController lessonController,
       TextEditingController subjectNameController) {
-    return Obx(() => DropdownButtonFormField<String>(
-          decoration: InputDecoration(
-            labelText: 'Alt Ders Adı',
-            border: const OutlineInputBorder(),
-            filled: true,
-            fillColor: Colors.white.withOpacity(0.5),
+    return Obx(() => DropdownButtonHideUnderline(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              InputDecorator(
+                decoration: InputDecoration(
+                  border: const OutlineInputBorder(),
+                  filled: true,
+                  fillColor: Colors.white.withOpacity(0.5),
+                ),
+                isEmpty: lessonController.selectedTextSubLessonName.value == '',
+                child: DropdownButton<String>(
+                  isExpanded: true,
+                  value:
+                      lessonController.selectedTextSubLessonName.value.isEmpty
+                          ? null
+                          : lessonController.selectedTextSubLessonName.value,
+                  onChanged: lessonController
+                          .isSublessonNameDropdownEnabled.value
+                      ? (String? newValue) {
+                          if (newValue != null) {
+                            lessonController.selectedTextSubLessonName.value =
+                                newValue;
+                            subjectNameController.text =
+                                "${lessonController.selectedTextSubLessonName.value} - ${lessonController.selectedTextSublessonDetailName.value}";
+                            lessonController.filterSublessonNameDetails(
+                                lessonController.selectedGrade.value,
+                                lessonController.selectedLessonName.value,
+                                newValue);
+                            lessonController.enableSublessonDetailDropdown();
+                          }
+                        }
+                      : null,
+                  items: lessonController.filteredSublessonNames
+                      .map<DropdownMenuItem<String>>((String name) {
+                    return DropdownMenuItem<String>(
+                      value: name,
+                      child: Text(
+                        name,
+                        maxLines: 3,
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                    );
+                  }).toList(),
+                  hint: const Text("Lütfen bir alt ders adı seçin"),
+                ),
+              ),
+            ],
           ),
-          value: null,
-          items: lessonController.filteredSublessonNames.map((String name) {
-            return DropdownMenuItem<String>(
-              value: name,
-              child:
-                  Text(name.length > 40 ? '${name.substring(0, 40)}...' : name),
-            );
-          }).toList(),
-          onChanged: lessonController.isSublessonNameDropdownEnabled.value
-              ? (String? newValue) {
-                  if (newValue != null) {
-                    lessonController.selectedTextSubLessonName.value = newValue;
-                    subjectNameController.text =
-                        "${lessonController.selectedTextSubLessonName.value} - ${lessonController.selectedTextSublessonDetailName.value}";
-                    lessonController.filterSublessonNameDetails(
-                        lessonController.selectedGrade.value,
-                        lessonController.selectedLessonName.value,
-                        newValue);
-                    lessonController.enableSublessonDetailDropdown();
-                  }
-                }
-              : null,
-          hint: const Text("Lütfen bir alt ders adı seçin"),
         ));
   }
 
@@ -286,13 +335,8 @@ class NewHomeworkPage extends StatelessWidget {
         },
       ),
       flexibleSpace: Container(
-        decoration: const BoxDecoration(
-          gradient: LinearGradient(
-            begin: Alignment.centerLeft,
-            end: Alignment.centerRight,
-            colors: [Colors.blue, Colors.green],
-          ),
-        ),
+        decoration: CustomDecorations.buildGradientBoxDecoration(
+            Colors.blue, Colors.green),
       ),
     );
   }
@@ -316,7 +360,7 @@ class NewHomeworkPage extends StatelessWidget {
             subjectNameController.text,
             homeworkDescriptionController.text,
             formattedDeadline,
-            studentId);
+            widget.studentId);
       },
       style: ElevatedButton.styleFrom(
         backgroundColor: Colors.transparent,

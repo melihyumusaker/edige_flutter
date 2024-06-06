@@ -28,25 +28,27 @@ class ChoosingTeacher extends StatelessWidget {
         width: double.infinity,
         child: Padding(
           padding: const EdgeInsets.all(15.0),
-          child: PaginatedDataTable(
-            showCheckboxColumn: false,
-            dataRowMinHeight: MediaQuery.of(context).size.height * 0.1,
-            dataRowMaxHeight: MediaQuery.of(context).size.height * 0.1,
-            header: const Text('Listeden Öğretmen Seçiniz'),
-            rowsPerPage: 6,
-            columns: const [
-              DataColumn(
-                  label: Text(
-                'Öğretmen',
-                style: TextStyle(fontSize: 20),
-              )),
-              DataColumn(
-                  label: Text(
-                'Uzmanlık',
-                style: TextStyle(fontSize: 20),
-              )),
-            ],
-            source: TeacherDataSource(), // Veri kaynağı
+          child: SingleChildScrollView(
+            child: PaginatedDataTable(
+              showCheckboxColumn: false,
+              dataRowMinHeight: MediaQuery.of(context).size.height * 0.1,
+              dataRowMaxHeight: MediaQuery.of(context).size.height * 0.1,
+              header: const Text('Listeden Öğretmen Seçiniz'),
+              rowsPerPage: 6,
+              columns: const [
+                DataColumn(
+                    label: Text(
+                  'Öğretmen',
+                  style: TextStyle(fontSize: 20),
+                )),
+                DataColumn(
+                    label: Text(
+                  'Uzmanlık',
+                  style: TextStyle(fontSize: 20),
+                )),
+              ],
+              source: TeacherDataSource(), // Veri kaynağı
+            ),
           ),
         ),
       ),

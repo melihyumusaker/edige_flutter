@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
+import 'package:edige/utils/CustomDecorations.dart';
 
 class SetStudentTrialExamPage extends StatelessWidget {
   final int studentId;
@@ -37,16 +38,9 @@ class SetStudentTrialExamPage extends StatelessWidget {
         backgroundColor: const Color.fromARGB(255, 235, 166, 154),
       ),
       body: Container(
-        decoration: const BoxDecoration(
-          gradient: LinearGradient(
-            begin: Alignment.topCenter,
-            end: Alignment.bottomCenter,
-            colors: [
-              Color.fromARGB(255, 235, 166, 154),
-              Color.fromARGB(255, 81, 163, 201)
-            ],
-          ),
-        ),
+        decoration: CustomDecorations.buildGradientBoxDecoration(
+            const Color.fromARGB(255, 235, 166, 154),
+            const Color.fromARGB(255, 81, 163, 201)),
         child: SingleChildScrollView(
           child: Padding(
             padding: const EdgeInsets.all(16.0),
@@ -249,12 +243,32 @@ class SetStudentTrialExamPage extends StatelessWidget {
         ),
         keyboardType: TextInputType.number,
         inputFormatters: <TextInputFormatter>[
-          FilteringTextInputFormatter.allow(
-            RegExp(r'[0-9]'),
-          ),
+          FilteringTextInputFormatter.allow(RegExp(r'[0-9]')),
           LengthLimitingTextInputFormatter(2),
+          CustomRangeTextInputFormatter(max: 40),
         ],
       ),
     );
+  }
+}
+
+class CustomRangeTextInputFormatter extends TextInputFormatter {
+  final int max;
+
+  CustomRangeTextInputFormatter({required this.max});
+
+  @override
+  TextEditingValue formatEditUpdate(
+      TextEditingValue oldValue, TextEditingValue newValue) {
+    if (newValue.text.isEmpty) {
+      return newValue;
+    }
+
+    final int? value = int.tryParse(newValue.text);
+    if (value == null || value > max) {
+      return oldValue;
+    }
+
+    return newValue;
   }
 }

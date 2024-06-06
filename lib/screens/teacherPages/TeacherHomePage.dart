@@ -70,7 +70,6 @@ class TeacherHomePage extends StatelessWidget {
     );
   }
 
-  // Ortak buton oluşturma fonksiyonu
   Padding buildButton({
     required double width,
     required double height,
@@ -145,12 +144,12 @@ class TeacherHomePage extends StatelessWidget {
     );
   }
 
-  Widget buildText(String label, String value) {
+  Widget buildText(String label, String? value) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          '$label: $value',
+          '$label: ${value ?? 'Bilinmiyor'}',
           style: const TextStyle(
             fontSize: 18,
             color: Colors.white70,

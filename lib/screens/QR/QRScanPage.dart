@@ -60,8 +60,8 @@ class _QRScanPageState extends State<QRScanPage> {
                     padding: EdgeInsets.all(screenHeight * 0.02),
                     color: Colors.deepPurpleAccent,
                     child: Text(
-                      result != null
-                          ? Get.find<QRController>().realResponse.value
+                      qrController.realResponse.value.isNotEmpty
+                          ? qrController.realResponse.value
                           : 'QR kodu tarayın',
                       textAlign: TextAlign.center,
                       style: TextStyle(
@@ -105,7 +105,6 @@ class _QRScanPageState extends State<QRScanPage> {
         int userId = int.tryParse(result!.code ?? "") ?? 0;
         if (userId > 0) {
           final qrController = Get.find<QRController>();
-
           await qrController.saveStudentRecords(userId);
         }
       }

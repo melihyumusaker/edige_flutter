@@ -3,6 +3,7 @@
 import 'package:edige/controllers/TeacherController.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:edige/screens/programDefaultPages/FirstScreen.dart';
 
 class TeacherAboutPage extends StatelessWidget {
   final String enneagramType;
@@ -36,14 +37,18 @@ class TeacherAboutPage extends StatelessWidget {
         String aboutText = aboutController.text;
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(
-            content: Text('Giriş Başarılı'),
-            duration: Duration(seconds: 2),
+            content: Text(
+              'Kaydınız başarıyla oluşturuldu. Tekrar Giriş Yapınız',
+              style: TextStyle(color: Colors.white),
+            ),
+            duration: Duration(seconds: 3),
+            backgroundColor: Colors.green,
           ),
         );
         await Get.find<TeacherController>()
             .updateTeacherEnneagramTypeAndAbout(aboutText, enneagramType);
 
-        Get.toNamed("/TeacherHomePage");
+        Get.off(() => const FirstScreen());
       },
       style: ElevatedButton.styleFrom(
         backgroundColor: Colors.lightBlue,
@@ -80,9 +85,7 @@ class TeacherAboutPage extends StatelessWidget {
     return const Text(
       'Lütfen kendinizi tanıtınız',
       style: TextStyle(
-          fontSize: 24.0,
-          fontWeight: FontWeight.bold,
-          color: Colors.lightBlue), 
+          fontSize: 24.0, fontWeight: FontWeight.bold, color: Colors.lightBlue),
     );
   }
 
