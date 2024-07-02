@@ -46,7 +46,7 @@ class TeacherHomePage extends StatelessWidget {
                 height: buttonHeight,
                 text: "Mesaj İşlemleri",
                 onPressed: () {
-                  Get.to(() => const MessageBox(), binding: BindingsBuilder(() {
+                  Get.to(() => const MessageBox(),transition: Transition.rightToLeft, binding: BindingsBuilder(() {
                     Get.put(MessageController());
                   }));
                 },
@@ -60,7 +60,7 @@ class TeacherHomePage extends StatelessWidget {
                     Get.find<TeacherController>().teacherId.value,
                     Get.find<TeacherController>().token.value,
                   );
-                  Get.to(() => const ShowAllTeacherMeetingsPage());
+                  Get.to(() => const ShowAllTeacherMeetingsPage(),transition: Transition.rightToLeft);
                 },
               ),
             ],

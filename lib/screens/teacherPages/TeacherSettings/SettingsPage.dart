@@ -18,7 +18,9 @@ class SettingsPage extends StatelessWidget {
       body: Column(children: [
         ElevatedButton(
             onPressed: () {
-              Get.to(() => ForgetMyPasswordPage(token: token, email: email));
+              Get.to(() => ForgetMyPasswordPage(token: token, email: email),
+                  transition: Transition
+                      .rightToLeft);
             },
             child: const Text('Şifre Değiştir'))
       ]),

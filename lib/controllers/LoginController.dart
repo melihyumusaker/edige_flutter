@@ -78,7 +78,9 @@ class LoginController extends GetxController {
         await Get.find<StudentController>()
             .getStudentIdByUserId(int.parse(user_id.value));
 
-        Get.off(() => const CircularPage());
+        Get.off(() => const CircularPage(),
+                  transition: Transition
+                      .rightToLeft);
       } else {
         Get.dialog(loginUnsuccess());
       }

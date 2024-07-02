@@ -133,28 +133,31 @@ class _EnneagramTypeState extends State<TeacherEnneagramType> {
   }
 
   Container enneagramTypeSendButton() {
-  return Container(
-    margin: const EdgeInsets.all(16.0),
-    child: Center(
-      child: ElevatedButton(
-        onPressed: () async {
-          if (selectedTypeIndex != -1) {
-            String selectedType = enneagramList[selectedTypeIndex]['tip']; // Seçilen tipi al
-            String typeNumber = selectedType.split(' - ')[0]; // "Tip X" formatında olan kısmı al
-            Get.to(() => TeacherAboutPage(enneagramType: typeNumber)); // "Tip X" formatındaki tipi TeacherAboutPage'e geçir
-          } else {
-            print('Lütfen bir tip seçin.');
-          }
-        },
-        child: const Text(
-          'Devam Et',
-          style: TextStyle(color: Colors.black87),
+    return Container(
+      margin: const EdgeInsets.all(16.0),
+      child: Center(
+        child: ElevatedButton(
+          onPressed: () async {
+            if (selectedTypeIndex != -1) {
+              String selectedType =
+                  enneagramList[selectedTypeIndex]['tip']; 
+              String typeNumber = selectedType
+                  .split(' - ')[0]; 
+              Get.to(() => TeacherAboutPage(enneagramType: typeNumber),
+                  transition: Transition
+                      .rightToLeft); 
+            } else {
+              print('Lütfen bir tip seçin.');
+            }
+          },
+          child: const Text(
+            'Devam Et',
+            style: TextStyle(color: Colors.black87),
+          ),
         ),
       ),
-    ),
-  );
-}
-
+    );
+  }
 }
 
 Widget contentBox(context) {

@@ -51,7 +51,9 @@ class MessageBox extends StatelessWidget {
             Get.to(() => ChatPage(
                   receiverId: message['user_id'],
                   receiverName: message['name'],
-                ));
+                ),
+                  transition: Transition
+                      .rightToLeft);
           },
           child: Container(
             decoration: CustomDecorations.buildGradientBoxDecoration(
@@ -141,7 +143,9 @@ class MessageBox extends StatelessWidget {
           padding: const EdgeInsets.all(8.0),
           child: InkWell(
             onTap: () {
-              Get.to(() => StartChatPage());
+              Get.to(() => StartChatPage(),
+                  transition: Transition
+                      .rightToLeft);
             },
             child: Container(
               decoration: const BoxDecoration(

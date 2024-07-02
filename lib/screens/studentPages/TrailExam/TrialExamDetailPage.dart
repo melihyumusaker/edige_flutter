@@ -259,16 +259,16 @@ Widget getBottomTitles(double value, TitleMeta meta) {
       text = const Text('MY', style: style);
       break;
     case 4:
-      text = const Text('SD', style: style);
-      break;
-    case 5:
-      text = const Text('SY', style: style);
-      break;
-    case 6:
       text = const Text('FD', style: style);
       break;
-    case 7:
+    case 5:
       text = const Text('FY', style: style);
+      break;
+    case 6:
+      text = const Text('SD', style: style);
+      break;
+    case 7:
+      text = const Text('SY', style: style);
       break;
     default:
       text = const Text('', style: style);

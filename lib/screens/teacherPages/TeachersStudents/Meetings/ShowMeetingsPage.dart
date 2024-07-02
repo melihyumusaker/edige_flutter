@@ -173,10 +173,10 @@ class ShowMeetingsPage extends StatelessWidget {
                           IconButton(
                             onPressed: () {
                               Get.to(
-                                () => MeetingDetailPage(
-                                  meetingId: meeting["meeting_id"],
-                                ),
-                              );
+                                  () => MeetingDetailPage(
+                                        meetingId: meeting["meeting_id"],
+                                      ),
+                                  transition: Transition.rightToLeft);
                             },
                             icon: const Icon(
                               Icons.arrow_forward,
@@ -259,14 +259,16 @@ class ShowMeetingsPage extends StatelessWidget {
                 size: scaleWidth(24, screenWidth),
               ),
               onPressed: () {
-                Get.to(() => UpdateMeetingPage(
-                    meetingId: meeting['meeting_id'],
-                    title: meeting['title'],
-                    description: meeting['description'],
-                    startDay: meeting['start_day'],
-                    startHour: meeting['start_hour'],
-                    location: meeting['location'],
-                    studentId: studentId));
+                Get.to(
+                    () => UpdateMeetingPage(
+                        meetingId: meeting['meeting_id'],
+                        title: meeting['title'],
+                        description: meeting['description'],
+                        startDay: meeting['start_day'],
+                        startHour: meeting['start_hour'],
+                        location: meeting['location'],
+                        studentId: studentId),
+                    transition: Transition.rightToLeft);
               },
             ),
           ],
@@ -294,7 +296,8 @@ class ShowMeetingsPage extends StatelessWidget {
             color: Colors.lime,
           ),
           onPressed: () {
-            Get.to(() => CreateMeetingsPage(studentId: studentId));
+            Get.to(() => CreateMeetingsPage(studentId: studentId),
+                transition: Transition.rightToLeft);
           },
         ),
       ],

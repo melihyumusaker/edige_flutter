@@ -3,6 +3,7 @@
 import 'package:edige/controllers/CourseController.dart';
 import 'package:edige/controllers/LoginController.dart';
 import 'package:edige/controllers/MeetingController.dart';
+import 'package:edige/controllers/NotifStudentController.dart';
 import 'package:edige/controllers/StudentController.dart';
 import 'package:edige/controllers/TrialExamController.dart';
 import 'package:edige/screens/studentPages/EnneagramType.dart';
@@ -23,7 +24,7 @@ class CircularPage extends StatelessWidget {
           Get.find<StudentController>().studentId.value);
 
       if (Get.find<StudentController>().isEnneagramTestSolved.value == 0) {
-        Get.off(const EnneagramType());
+        Get.off(const EnneagramType(), transition: Transition.rightToLeft);
       } else if (Get.find<StudentController>().isEnneagramTestSolved.value ==
           1) {
         await Get.find<CourseController>()
@@ -39,6 +40,11 @@ class CircularPage extends StatelessWidget {
             Get.find<LoginController>().token.value);
         Get.offNamed('/HomePage');
       }
+
+      await Get.find<NotifStudentController>().getNotifStudentByStudentId(
+          Get.find<StudentController>().studentId.value);
+
+      await Get.find<NotifStudentController>().getUnseenNotifNumber(Get.find<StudentController>().studentId.value);
     } else {
       // If user ID is not available, redirect to the login screen
       debugPrint('Hata: User ID boş veya geçersiz.');

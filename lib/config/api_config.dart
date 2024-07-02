@@ -1,5 +1,5 @@
 class ApiConfig {
-  static const String baseUrl = 'http://192.168.1.55:8080';
+  static const String baseUrl = 'http://192.168.1.39:8080';
   static const String signInEndpoint = '/api/v1/auth/signin';
   static const String getStudentIdByUserId = '/students/getStudentIdByUserId';
   static const String getStudentById = '/students/getStudentById';
@@ -64,4 +64,8 @@ class ApiConfig {
   static const String forgetPassword = '/api/v1/auth/forget-password';
   static const String countUnshown = '/trial-exams/countUnshown';
   static const String countUnshownMeetings = '/meetings/countUnshown';
+  static const String getStudentTotalRecord = '/qrSettings/getStudentTotalRecord';
+  static const String getNotifStudentByStudentId = '/notifStudent/getNotifStudentByStudentId';
+   static const String getUnseenNotifNumber = '/notifStudent/getUnseenNotifNumber';
+      static const String setAllNotifsUnshownValue1 = '/notifStudent/setAllNotifsUnshownValue1';
 }

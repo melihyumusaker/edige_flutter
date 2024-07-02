@@ -192,7 +192,9 @@ class ShowAllTeacherMeetingsPage extends StatelessWidget {
                                         location: meeting['location'],
                                         studentId: meeting['relation_id']
                                             ['student_id']['student_id'],
-                                      ));
+                                      ),
+                  transition: Transition
+                      .rightToLeft);
                                 },
                               ),
                             ],
@@ -245,6 +247,8 @@ class ShowAllTeacherMeetingsPage extends StatelessWidget {
                                 () => MeetingDetailPage(
                                   meetingId: meeting["meeting_id"],
                                 ),
+                  transition: Transition
+                      .rightToLeft
                               );
                             },
                             icon: const Icon(

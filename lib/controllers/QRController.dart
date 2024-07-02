@@ -13,6 +13,7 @@ import 'package:edige/controllers/LoginController.dart';
 class QRController extends GetxController {
   var isLoading = false.obs;
   var realResponse = "".obs;
+  var totalStudentRecord = 0.obs;
 
   Future<http.Response?> fetchQrCode() async {
     try {
@@ -42,7 +43,7 @@ class QRController extends GetxController {
   }
 
   Future<http.Response?> saveStudentRecords(int userId) async {
-    isLoading(true); 
+    isLoading(true);
     try {
       final response = await http.post(
         Uri.parse('${ApiConfig.baseUrl}${ApiConfig.saveStudentRecords}'),
@@ -53,7 +54,8 @@ class QRController extends GetxController {
         body: jsonEncode({'user_id': userId}),
       );
       if (response.statusCode == 200) {
-        realResponse.value = response.body; // Sunucudan gelen yanıtı burada kullanın
+        realResponse.value =
+            response.body; // Sunucudan gelen yanıtı burada kullanın
         return response;
       } else {
         debugPrint('Server Error: ${response.statusCode}');
@@ -65,7 +67,37 @@ class QRController extends GetxController {
       debugPrint("QR kodu alınırken hata oluştu: $e");
       return null;
     } finally {
-      isLoading(false); 
+      isLoading(false);
+    }
+  }
+
+  Future<http.Response?> getStudentTotalRecord(int studentId) async {
+    isLoading(true);
+    try {
+      final response = await http.post(
+        Uri.parse('${ApiConfig.baseUrl}${ApiConfig.getStudentTotalRecord}'),
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer ${Get.find<TeacherController>().token}'
+        },
+        body: jsonEncode({'student_id': studentId}),
+      );
+      if (response.statusCode == 200) {
+        var responseBody = jsonDecode(response.body);
+        totalStudentRecord.value = responseBody;
+        print("getStudentTotalRecord çalıştı");
+        return response;
+      } else {
+        debugPrint('Server Error: ${response.statusCode}');
+        realResponse.value = "Giriş Başarısız";
+        return null;
+      }
+    } catch (e) {
+      realResponse.value = "getStudentTotalRecord hata oluştu: $e";
+      debugPrint("getStudentTotalRecord hata oluştu: $e");
+      return null;
+    } finally {
+      isLoading(false);
     }
   }
 }

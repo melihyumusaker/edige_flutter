@@ -184,7 +184,9 @@ class AllHomeworksPage extends StatelessWidget {
               homeworkDescription: course['homework_description'],
               isHomeworkDone: course['is_homework_done'],
               homeworkDeadline: course['homework_deadline'],
-            ));
+            ),
+                  transition: Transition
+                      .rightToLeft);
       },
       icon: Container(
         padding: const EdgeInsets.all(8),

@@ -88,9 +88,13 @@ class TeacherController extends GetxController {
 
       if (role.value == "TEACHER") {
         Get.find<TeacherController>().user_id.value = userId;
-        Get.off(() => const TeacherCircularPage());
+        Get.off(() => const TeacherCircularPage(),
+                  transition: Transition
+                      .rightToLeft);
       } else if (role.value == "ADMIN") {
-        Get.off(() => QRScanPage());
+        Get.off(() => QRScanPage(),
+                  transition: Transition
+                      .rightToLeft);
       } else {
         Get.dialog(loginUnsuccess());
       }

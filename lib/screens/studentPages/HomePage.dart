@@ -52,7 +52,7 @@ class HomePage extends StatelessWidget {
 
     return Scaffold(
       appBar: homePageAppBar(),
-      drawer:const MyDrawer(),
+      drawer: const MyDrawer(),
       body: SingleChildScrollView(
         child: Container(
           width: double.infinity,
@@ -89,7 +89,7 @@ class HomePage extends StatelessWidget {
       children: [
         InkWell(
           onTap: () {
-            Get.to(() => StudentQRCode());
+            Get.to(() => StudentQRCode(), transition: Transition.rightToLeft);
           },
           child: SizedBox(
             width: MediaQuery.of(context).size.width / 2 - 40,
@@ -120,7 +120,8 @@ class HomePage extends StatelessWidget {
                 Get.find<StudentController>().studentId.value,
                 Get.find<StudentController>().studentTeacherId.value,
                 Get.find<LoginController>().token.value);
-            Get.to(() =>const StudentMeetingsPage());
+            Get.to(() => const StudentMeetingsPage(),
+                transition: Transition.rightToLeft);
           },
           child: SizedBox(
             width: MediaQuery.of(context).size.width / 2 - 40,
@@ -185,6 +186,7 @@ class HomePage extends StatelessWidget {
         InkWell(
           onTap: () async {
             Get.to(() => const StudentMessagesBox(),
+                transition: Transition.rightToLeft,
                 binding: BindingsBuilder(() {
               Get.put(StudentMessageController());
             }));

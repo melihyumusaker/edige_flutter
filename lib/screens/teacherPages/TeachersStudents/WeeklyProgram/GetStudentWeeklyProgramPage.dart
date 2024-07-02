@@ -66,6 +66,7 @@ class GetStudentWeeklyProgramPage extends StatelessWidget {
                               context,
                               weeklyProgramController,
                               teacherController,
+                              day
                             ),
                           ),
                         );
@@ -84,7 +85,8 @@ class GetStudentWeeklyProgramPage extends StatelessWidget {
       lesson,
       BuildContext context,
       WeeklyProgramController weeklyProgramController,
-      TeacherController teacherController) {
+      TeacherController teacherController,
+      String day) {
     return ListTile(
       title: Text(lesson['lesson_name'],
           style: const TextStyle(color: Colors.white)),
@@ -94,7 +96,7 @@ class GetStudentWeeklyProgramPage extends StatelessWidget {
       trailing: Row(
         mainAxisSize: MainAxisSize.min,
         children: <Widget>[
-          updateIconButton(lesson),
+          updateIconButton(lesson , day),
           deleteIconButton(
             context,
             weeklyProgramController,
@@ -152,7 +154,7 @@ class GetStudentWeeklyProgramPage extends StatelessWidget {
     );
   }
 
-  IconButton updateIconButton(lesson) {
+  IconButton updateIconButton(lesson , String day) {
     return IconButton(
       icon: const Icon(Icons.edit, color: Colors.yellow),
       onPressed: () {
@@ -162,7 +164,10 @@ class GetStudentWeeklyProgramPage extends StatelessWidget {
               lessonEndHour: lesson['lesson_end_hour'],
               lessonName: lesson['lesson_name'],
               lessonStartHour: lesson['lesson_start_hour'],
-            ));
+              day: day
+            ),
+                  transition: Transition
+                      .rightToLeft);
       },
     );
   }
@@ -200,7 +205,9 @@ class GetStudentWeeklyProgramPage extends StatelessWidget {
             onPressed: () {
               Get.to(() => NewWeeklyProgramPage(
                     studentId: studentId,
-                  ));
+                  ),
+                  transition: Transition
+                      .rightToLeft);
             },
           ),
         ),

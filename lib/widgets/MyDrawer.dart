@@ -2,13 +2,15 @@
 
 import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:edige/controllers/LoginController.dart';
+import 'package:edige/controllers/NotifStudentController.dart';
 import 'package:edige/controllers/StudentController.dart';
+import 'package:edige/screens/studentPages/NotificationsPage.dart';
 import 'package:edige/screens/teacherPages/TeacherSettings/SettingsPage.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class MyDrawer extends StatelessWidget {
- const MyDrawer({
+  const MyDrawer({
     super.key,
   });
 
@@ -77,7 +79,7 @@ class MyDrawer extends StatelessWidget {
             const Divider(),
             ListTile(
               title: const Text(
-                'Profil',
+                'Bildirimler',
                 style: TextStyle(
                   fontSize: 16.0,
                   fontWeight: FontWeight.bold,
@@ -88,8 +90,26 @@ class MyDrawer extends StatelessWidget {
                 Icons.person_outline,
                 color: Colors.white,
               ),
+              trailing: Obx(() => Container(
+                    padding: const EdgeInsets.all(6.0),
+                    decoration: BoxDecoration(
+                      color: Colors.indigo,
+                      borderRadius: BorderRadius.circular(12.0),
+                    ),
+                    child: Text(
+                      Get.find<NotifStudentController>()
+                          .unseenNotifNumber
+                          .value
+                          .toString(),
+                      style: const TextStyle(
+                        color: Colors.white,
+                        fontSize: 14.0,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  )),
               onTap: () {
-                // Profil sayfasına git
+                Get.to(() => const NotificationsPage());
               },
             ),
             const Divider(),
@@ -107,10 +127,12 @@ class MyDrawer extends StatelessWidget {
                 color: Colors.white,
               ),
               onTap: () {
-                Get.to(() => SettingsPage(
-                      token: Get.find<LoginController>().token.value,
-                      email: Get.find<StudentController>().email,
-                    ));
+                Get.to(
+                    () => SettingsPage(
+                          token: Get.find<LoginController>().token.value,
+                          email: Get.find<StudentController>().email,
+                        ),
+                    transition: Transition.rightToLeft);
               },
             ),
             const Divider(),

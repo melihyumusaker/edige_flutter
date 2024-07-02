@@ -1,5 +1,6 @@
 // ignore_for_file: file_names, non_constant_identifier_names
 
+import 'package:edige/controllers/QRController.dart';
 import 'package:edige/screens/teacherPages/TeachersStudents/StudentsDetailPage.dart';
 import 'package:edige/utils/CustomDecorations.dart';
 import 'package:flutter/material.dart';
@@ -92,16 +93,21 @@ class TeachersStudentsListPage extends StatelessWidget {
                       color: Colors.white,
                     ),
                     onPressed: () async {
-                      Get.to(() => StudentDetailPage(
-                          student_id: student['student_id'],
-                          section: student['section'],
-                          school: student['school'],
-                          birthDate: student['user']['birth_date'],
-                          city: student['user']['city'],
-                          email: student['user']['email'],
-                          name: student['user']['name'],
-                          phone: student['user']['phone'],
-                          surName: student['user']['surname']));
+                      await Get.find<QRController>()
+                          .getStudentTotalRecord(student['student_id']);
+                      Get.to(
+                        () => StudentDetailPage(
+                            student_id: student['student_id'],
+                            section: student['section'],
+                            school: student['school'],
+                            birthDate: student['user']['birth_date'],
+                            city: student['user']['city'],
+                            email: student['user']['email'],
+                            name: student['user']['name'],
+                            phone: student['user']['phone'],
+                            surName: student['user']['surname']),
+                        transition: Transition.rightToLeft,
+                      );
                     },
                   ),
                 ),

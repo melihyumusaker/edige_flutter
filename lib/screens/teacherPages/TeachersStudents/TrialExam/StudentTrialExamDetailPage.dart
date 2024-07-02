@@ -115,7 +115,9 @@ class StudentTrialExamDetailPage extends StatelessWidget {
               icon: const Icon(Icons.add),
               color: Colors.white,
               onPressed: () {
-                Get.to(() => SetStudentTrialExamPage(studentId: student_id));
+                Get.to(() => SetStudentTrialExamPage(studentId: student_id),
+                  transition: Transition
+                      .rightToLeft);
               },
             ),
           ),
@@ -243,6 +245,8 @@ class StudentTrialExamDetailPage extends StatelessWidget {
                 trialExamId: examResult['trial_exam_id'],
                 examResult: examResult,
               ),
+                  transition: Transition
+                      .rightToLeft
             );
           },
           'Güncelle',

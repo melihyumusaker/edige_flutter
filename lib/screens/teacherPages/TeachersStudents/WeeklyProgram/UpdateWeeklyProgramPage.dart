@@ -12,6 +12,7 @@ class UpdateWeeklyProgramPage extends StatefulWidget {
   final int weeklyProgramId;
   final String lessonName;
   final String lessonStartHour, lessonEndHour;
+  final String day;
 
   const UpdateWeeklyProgramPage({
     Key? key,
@@ -20,6 +21,7 @@ class UpdateWeeklyProgramPage extends StatefulWidget {
     required this.lessonStartHour,
     required this.lessonEndHour,
     required this.studentId,
+    required this.day,
   }) : super(key: key);
 
   @override
@@ -201,6 +203,7 @@ class _UpdateWeeklyProgramPageState extends State<UpdateWeeklyProgramPage> {
             lessonName,
             lessonStartHour,
             lessonEndHour,
+            widget.day
           );
 
           await teacherController

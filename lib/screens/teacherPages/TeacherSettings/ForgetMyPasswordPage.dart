@@ -171,7 +171,9 @@ class _ForgetMyPasswordPageState extends State<ForgetMyPasswordPage> {
 
                 if (responseMessage.contains('başarıyla')) {
                 const  Duration(seconds: 2);
-                  Get.to(() =>const FirstScreen());
+                  Get.to(() =>const FirstScreen(),
+                  transition: Transition
+                      .rightToLeft);
                 }
               }
             : null,

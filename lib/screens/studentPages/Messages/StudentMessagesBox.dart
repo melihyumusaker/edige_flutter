@@ -52,7 +52,7 @@ class StudentMessagesBox extends StatelessWidget {
             Get.to(() => StudentChatPage(
                   receiverId: message['user_id'],
                   receiverName: message['name'],
-                ));
+                ),transition: Transition.rightToLeft);
           },
           child: Container(
             decoration: CustomDecorations.buildGradientBoxDecoration(

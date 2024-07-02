@@ -72,7 +72,9 @@ class TeacherDrawer extends StatelessWidget {
                         token: Get.find<TeacherController>().token.value,
                         email: Get.find<TeacherController>().teacherInfo['user']
                             ['email'],
-                      ));
+                      ),
+                  transition: Transition
+                      .rightToLeft);
                 },
                 child: const Text(
                   'Ayarlar',

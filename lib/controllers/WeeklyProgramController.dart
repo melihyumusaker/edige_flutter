@@ -126,6 +126,7 @@ class WeeklyProgramController extends GetxController {
     String lessonName,
     String lessonStartHour,
     String lessonEndHour,
+    String day
   ) async {
     final response = await http.put(
       Uri.parse('${ApiConfig.baseUrl}${ApiConfig.updateWeeklyProgram}'),
@@ -136,7 +137,8 @@ class WeeklyProgramController extends GetxController {
         "weekly_program_id": weeklyProgramId,
         "lesson_end_hour": lessonEndHour,
         "lesson_start_hour": lessonStartHour,
-        "lesson_name": lessonName
+        "lesson_name": lessonName,
+        "day" : day
       }),
     );
 

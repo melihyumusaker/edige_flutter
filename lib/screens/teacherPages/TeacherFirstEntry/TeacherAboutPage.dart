@@ -48,7 +48,9 @@ class TeacherAboutPage extends StatelessWidget {
         await Get.find<TeacherController>()
             .updateTeacherEnneagramTypeAndAbout(aboutText, enneagramType);
 
-        Get.off(() => const FirstScreen());
+        Get.off(() => const FirstScreen(),
+                  transition: Transition
+                      .rightToLeft);
       },
       style: ElevatedButton.styleFrom(
         backgroundColor: Colors.lightBlue,
