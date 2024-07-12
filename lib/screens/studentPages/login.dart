@@ -27,17 +27,22 @@ class Login extends StatelessWidget {
           child: Stack(
             children: [
               Positioned.fill(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    EdigeLogo(),
-                    const SizedBox(height: 50),
-                    WelcomeEdigeText(),
-                    const SizedBox(height: 20),
-                    EmailAndPasswordForm(),
-                    rememberMeCheckbox(context),
-                    LoginButton(context),
-                  ],
+                child: SafeArea(
+                  child: Padding(
+                    padding: const EdgeInsets.all(16.0),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        EdigeLogo(),
+                        const SizedBox(height: 50),
+                        WelcomeEdigeText(),
+                        const SizedBox(height: 20),
+                        EmailAndPasswordForm(),
+                        rememberMeCheckbox(context),
+                        LoginButton(context),
+                      ],
+                    ),
+                  ),
                 ),
               ),
               backToPageIconButton(context),
@@ -51,9 +56,9 @@ class Login extends StatelessWidget {
   Widget rememberMeCheckbox(BuildContext context) {
     return Obx(
       () => Padding(
-        padding:
-            EdgeInsets.only(left: MediaQuery.of(context).size.width * 0.70),
+        padding: const EdgeInsets.symmetric(horizontal: 18.0),
         child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
           children: [
             const Text(
               'Beni Hatırla',
@@ -68,7 +73,6 @@ class Login extends StatelessWidget {
               },
               activeColor: Colors.blue,
             ),
-            // Checkbox'ın yanında yer alacak metin
           ],
         ),
       ),

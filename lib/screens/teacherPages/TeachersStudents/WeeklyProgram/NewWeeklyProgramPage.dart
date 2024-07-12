@@ -1,12 +1,13 @@
-// ignore_for_file: non_constant_identifier_names, library_private_types_in_public_api, file_names
+// ignore_for_file: file_names, library_private_types_in_public_api, non_constant_identifier_names
 
-import 'package:edige/controllers/TeacherController.dart';
-import 'package:edige/controllers/WeeklyProgramController.dart';
-import 'package:edige/utils/CustomDecorations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:getwidget/getwidget.dart';
+
+import 'package:edige/controllers/TeacherController.dart';
+import 'package:edige/controllers/WeeklyProgramController.dart';
+import 'package:edige/utils/CustomDecorations.dart';
 
 class NewWeeklyProgramPage extends StatefulWidget {
   final int studentId;
@@ -92,7 +93,7 @@ class _NewWeeklyProgramPageState extends State<NewWeeklyProgramPage> {
                       onPressed: () {
                         Navigator.of(context).pop();
                       },
-                      child:const Text('Tamam'),
+                      child: const Text('Tamam'),
                     ),
                   ],
                 );
@@ -108,6 +109,14 @@ class _NewWeeklyProgramPageState extends State<NewWeeklyProgramPage> {
                 lessonEndHour);
             await teacherController
                 .fetchWeeklyProgramByStudentId(widget.studentId);
+
+            // TextField'ları temizle
+            taskNameController.clear();
+            lessonStartHourController.clear();
+            lessonEndHourController.clear();
+            setState(() {
+              dropdownValue = null;
+            });
           }
         },
         style: ElevatedButton.styleFrom(
@@ -150,25 +159,38 @@ class _NewWeeklyProgramPageState extends State<NewWeeklyProgramPage> {
             return newValue;
           }
 
-          // İlk iki sayıyı al ve ":" ekleyerek formatla
           final text = newValue.text.replaceAll(RegExp(r'[^0-9]'), '');
-          if (text.length <= 2) {
-            return TextEditingValue(
-              text: text,
-              selection: TextSelection.collapsed(offset: text.length),
-            );
-          } else if (text.length <= 5) {
-            return TextEditingValue(
-              text: '${text.substring(0, 2)}:${text.substring(2)}',
-              selection: TextSelection.collapsed(offset: text.length + 1),
-            );
-          } else {
-            // Maksimum 5 karakteri aşarsa son 3 karakteri al
-            return TextEditingValue(
-              text: text.substring(0, 5),
-              selection: const TextSelection.collapsed(offset: 5),
-            );
+          if (text.length > 4) {
+            return oldValue;
           }
+
+          // Girilen değerin formatlanması ve validasyon yapılması
+          int? hour, minute;
+          if (text.length > 2) {
+            hour = int.tryParse(text.substring(0, 2));
+            minute = int.tryParse(text.substring(2, 4));
+          } else {
+            hour = int.tryParse(text);
+          }
+
+          if (hour != null && (hour < 0 || hour > 23)) {
+            return oldValue;
+          }
+          if (minute != null && (minute < 0 || minute > 59)) {
+            return oldValue;
+          }
+
+          String formattedText;
+          if (text.length <= 2) {
+            formattedText = text;
+          } else {
+            formattedText = '${text.substring(0, 2)}:${text.substring(2)}';
+          }
+
+          return TextEditingValue(
+            text: formattedText,
+            selection: TextSelection.collapsed(offset: formattedText.length),
+          );
         }),
       ],
       style: const TextStyle(color: Colors.white),
@@ -195,18 +217,39 @@ class _NewWeeklyProgramPageState extends State<NewWeeklyProgramPage> {
             // Boş değerleri kabul et
             return newValue;
           }
+
           final text = newValue.text.replaceAll(RegExp(r'[^0-9]'), '');
-          if (text.length <= 2) {
-            return TextEditingValue(
-              text: text,
-              selection: TextSelection.collapsed(offset: text.length),
-            );
-          } else {
-            return TextEditingValue(
-              text: '${text.substring(0, 2)}:${text.substring(2)}',
-              selection: TextSelection.collapsed(offset: text.length + 1),
-            );
+          if (text.length > 4) {
+            return oldValue;
           }
+
+          // Girilen değerin formatlanması ve validasyon yapılması
+          int? hour, minute;
+          if (text.length > 2) {
+            hour = int.tryParse(text.substring(0, 2));
+            minute = int.tryParse(text.substring(2, 4));
+          } else {
+            hour = int.tryParse(text);
+          }
+
+          if (hour != null && (hour < 0 || hour > 23)) {
+            return oldValue;
+          }
+          if (minute != null && (minute < 0 || minute > 59)) {
+            return oldValue;
+          }
+
+          String formattedText;
+          if (text.length <= 2) {
+            formattedText = text;
+          } else {
+            formattedText = '${text.substring(0, 2)}:${text.substring(2)}';
+          }
+
+          return TextEditingValue(
+            text: formattedText,
+            selection: TextSelection.collapsed(offset: formattedText.length),
+          );
         }),
       ],
       style: const TextStyle(color: Colors.white),

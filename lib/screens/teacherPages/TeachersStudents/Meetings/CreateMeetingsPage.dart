@@ -1,4 +1,4 @@
-// ignore_for_file: library_private_types_in_public_api, use_build_context_synchronously, file_names
+// ignore_for_file: use_build_context_synchronously, library_private_types_in_public_api, file_names
 
 import 'package:edige/controllers/MeetingController.dart';
 import 'package:edige/controllers/TeacherController.dart';
@@ -82,12 +82,35 @@ class _CreateMeetingsPageState extends State<CreateMeetingsPage> {
 
   void handleFormSubmission() async {
     if (isFormValid) {
+      await Get.find<MeetingController>().createMeeting(
+        widget.studentId,
+        Get.find<TeacherController>().teacherId.value,
+        meetingNameController.text,
+        descriptionController.text,
+        dateController.text,
+        timeController.text,
+        locationController.text,
+      );
+
+      await Get.find<MeetingController>().getStudentAndTeacherSpecialMeetings(
+        widget.studentId,
+        Get.find<TeacherController>().teacherId.value,
+        Get.find<TeacherController>().token.value,
+      );
+
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
           content: Text('Toplantı başarıyla oluşturuldu.'),
           backgroundColor: Colors.green,
         ),
       );
+
+      // Clear the text fields after submission
+      meetingNameController.clear();
+      descriptionController.clear();
+      locationController.clear();
+      dateController.clear();
+      timeController.clear();
     } else {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
@@ -167,41 +190,7 @@ class _CreateMeetingsPageState extends State<CreateMeetingsPage> {
   Center createMeetingButton(BuildContext context) {
     return Center(
       child: ElevatedButton(
-        onPressed: () async {
-          if (isFormValid) {
-            await Get.find<MeetingController>().createMeeting(
-              widget.studentId,
-              Get.find<TeacherController>().teacherId.value,
-              meetingNameController.text,
-              descriptionController.text,
-              dateController.text,
-              timeController.text,
-              locationController.text,
-            );
-
-            await Get.find<MeetingController>()
-                .getStudentAndTeacherSpecialMeetings(
-              widget.studentId,
-              Get.find<TeacherController>().teacherId.value,
-              Get.find<TeacherController>().token.value,
-            );
-
-            ScaffoldMessenger.of(context).showSnackBar(
-              const SnackBar(
-                content: Text('Toplantı başarıyla oluşturuldu.'),
-                backgroundColor: Colors.green,
-              ),
-            );
-          } else {
-            // Boş alan uyarısı verilir.
-            ScaffoldMessenger.of(context).showSnackBar(
-              const SnackBar(
-                content: Text('Lütfen tüm alanları doldurun.'),
-                backgroundColor: Colors.red,
-              ),
-            );
-          }
-        },
+        onPressed: handleFormSubmission,
         style: ElevatedButton.styleFrom(
           backgroundColor: null,
           padding: EdgeInsets.zero,

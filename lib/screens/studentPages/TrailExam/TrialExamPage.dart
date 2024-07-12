@@ -25,7 +25,7 @@ class TrialExamPage extends StatelessWidget {
             var controller = Get.find<TrialExamController>();
 
             if (controller.isLoading.value) {
-              return Center(
+              return const Center(
                 child: CircularProgressIndicator(),
               );
             }

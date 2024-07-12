@@ -1,9 +1,12 @@
-import 'package:edige/controllers/CourseController.dart';
-import 'package:edige/controllers/LessonController.dart';
-import 'package:edige/utils/CustomDecorations.dart';
+// ignore_for_file: file_names, use_build_context_synchronously
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
+
+import 'package:edige/controllers/CourseController.dart';
+import 'package:edige/controllers/LessonController.dart';
+import 'package:edige/utils/CustomDecorations.dart';
 
 class NewHomeworkPage extends StatefulWidget {
   final int studentId;
@@ -341,6 +344,7 @@ class _NewHomeworkPageState extends State<NewHomeworkPage> {
     );
   }
 
+  // ignore: non_constant_identifier_names
   ElevatedButton SaveCourseButton(
       BuildContext context,
       TextEditingController deadlineController,

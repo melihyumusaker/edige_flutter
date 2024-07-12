@@ -1,8 +1,11 @@
+// ignore_for_file: file_names
+
+import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+
 import 'package:edige/controllers/NotifStudentController.dart';
 import 'package:edige/controllers/StudentController.dart';
 import 'package:edige/utils/CustomDecorations.dart';
-import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 
 class NotificationsPage extends StatelessWidget {
   const NotificationsPage({super.key});
@@ -67,7 +70,7 @@ class NotificationsPage extends StatelessWidget {
                             const   BoxShadow(
                                 color: Colors.black26,
                                 blurRadius: 6,
-                                offset: const Offset(2, 2),
+                                offset:  Offset(2, 2),
                               ),
                             ],
                     ),

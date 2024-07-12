@@ -1,13 +1,15 @@
+// ignore_for_file: non_constant_identifier_names, file_names
+
+import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+
 import 'package:edige/controllers/MeetingController.dart';
 import 'package:edige/controllers/MessageControllers/MessageController.dart';
+import 'package:edige/controllers/TeacherController.dart';
 import 'package:edige/screens/teacherPages/TeacherMessage/MessageBox.dart';
 import 'package:edige/screens/teacherPages/TeachersStudents/Meetings/ShowAllTeacherMeetingsPage.dart';
 import 'package:edige/utils/CustomDecorations.dart';
 import 'package:edige/widgets/TeacherDrawer.dart';
-import 'package:flutter/material.dart';
-import 'package:get/get.dart';
-
-import 'package:edige/controllers/TeacherController.dart';
 
 class TeacherHomePage extends StatelessWidget {
   const TeacherHomePage({Key? key}) : super(key: key);

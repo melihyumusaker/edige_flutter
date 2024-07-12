@@ -1,5 +1,5 @@
 // ignore: file_names
-// ignore_for_file: non_constant_identifier_names
+// ignore_for_file: non_constant_identifier_names, file_names, duplicate_ignore
 
 import 'package:edige/controllers/MeetingController.dart';
 import 'package:edige/controllers/QRController.dart';
@@ -90,7 +90,7 @@ class StudentDetailPage extends StatelessWidget {
                     },
                   ),
                   const SizedBox(height: 20),
-                  customElevatedButton(context, "Toplantıları Gör", () async {
+                  customElevatedButton(context, "Toplantı İşlemleri", () async {
                     await Get.find<MeetingController>()
                         .getStudentAndTeacherSpecialMeetings(
                             student_id,

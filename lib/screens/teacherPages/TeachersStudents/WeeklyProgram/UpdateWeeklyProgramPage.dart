@@ -129,18 +129,38 @@ class _UpdateWeeklyProgramPageState extends State<UpdateWeeklyProgramPage> {
           if (newValue.text.isEmpty) {
             return newValue;
           }
+
           final text = newValue.text.replaceAll(RegExp(r'[^0-9]'), '');
-          if (text.length <= 2) {
-            return TextEditingValue(
-              text: text,
-              selection: TextSelection.collapsed(offset: text.length),
-            );
-          } else {
-            return TextEditingValue(
-              text: '${text.substring(0, 2)}:${text.substring(2)}',
-              selection: TextSelection.collapsed(offset: text.length + 1),
-            );
+          if (text.length > 4) {
+            return oldValue;
           }
+
+          int? hour, minute;
+          if (text.length > 2) {
+            hour = int.tryParse(text.substring(0, 2));
+            minute = int.tryParse(text.substring(2, 4));
+          } else {
+            hour = int.tryParse(text);
+          }
+
+          if (hour != null && (hour < 0 || hour > 23)) {
+            return oldValue;
+          }
+          if (minute != null && (minute < 0 || minute > 59)) {
+            return oldValue;
+          }
+
+          String formattedText;
+          if (text.length <= 2) {
+            formattedText = text;
+          } else {
+            formattedText = '${text.substring(0, 2)}:${text.substring(2)}';
+          }
+
+          return TextEditingValue(
+            text: formattedText,
+            selection: TextSelection.collapsed(offset: formattedText.length),
+          );
         }),
       ],
       style: const TextStyle(color: Colors.white),
@@ -166,23 +186,38 @@ class _UpdateWeeklyProgramPageState extends State<UpdateWeeklyProgramPage> {
           if (newValue.text.isEmpty) {
             return newValue;
           }
+
           final text = newValue.text.replaceAll(RegExp(r'[^0-9]'), '');
-          if (text.length <= 2) {
-            return TextEditingValue(
-              text: text,
-              selection: TextSelection.collapsed(offset: text.length),
-            );
-          } else if (text.length <= 5) {
-            return TextEditingValue(
-              text: '${text.substring(0, 2)}:${text.substring(2)}',
-              selection: TextSelection.collapsed(offset: text.length + 1),
-            );
-          } else {
-            return TextEditingValue(
-              text: text.substring(0, 5),
-              selection: const TextSelection.collapsed(offset: 5),
-            );
+          if (text.length > 4) {
+            return oldValue;
           }
+
+          int? hour, minute;
+          if (text.length > 2) {
+            hour = int.tryParse(text.substring(0, 2));
+            minute = int.tryParse(text.substring(2, 4));
+          } else {
+            hour = int.tryParse(text);
+          }
+
+          if (hour != null && (hour < 0 || hour > 23)) {
+            return oldValue;
+          }
+          if (minute != null && (minute < 0 || minute > 59)) {
+            return oldValue;
+          }
+
+          String formattedText;
+          if (text.length <= 2) {
+            formattedText = text;
+          } else {
+            formattedText = '${text.substring(0, 2)}:${text.substring(2)}';
+          }
+
+          return TextEditingValue(
+            text: formattedText,
+            selection: TextSelection.collapsed(offset: formattedText.length),
+          );
         }),
       ],
       style: const TextStyle(color: Colors.white),
@@ -198,13 +233,12 @@ class _UpdateWeeklyProgramPageState extends State<UpdateWeeklyProgramPage> {
           String lessonEndHour = lessonEndHourController.text;
 
           await weeklyProgramController.updateWeeklyProgram(
-            context,
-            widget.weeklyProgramId,
-            lessonName,
-            lessonStartHour,
-            lessonEndHour,
-            widget.day
-          );
+              context,
+              widget.weeklyProgramId,
+              lessonName,
+              lessonStartHour,
+              lessonEndHour,
+              widget.day);
 
           await teacherController
               .fetchWeeklyProgramByStudentId(widget.studentId);
