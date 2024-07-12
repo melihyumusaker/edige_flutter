@@ -166,7 +166,7 @@ class SetStudentTrialExamPage extends StatelessWidget {
           padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
           textStyle: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
           tapTargetSize: MaterialTapTargetSize.shrinkWrap,
-          onSurface: Colors.white,
+        //  onSurface: Colors.white,
         ),
         child: const Text('Kaydet', style: TextStyle(color: Colors.white)),
       ),
