@@ -28,4 +28,4 @@ Edige Flutter uygulaması, kullanıcıların eğitim dersleriyle etkileşimde bu
 - **Camera Plugin**
 - **qr_code_scanner**
 - **HTTP**
-- **Provider (opsiyonel)**
+
